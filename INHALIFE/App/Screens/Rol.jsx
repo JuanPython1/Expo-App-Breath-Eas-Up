@@ -2,6 +2,7 @@ import { View, Text, SafeAreaView , StyleSheet, Image, StatusBar} from 'react-na
 import React from 'react'
 import { useFonts } from 'expo-font';
 import BotonRol from '../../Components/BotonRol';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const Rol = ({navigation}) => {
   //fuentes
@@ -23,7 +24,7 @@ const Rol = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-    <StatusBar style="auto" backgroundColor="#00AAE4" />
+
     <Image style={styles.niña} source={require('../../assets/Image/Niña.png')} />
     
 
@@ -63,25 +64,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'F1F1F1',
     justifyContent: 'flex-start', 
-    paddingTop: 30, 
+    paddingTop: hp('4%'), 
   },
  
   niña: {
-    left: '5%',
-    width: 150,
-    height: 150,
+    left: wp('5%'),
+    width: wp('37.5%'),
+    height: hp('20%'),
   },
   niño: {
-    width: 150,
-    height: 180,
-    top: '15%',
-    left: '60%'
+    width: wp('37.5%'),
+    height: hp('24%'),
+    top: hp('2%'),
+    left: wp('60%')
   },
 
   ContenedorTitulo:{
-    top: '1%',
-    height: '10%',
-    width: '70%',
+    top: hp('1%'),
+    height: hp('10%'),
+    width: wp('70%'),
     backgroundColor: '#00AAE4',
     alignSelf: 'center',
     borderRadius: 30,
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
 
   Titulo:{
       fontFamily: 'noticia-text',
-      fontSize: 25,
+      fontSize: wp('6.25%'),
       color: '#F5F5F5',
       textShadowColor: 'black',
       textShadowOffset: { width: 1, height: 1 },
@@ -100,32 +101,29 @@ const styles = StyleSheet.create({
   },
 
   RolContainer: {
-    paddingTop: 80,
+    paddingTop: hp('10.67%'),
     alignItems: 'center',
   },
 
   TextoElijeRol: {
       color: 'rgba(0, 0, 0, 0.8)',
       fontFamily: 'Play-fair-Display',
-      fontSize: 20,
-      marginBottom:'7%'
+      fontSize: wp('5%'),
+      marginBottom: hp('0.93%')
   },
 
   contenedorPaciente: {
-    width: '25%',
-
+    width: wp('25%'),
   },
 
   ContenedorO: {
-      width: '25%',
-      height: 50,
+      width: wp('25%'),
+      height: hp('6.67%'),
       alignItems: 'center',
-      marginVertical: 10,
+      marginVertical: hp('1.33%'),
   },  
 
   contenedorCuidador: {
-    width: '25%',
+    width: wp('25%'),
   },
-
-
 });

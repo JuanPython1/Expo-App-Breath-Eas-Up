@@ -1,39 +1,19 @@
-import { View, Text, SafeAreaView, StyleSheet, 
-  Pressable, Image, Modal, TouchableHighlight } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, SafeAreaView, StyleSheet, Pressable, Image } from 'react-native'
+import React, {useState} from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import  Menu  from 'react-native-vector-icons/MaterialCommunityIcons';
-import BotonDashBoardPaciente from '../../../../Components/BotonDashBoardPaciente';
 import ModalCerrarCuenta from '../../../../Components/ModalCerrarCuenta';
 
-const DashboardPaciente = ({navigation}) => {
+const DashboardCuidador = ({navigation}) => {
 
   const [modalVisible, setModalVisible] = useState(false);
-
-  const botonRegistrarDosis = {
-    titulo: 'REGISTRO DE DOSIS',
-    imagen: require('../../../../assets/Image/inhalador.png'),
-    funcion: () => {navigation.navigate('RegistroDosis')}
-  }
-
-  const botonRecordatorioDosis = {
-    titulo: 'RECORDATORIO DOSIS',
-    imagen: require('../../../../assets/Image/calendario.png'),
-    funcion: () => {navigation.navigate('RecordatorioDosis')}
-  }
-
-  const botonVideosTutoriales = {
-    titulo: 'VIDEO TUTORIAL',
-    imagen: require('../../../../assets/Image/videotutorial.png'),
-    funcion: () => {navigation.navigate('VideoTutoriales')}
-  }
 
   return (
       <SafeAreaView style={styles.container}> 
 
       {/* ------------------------HEADER---------------------- */}
       <View style={styles.header}>
-      <Pressable style={styles.contenedorAtras} onPress={() => { navigation.navigate('LoginPaciente') }}>
+      <Pressable style={styles.contenedorAtras} onPress={() => { navigation.navigate('LoginCuidador') }}>
         <Image style={styles.iconAtras} source={require('../../../../assets/Image/Flechaatras.png')} />
       </Pressable>
 
@@ -52,18 +32,12 @@ const DashboardPaciente = ({navigation}) => {
       </View>
 
 
-      <View style={styles.fila1}>
-          <View style={styles.RegistroDosis}>
-          <BotonDashBoardPaciente props={botonRegistrarDosis}/>
-          </View>
-
-          <View style={styles.RecordatorioDosis}>
-          <BotonDashBoardPaciente props={botonRecordatorioDosis}/>
-          </View>
-      </View>
 
       <View style={styles.fila2}>
-      <BotonDashBoardPaciente props={botonVideosTutoriales}/>
+      <Pressable style={styles.boton} onPress={()=> navigation.navigate('RecordatorioDosisCompartidos')}>
+      <Text style={styles.textTitulo}>RECORDATORIOS DOSIS COMPARTIDOS</Text>
+      <Image style={styles.Imagen} source={require('../../../../assets/Image/calendario.png')}/>
+      </Pressable>
 
       </View>
 
@@ -73,21 +47,21 @@ const DashboardPaciente = ({navigation}) => {
       <ModalCerrarCuenta 
       modalVisible={modalVisible} 
       setModalVisible={setModalVisible}
-      color={'#2196F3'}
+      color={'#FB666F'}
       />
 
       </SafeAreaView>
   )
 }
 
-export default DashboardPaciente
+export default DashboardCuidador
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     height: hp('100%'),
     width: wp('100%'),
-    backgroundColor: '#3498DB',
+    backgroundColor: '#FF9595',
   },
   header:{
     flexDirection: 'row',
@@ -120,7 +94,7 @@ const styles = StyleSheet.create({
     height: hp('9%'),
     width: wp('100%'),
     marginBottom: hp('3%'),
-    backgroundColor: '#94E4FF',
+    backgroundColor: '#F94242',
     alignSelf: 'center',
     borderRadius: 20,
     alignItems: 'center', //horizontal
@@ -146,44 +120,23 @@ const styles = StyleSheet.create({
     top: hp('8%'),
     alignItems: 'center'
   },
-  modalView: {
-    position: 'absolute',
-    backgroundColor: "#D0D0D0",
-    alignItems: "center",
-    shadowColor: "#000",
-    height: wp('210%'),
-    width: wp('100%'),
+  boton: {
+    width: wp('54%'),
+    height: hp('35%'),
+    borderRadius: 20,
+    alignItems: 'center',
     justifyContent: 'center',
-    shadowOffset: {
-      width: 0,
-      height: 2
+    backgroundColor: '#F94242'
+    },  
+    Imagen: {
+      width: wp('40%'),
+      height: hp('22'),
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  modalText: {
-    marginBottom: hp('2%'),
-    textAlign: "center",
-    fontSize: wp('6%'),
-    fontFamily: 'Play-fair-Display'
-  },
-  BotonCerrarSesion: {
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    width: wp('80%'),
-    alignItems: 'center',
-    padding: 10,
-    elevation: 50,
-    marginBottom: hp('2%'),
-  },
-  BotonAtras:{
-    backgroundColor: "#F194FF",
-    borderRadius: 20,
-    width: wp('15%'),
-    alignItems: 'center',
-    padding: 10,
-    elevation: 50
-  },
-
+    textTitulo:{
+      fontFamily: 'Play-fair-Display',
+      fontWeight: 'bold',
+      fontSize: wp('4%'),
+      marginBottom: '5%',
+      textAlign: 'center'
+}
 })

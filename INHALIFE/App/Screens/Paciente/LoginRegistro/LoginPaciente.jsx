@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, StatusBar, Image, KeyboardAvoidingView, Pressable,
-   TextInput, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, Image, 
+KeyboardAvoidingView, Pressable, TextInput,ActivityIndicator } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH } from '../../../../Firebase/config';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
-const { height, width } = Dimensions.get('window');
+import DashboardPaciente from '../Dashboard/DashboardPaciente';
 
 const LoginPaciente = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -14,18 +13,24 @@ const LoginPaciente = ({ navigation }) => {
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const SignIn = async () => {
-    setLoading(true);
-    try {
-      const response = await signInWithEmailAndPassword(FIREBASE_AUTH, email, contraseña);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-      alert('Iniciar Sesión Fallido' + error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //MIENTRAS NO ESTE EL BACKEND
+  // const SignIn = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await signInWithEmailAndPassword(FIREBASE_AUTH, email, contraseña);
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //     alert('Iniciar Sesión Fallido' + error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  //mientras tanto que no este el backend
+  const gotoDashboard = () =>{
+    navigation.navigate('BienvenidaPaciente');
+  }
 
   const goToRecuperarConstraseña = () => {
     navigation.navigate('OlvidoContraseñaPaciente');
@@ -37,8 +42,6 @@ const LoginPaciente = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-
-      <StatusBar style="auto" backgroundColor="#00AAE4" />
 
       <Pressable style={styles.contenedorAtras} onPress={() => { navigation.navigate('Rol') }}>
         <Image style={styles.iconAtras} source={require('../../../../assets/Image/Flechaatras.png')} />
@@ -52,7 +55,7 @@ const LoginPaciente = ({ navigation }) => {
         <Text style={styles.TextBienvenida}>{`BIENVENIDO\nPACIENTE`}</Text>
       </View>
 
-      <KeyboardAvoidingView behavior="padding" >
+      <KeyboardAvoidingView behavior="height" >
         <View style={styles.ContenedorInputs}>
 
           <TextInput style={styles.input}
@@ -81,12 +84,14 @@ const LoginPaciente = ({ navigation }) => {
               />
             </Pressable>
           </View>
+        
 
           { loading ? (
             <ActivityIndicator size="large" color="#0000" />
         ) : (
             <>
-                <Pressable style={styles.BotonEntrar} onPress={SignIn}>
+                {/* CAMBIAR DASHBOARDPACIENTE HASTA QUE HAGA EL BACKEND */}
+                <Pressable style={styles.BotonEntrar} onPress={gotoDashboard}>
                     <Text style={styles.TextoEntrar}>ENTRAR</Text>
                 </Pressable>
             </>
@@ -97,7 +102,9 @@ const LoginPaciente = ({ navigation }) => {
         <Text style={styles.textoRegistrateYOlvidarContraseña}>¿Olvidaste tu contraseña? <Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}>Recuerdame</Text>.</Text>
         </View>    
         </View>
-      </KeyboardAvoidingView>
+
+        </KeyboardAvoidingView>
+
 
       <View style={styles.ContenedorNiños}>
         <Image style={styles.niña} source={require('../../../../assets/Image/Niña.png')}/>
@@ -113,32 +120,30 @@ export default LoginPaciente;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: hp(100),
-    width: wp(100),
-    backgroundColor: 'F1F1F1',
-
+    height: hp('100%'),
+    width: wp('100%'),
+    backgroundColor: '#F1F1F1',
   },
 
   contenedorAtras: {
-    top: 20,
-    left: '5%',
-    height: 50,
-    width: 70,
+    top: hp('3%'),
+    left: wp('5%'),
+    height: hp('5%'),
+    width: wp('15%'),
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   iconAtras: {
-    width: 45,
-    height: 25,
+    width: wp('10%'),
+    height: hp('2.5%'),
   },
 
-
   ContenedorTitulo: {
-    top: '10%',
-    height: '10%',
-    width: '70%',
-    marginBottom: '3%',
+    top: hp('10%'),
+    height: hp('10%'),
+    width: wp('70%'),
+    marginBottom: hp('3%'),
     backgroundColor: '#00AAE4',
     alignSelf: 'center',
     borderRadius: 30,
@@ -148,7 +153,7 @@ const styles = StyleSheet.create({
 
   Titulo: {
     fontFamily: 'noticia-text',
-    fontSize: 25,
+    fontSize: hp('3%'),
     color: '#F5F5F5',
     textShadowColor: 'black',
     textShadowOffset: { width: 1, height: 1 },
@@ -157,90 +162,89 @@ const styles = StyleSheet.create({
   },
 
   ContenedorBienvenida: {
-    height: 120,
+    height: hp('12%'),
     width: 'auto',
-    marginVertical: 20,
+    marginVertical: hp('2%'),
   },
 
   TextBienvenida: {
     textAlign: 'center',
     color: 'rgba(0, 0, 0, 0.8)',
     fontFamily: 'Play-fair-Display',
-    fontSize: 20,
-    top: 90,
+    fontSize: hp('3%'),
+    top: hp('9%'),
     alignSelf: 'center'
   },
   ContenedorNiños:{
-      marginVertical: '10%',
+      marginVertical: hp('10%'),
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
   },
 
   niña: {
-      right: '20%'
+      right: wp('20%')
   },
   niño: {
-    left: '20%'
+    left: wp('20%')
   },
 
   ContenedorInputs: {
-    top: '15%',
+    top: hp('12%'),
   },
   input: {
-    marginVertical: 10,
-    marginHorizontal: 65,
-    height: 60,
+    marginVertical: hp('1%'),
+    marginHorizontal: wp('15%'),
+    height: hp('6%'),
     borderWidth: 0,
-    fontSize: 15,
+    fontSize: hp('1.5%'),
     borderRadius: 25,
-    padding: 10,
+    padding: hp('1%'),
     textAlign: 'center',
     backgroundColor: '#00AAE4',
     fontFamily: 'Play-fair-Display',
-    margin: '10%',
+    margin: hp('1%'),
   },
   ContenedorContraseña: {
     flexDirection: 'row',
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '70%'
-
+    width: wp('70%')
   },
   inputContraseña:{
-    marginVertical: 10,
-    marginHorizontal: 65,
+    marginVertical: hp('1%'),
+    marginHorizontal: wp('15%'),
     fontFamily: 'Play-fair-Display',
-    fontSize: 15,
+    fontSize: hp('1.5%'),
     width: '100%',
-    height: 60,
+    height: hp('6%'),
     borderWidth: 0,
     borderRadius: 25,
-    padding: 10,
+    padding: hp('1%'),
     backgroundColor: '#00AAE4',
     textAlign: 'center',
     justifyContent: 'center'
   },
   OjoContainer: {
     position: 'absolute',
-    right: 20,
+    right: wp('5%'),
   },
 
   contenedorRegistroYOlvidoContraseña:{
-    marginVertical: 9,
+    marginVertical: hp('1%'),
     alignSelf: 'center',
     textAlign: 'center'
   },
 
   BotonEntrar:{
-    marginVertical: 10,
-    marginHorizontal: 65,
-    height: 60,
+    marginVertical: hp('1%'),
+    marginHorizontal: wp('15%'),
+    height: hp('6%'),
     borderWidth: 1,
-    padding: 10,
+    padding: hp('1%'),
     backgroundColor: '#00AAE4',
-    margin: '10%',
+    margin: hp('1%'),
     justifyContent: 'center'
   },
 
@@ -248,13 +252,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Play-fair-Display',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: hp('2%'),
   },
 
-
   textoRegistrateYOlvidarContraseña: {
-    marginVertical: 4,
-    fontSize: 17,
+    marginVertical: hp('0.5%'),
+    fontSize: hp('1.7%'),
     textAlign: 'center',
     fontFamily: 'Play-fair-Display',
   },
@@ -263,6 +266,4 @@ const styles = StyleSheet.create({
     fontFamily: 'Play-fair-Display',
     color: '#FF0000',
   },
-
-
 });
