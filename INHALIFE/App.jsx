@@ -14,9 +14,13 @@ import OlvidoContraseñaPaciente from './App/Screens/Paciente/LoginRegistro/Olvi
 //screens dashboard paciente
 import BienvenidaPaciente from './App/Screens/Paciente/Dashboard/BienvenidaPaciente';
 import DashboardPaciente from './App/Screens/Paciente/Dashboard/DashboardPaciente';
-import RegistroDosis from './App/Screens/Paciente/Dashboard/RegistroDosis';
 import RecordatorioDosis from './App/Screens/Paciente/Dashboard/RecordatorioDosis';
 import VideoTutoriales from './App/Screens/Paciente/Dashboard/VideoTutoriales';
+
+{/* Registro Dosis Paciente */}
+import BienvenidaRegistroDosis from './App/Screens/Paciente/Dashboard/RegistroDosis/BienvenidaRegistroDosis';
+import Medicamento from './App/Screens/Paciente/Dashboard/RegistroDosis/Medicamento';
+
 
 //CUIDADOR
 
@@ -48,9 +52,13 @@ export default function App() {
           {/* Dashoard Paciente */}
           <Stack.Screen name='BienvenidaPaciente' component={BienvenidaPaciente} options={{headerShown: false}}/>
           <Stack.Screen  name='DashboardPaciente' component={DashboardPaciente} options={{headerShown: false}}/>
-          <Stack.Screen  name='RegistroDosis' component={RegistroDosis} options={{headerShown: true}}/>
           <Stack.Screen  name='RecordatorioDosis' component={RecordatorioDosis} options={{headerShown: true}}/>
           <Stack.Screen  name='VideoTutoriales' component={VideoTutoriales} options={{headerShown: true}}/>
+
+          {/* Registro dosis paciente */}
+          <Stack.Screen  name='BienvenidaRegistroDosis' component={BienvenidaRegistroDosis} options={{headerShown: false}}/>
+          <Stack.Screen name='Medicamento' component={Medicamento} options={{headerShown: false}}/>
+          
 
           {/* CUIDADOR */}
 

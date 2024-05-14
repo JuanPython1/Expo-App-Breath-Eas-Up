@@ -13,7 +13,7 @@ const DashboardPaciente = ({navigation}) => {
   const botonRegistrarDosis = {
     titulo: 'REGISTRO DE DOSIS',
     imagen: require('../../../../assets/Image/inhalador.png'),
-    funcion: () => {navigation.navigate('RegistroDosis')}
+    funcion: () => {navigation.navigate('BienvenidaRegistroDosis')}
   }
 
   const botonRecordatorioDosis = {
