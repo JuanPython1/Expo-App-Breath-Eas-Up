@@ -20,7 +20,7 @@ import VideoTutoriales from './App/Screens/Paciente/Dashboard/VideoTutoriales';
 {/* Registro Dosis Paciente */}
 import BienvenidaRegistroDosis from './App/Screens/Paciente/Dashboard/RegistroDosis/BienvenidaRegistroDosis';
 import Medicamento from './App/Screens/Paciente/Dashboard/RegistroDosis/Medicamento';
-
+import CantidadPuff from './App/Screens/Paciente/Dashboard/RegistroDosis/CantidadPuff'
 
 //CUIDADOR
 
@@ -32,6 +32,11 @@ import OlvidoContraseñaCuidador from './App/Screens/Cuidador/Login/OlvidoContra
 import DashboardCuidador from './App/Screens/Cuidador/DashBoard/DashboardCuidador'
 import RecordatorioDosisCompartidos from './App/Screens/Cuidador/DashBoard/RecordatoriosDosisCompartidos'
 import BienvenidaCuidador from './App/Screens/Cuidador/DashBoard/BienvenidaCuidador'
+// import { LogBox } from 'react-native'; //ignora los logs
+
+// LogBox.ignoreLogs(['Warning: ...']);  // Ignora los logs específicos.
+// LogBox.ignoreAllLogs(); //Ignora todos los logs.
+
 
 const Stack = createNativeStackNavigator();
 
@@ -58,7 +63,7 @@ export default function App() {
           {/* Registro dosis paciente */}
           <Stack.Screen  name='BienvenidaRegistroDosis' component={BienvenidaRegistroDosis} options={{headerShown: false}}/>
           <Stack.Screen name='Medicamento' component={Medicamento} options={{headerShown: false}}/>
-          
+          <Stack.Screen name='CantidadPuff' component={CantidadPuff} options={{headerShown: false}}/>
 
           {/* CUIDADOR */}
 
