@@ -6,10 +6,14 @@ const CantidadPuff = ({ navigation, route }) => {
   const { medicamento } = route.params;
 
   const [TotalDosis, setTotalDosis] = useState(0);
+  const [Dosis80Porciento, setDosis80Porciento] = useState(0);
 
   const handleInputChange = (text) => {
     const numericValue = parseInt(text.replace(/[^0-9]/g, ''), 10);
     setTotalDosis(isNaN(numericValue) ? 0 : numericValue);
+    // Calcular el 80% de las dosis ingresadas
+    const dosis80 = isNaN(numericValue) ? 0 : numericValue * 0.8;
+    setDosis80Porciento(dosis80);
   };
 
   return (
@@ -53,6 +57,22 @@ const CantidadPuff = ({ navigation, route }) => {
               </View>
             </View>
           </View>
+
+          <View style={styles.ContenedorHorizontal}>
+            <View style={styles.ContenedorTituloTexto}>
+              <Text style={styles.textoTitulos}>PUFF AL 80%</Text>
+            </View>
+            <View style={styles.ContenedorInputDosis}>
+              <TextInput
+                style={styles.textoTitulos}
+                value={Dosis80Porciento === 0 ? '80% de la Dosis Total' : Dosis80Porciento.toString()}
+                keyboardType="numeric"
+                editable={false}
+                placeholderTextColor={'black'}
+              />
+            </View>
+          </View>
+
         </View>
       </View>
     </View>
@@ -126,14 +146,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   ContenedorDatosDosis: {
-    height: hp('34%'),
-    width: wp('84%'),
     marginTop: hp('5%'),
     alignSelf: 'center',
+    backgroundColor: 'red'
   },
   ContenedorHorizontal: {
     flexDirection: 'row',
-    height: hp('14%'),
+    height: hp('10%'),
     width: wp('90%'),
     alignSelf: 'center',
   },
@@ -153,5 +172,6 @@ const styles = StyleSheet.create({
   textoTitulos: {
     fontSize: wp('4%'),
     textAlign: 'center',
+    color: 'black'
   },
 });
