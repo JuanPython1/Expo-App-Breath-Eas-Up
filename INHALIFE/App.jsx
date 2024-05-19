@@ -21,6 +21,9 @@ import VideoTutoriales from './App/Screens/Paciente/Dashboard/VideoTutoriales';
 import BienvenidaRegistroDosis from './App/Screens/Paciente/Dashboard/RegistroDosis/BienvenidaRegistroDosis';
 import Medicamento from './App/Screens/Paciente/Dashboard/RegistroDosis/Medicamento';
 import CantidadPuff from './App/Screens/Paciente/Dashboard/RegistroDosis/CantidadPuff'
+import FechaDosisDiaria from './App/Screens/Paciente/Dashboard/RegistroDosis/FechaDosisDiaria';
+import ElegirCuidador from './App/Screens/Paciente/Dashboard/RegistroDosis/ElegirCuidador';
+import RegistrarDosis from './App/Screens/Paciente/Dashboard/RegistroDosis/RegistrarDosis'
 
 //CUIDADOR
 
@@ -64,7 +67,10 @@ export default function App() {
           <Stack.Screen  name='BienvenidaRegistroDosis' component={BienvenidaRegistroDosis} options={{headerShown: false}}/>
           <Stack.Screen name='Medicamento' component={Medicamento} options={{headerShown: false}}/>
           <Stack.Screen name='CantidadPuff' component={CantidadPuff} options={{headerShown: false}}/>
-
+          <Stack.Screen name='FechaDosisDiaria' component={FechaDosisDiaria} options={{headerShown: false}}/>
+          <Stack.Screen name='ElegirCuidador' component={ElegirCuidador} options={{headerShown: false}}/>
+          <Stack.Screen name='RegistrarDosis' component={RegistrarDosis} options={{headerShown: false}}/>
+          
           {/* CUIDADOR */}
 
           {/* Login Cuidador */}

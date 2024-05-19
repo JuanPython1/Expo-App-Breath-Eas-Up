@@ -7,19 +7,27 @@ const CantidadPuff = ({ navigation, route }) => {
 
   const [TotalDosis, setTotalDosis] = useState(0);
   const [Dosis80Porciento, setDosis80Porciento] = useState(0);
+  const [totalDosisOn, setTotalDosisOn] = useState(false);
 
   const handleInputChange = (text) => {
     const numericValue = parseInt(text.replace(/[^0-9]/g, ''), 10);
     setTotalDosis(isNaN(numericValue) ? 0 : numericValue);
     // Calcular el 80% de las dosis ingresadas
     const dosis80 = isNaN(numericValue) ? 0 : numericValue * 0.8;
-    setDosis80Porciento(dosis80);
+    // Redondear a 1 decimal si tiene decimales, sino mostrar número entero
+    setDosis80Porciento(dosis80 % 1 === 0 ? dosis80 : dosis80.toFixed(1));
+
+    setTotalDosisOn(text !== '')
   };
+
+  const handleInputSiguiente = () => {
+    navigation.navigate('FechaDosisDiaria', {medicamento, TotalDosis, Dosis80Porciento})
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Pressable style={styles.contenedorAtras} onPress={() => { navigation.navigate('Medicamento') }}>
+        <Pressable style={styles.contenedorAtras} onPress={() => { navigation.goBack() }}>
           <Image style={styles.iconAtras} source={require('../../../../../assets/Image/Flechaatras.png')} />
         </Pressable>
       </View>
@@ -43,7 +51,7 @@ const CantidadPuff = ({ navigation, route }) => {
         <View style={styles.ContenedorDatosDosis}>
           <View style={styles.ContenedorHorizontal}>
             <View style={styles.ContenedorTituloTexto}>
-              <Text style={styles.textoTitulos}>TOTAL DOSIS</Text>
+              <Text style={styles.textoTitulos}>TOTAL DOSIS (Inhalaciones)</Text>
             </View>
             <View style={styles.ContenedorTotalDosis}>
               <View style={styles.ContenedorInputDosis}>
@@ -60,7 +68,7 @@ const CantidadPuff = ({ navigation, route }) => {
 
           <View style={styles.ContenedorHorizontal}>
             <View style={styles.ContenedorTituloTexto}>
-              <Text style={styles.textoTitulos}>PUFF AL 80%</Text>
+              <Text style={styles.textoTitulos}>PUFF AL 80% (Inhalaciones)</Text>
             </View>
             <View style={styles.ContenedorInputDosis}>
               <TextInput
@@ -74,6 +82,15 @@ const CantidadPuff = ({ navigation, route }) => {
           </View>
 
         </View>
+
+        <Pressable
+          style={[styles.BotonEntrar, { opacity: totalDosisOn ? 1 : 0.5 }]}
+          onPress={handleInputSiguiente}
+          disabled={!totalDosisOn}
+        >
+          <Text style={styles.TextoEntrar}>SIGUIENTE</Text>
+        </Pressable>
+
       </View>
     </View>
   );
@@ -119,7 +136,7 @@ const styles = StyleSheet.create({
   },
   contenedorMedioMedicamento: {
     backgroundColor: 'white',
-    width: wp('40%'),
+    width: wp('45%'),
     alignSelf: 'center',
     borderRadius: 20,
     borderWidth: 2,
@@ -148,7 +165,6 @@ const styles = StyleSheet.create({
   ContenedorDatosDosis: {
     marginTop: hp('5%'),
     alignSelf: 'center',
-    backgroundColor: 'red'
   },
   ContenedorHorizontal: {
     flexDirection: 'row',
@@ -160,10 +176,14 @@ const styles = StyleSheet.create({
     width: wp('55%'),
     justifyContent: 'center',
   },
+  ContenedorPuff: {
+    width: wp('55%'),
+    justifyContent: 'center',
+  },
   ContenedorInputDosis: {
     backgroundColor: 'white',
     height: hp('5%'),
-    width: wp('50%'),
+    width: wp('55%'),
     alignSelf: 'center',
     justifyContent: 'center',
     borderRadius: 10,
@@ -172,6 +192,24 @@ const styles = StyleSheet.create({
   textoTitulos: {
     fontSize: wp('4%'),
     textAlign: 'center',
-    color: 'black'
+    color: 'black',
+  },
+  BotonEntrar:{
+    marginTop: hp('4%'),
+    marginHorizontal: wp('10%'),
+    height: hp('6%'),
+    borderRadius: 5,
+    borderWidth: 1,
+    padding: hp('1%'),
+    backgroundColor: '#00AAE4',
+    margin: hp('1%'),
+    justifyContent: 'center'
+  },
+  TextoEntrar: {
+    textAlign: 'center',
+    fontFamily: 'Play-fair-Display',
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: hp('2%'),
   },
 });
