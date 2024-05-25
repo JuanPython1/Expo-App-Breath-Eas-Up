@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, StatusBar, Image, KeyboardAvoidingView, Pressable,
-TextInput, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {
+  View, Text, SafeAreaView, StyleSheet, StatusBar, Image, KeyboardAvoidingView, Pressable,
+  TextInput, Dimensions, TouchableOpacity, ActivityIndicator
+} from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { FIREBASE_AUTH } from '../../../../Firebase/config';
+import { doc, getDoc } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../Firebase/config';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -12,21 +15,36 @@ const LoginCuidador = ({ navigation }) => {
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // const SignIn = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await signInWithEmailAndPassword(FIREBASE_AUTH, email, contraseña);
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error);
-  //     alert('Iniciar Sesión Fallido' + error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const SignIn = async () => {
+    setLoading(true);
+    try {
+      const response = await signInWithEmailAndPassword(FIREBASE_AUTH, email, contraseña);
+
+      let userDoc = await getDoc(doc(FIRESTORE_DB, 'UsuariosCuidadores', response.user.uid));
+      if (!userDoc.exists()) {
+        userDoc = await getDoc(doc(FIRESTORE_DB, 'UsuariosPacientes', response.user.uid));
+
+      }
+
+      // Verifica el rol del usuario
+      if (userDoc.exists() && userDoc.data().rol === 'Cuidador') {
+        goToDashBoardCuidador();
+      }
+      else {
+        await FIREBASE_AUTH.signOut();
+        alert('No tienes permiso para acceder al dashboard de pacientes');
+      }
+    } catch (error) {
+      console.log(error);
+      alert('--Iniciar Sesión Fallido-- Verifica si el correo electronico o contraseña este bien escrito o ¡Registrate!');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const goToDashBoardCuidador = () => {
-    navigation.navigate('BienvenidaCuidador')  };
+    navigation.navigate('BienvenidaCuidador')
+  };
 
   const goToRecuperarConstraseña = () => {
     navigation.navigate('OlvidoContraseñaCuidador');
@@ -79,29 +97,29 @@ const LoginCuidador = ({ navigation }) => {
               />
             </Pressable>
           </View>
-        
 
-          { loading ? (
-            <ActivityIndicator size="large" color="#0000" />
-        ) : (
+
+          {loading ? (
+            <ActivityIndicator size={'large'} color={'#F94242'} />
+          ) : (
             <>
-                <Pressable style={styles.BotonEntrar} onPress={goToDashBoardCuidador}>
-                    <Text style={styles.TextoEntrar}>ENTRAR</Text>
-                </Pressable>
+              <Pressable style={styles.BotonEntrar} onPress={SignIn}>
+                <Text style={styles.TextoEntrar}>ENTRAR</Text>
+              </Pressable>
             </>
-        )}
+          )}
 
-        <View style={styles.contenedorRegistroYOlvidoContraseña}>
-        <Text style={styles.textoRegistrateYOlvidarContraseña}>¿Olvidaste tu contraseña? <Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}>Recuerdame</Text>.</Text>
-        </View>    
+          <View style={styles.contenedorRegistroYOlvidoContraseña}>
+            <Text style={styles.textoRegistrateYOlvidarContraseña}>¿Olvidaste tu contraseña? <Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}>Recuerdame</Text>.</Text>
+          </View>
         </View>
 
-        </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
 
 
       <View style={styles.ContenedorNiños}>
-        <Image style={styles.niña} source={require('../../../../assets/Image/Niña.png')}/>
-        <Image style={styles.niño} source={require('../../../../assets/Image/Niño.png')}/>
+        <Image style={styles.niña} source={require('../../../../assets/Image/Niña.png')} />
+        <Image style={styles.niño} source={require('../../../../assets/Image/Niño.png')} />
       </View>
 
     </SafeAreaView>
@@ -140,8 +158,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#F94242',
     alignSelf: 'center',
     borderRadius: 30,
-    alignItems: 'center', 
-    justifyContent: 'center', 
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   Titulo: {
@@ -168,15 +186,15 @@ const styles = StyleSheet.create({
     top: hp('9%'),
     alignSelf: 'center'
   },
-  ContenedorNiños:{
-      marginVertical: hp('10%'),
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
+  ContenedorNiños: {
+    marginVertical: hp('10%'),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   niña: {
-      right: wp('20%')
+    right: wp('20%')
   },
   niño: {
     left: wp('20%')
@@ -205,7 +223,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: wp('70%')
   },
-  inputContraseña:{
+  inputContraseña: {
     marginVertical: hp('1%'),
     marginHorizontal: wp('15%'),
     fontFamily: 'Play-fair-Display',
@@ -224,13 +242,13 @@ const styles = StyleSheet.create({
     right: wp('5%'),
   },
 
-  contenedorRegistroYOlvidoContraseña:{
+  contenedorRegistroYOlvidoContraseña: {
     marginVertical: hp('3%'),
     alignSelf: 'center',
     textAlign: 'center'
   },
 
-  BotonEntrar:{
+  BotonEntrar: {
     marginVertical: hp('1%'),
     marginHorizontal: wp('15%'),
     height: hp('6%'),
@@ -259,4 +277,5 @@ const styles = StyleSheet.create({
     fontFamily: 'Play-fair-Display',
     color: '#FF0000',
   },
+
 });

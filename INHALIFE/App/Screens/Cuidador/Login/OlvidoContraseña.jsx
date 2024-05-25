@@ -1,10 +1,25 @@
-import { View, Text, StyleSheet, Pressable, TextInput } from 'react-native'
+import { View, Text, StyleSheet, Pressable, TextInput, Modal } from 'react-native'
 import React, { useState } from 'react'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
+import {FIREBASE_AUTH} from '../../../../Firebase/config'
+import { sendPasswordResetEmail } from 'firebase/auth';
 
 const OlvidoContraseñaCuidador = ({navigation}) => {
-  const [correo, setCorreo] = useState('');
-  const {loading,setLoading} = useState(false)
+  const [email, setEmail] = useState('');
+  const [modalVisible, setModalVisible] = useState(false); // Estado para el modal de verificación
+  const auth = FIREBASE_AUTH;
+  
+ 
+  //recuperar contraseña
+  const recuperar = async () => {
+    try {
+      // Envía un correo de recuperación al email proporcionado
+      await sendPasswordResetEmail(auth,email);
+      setModalVisible(true); // Mostrar el modal de verificación
+    } catch (error) {
+      console.error('Error al enviar el correo de recuperación:', error.message);
+    }
+  };
 
   const gotoLogin = () => {
     navigation.navigate('LoginCuidador')
@@ -12,6 +27,29 @@ const OlvidoContraseñaCuidador = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Verifica tu correo electrónico para recuperar tu contraseña.</Text>
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <Text style={styles.textStyle}>Cerrar</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
 
     <View style={styles.header}>
       <View style={styles.ContenedorTitulo} >
@@ -25,17 +63,17 @@ const OlvidoContraseñaCuidador = ({navigation}) => {
       </View>
 
       <TextInput style={styles.input}  
-      value={correo}
+      value={email}
       placeholder='CORREO ELECTRONICO'
       placeholderTextColor='black'
       autoCapitalize='none'
-      onChangeText={(text) => setCorreo(text)}
+      onChangeText={(text) => setEmail(text)}
       />
 
       <Text style={styles.textoEnvia}>{`Envia y te enviaremos un correo \n para restablecer tu contraseña.`}</Text>
 
 
-      <Pressable style={styles.BotonEntrar} >
+      <Pressable style={styles.BotonEntrar} onPress={recuperar} >
                     <Text style={styles.TextoEntrar}>ENVIAR</Text>
       </Pressable>
 
@@ -132,5 +170,43 @@ const styles = StyleSheet.create({
     textoRojo: {
       fontFamily: 'Play-fair-Display',
       color: '#FF0000',
+    },
+    centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginTop: 22,
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: 'white',
+      borderRadius: 20,
+      padding: 35,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5
+    },
+    modalContainer: {
+      alignItems: 'center'
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: 'center'
+    },
+    button: {
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+      backgroundColor: '#FF0000'
+    },
+    buttonClose: {
+      backgroundColor: '#FF0000',
+      marginTop: 10,
     },
 })

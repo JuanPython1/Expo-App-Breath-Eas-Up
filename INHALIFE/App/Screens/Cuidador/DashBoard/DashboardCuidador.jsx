@@ -3,19 +3,27 @@ import React, {useState} from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import  Menu  from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalCerrarCuenta from '../../../../Components/ModalCerrarCuenta';
+import { FIREBASE_AUTH } from '../../../../Firebase/config';
 
 const DashboardCuidador = ({navigation}) => {
 
   const [modalVisible, setModalVisible] = useState(false);
+
+  const handleSignOut = async () => {
+    try {
+      await FIREBASE_AUTH.signOut();
+      navigation.navigate('Rol'); // Redirige a la pantalla de inicio de sesión del cuidador
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
 
   return (
       <SafeAreaView style={styles.container}> 
 
       {/* ------------------------HEADER---------------------- */}
       <View style={styles.header}>
-      <Pressable style={styles.contenedorAtras} onPress={() => { navigation.navigate('LoginCuidador') }}>
-        <Image style={styles.iconAtras} source={require('../../../../assets/Image/Flechaatras.png')} />
-      </Pressable>
+
 
       <Pressable style={styles.menu} onPress={() => { setModalVisible(true) }}>
         <Menu name={'menu'} size={60} color={'black'}/>
@@ -47,6 +55,7 @@ const DashboardCuidador = ({navigation}) => {
       <ModalCerrarCuenta 
       modalVisible={modalVisible} 
       setModalVisible={setModalVisible}
+      cerrarSession={handleSignOut}
       color={'#FB666F'}
       />
 
@@ -67,6 +76,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: hp('10%'),
     alignItems: 'center',
+    alignSelf: 'center'
   },
   contenedorAtras: {
     left: wp('5%'),
@@ -77,7 +87,6 @@ const styles = StyleSheet.create({
   },
 
   menu:{
-    left: wp('27%'),
     justifyContent: 'center',
   },
 

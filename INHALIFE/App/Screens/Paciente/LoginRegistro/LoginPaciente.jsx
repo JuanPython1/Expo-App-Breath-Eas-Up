@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, Image, 
-KeyboardAvoidingView, Pressable, TextInput,ActivityIndicator } from 'react-native';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { FIREBASE_AUTH } from '../../../../Firebase/config';
+import {
+  View, Text, SafeAreaView, StyleSheet, Image,
+  KeyboardAvoidingView, Pressable, TextInput, ActivityIndicator
+} from 'react-native';
+import { doc, getDoc } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../Firebase/config';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import DashboardPaciente from '../Dashboard/DashboardPaciente';
@@ -12,23 +15,39 @@ const LoginPaciente = ({ navigation }) => {
   const [contraseña, setContraseña] = useState('');
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [loading, setLoading] = useState(false);
+  const auth = FIREBASE_AUTH;
+  const db = FIRESTORE_DB
 
-  //MIENTRAS NO ESTE EL BACKEND
-  // const SignIn = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await signInWithEmailAndPassword(FIREBASE_AUTH, email, contraseña);
-  //     console.log(response);
-  //   } catch (error) {
-  //     console.log(error);
-  //     alert('Iniciar Sesión Fallido' + error.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
+  const SignIn = async () => {
+    setLoading(true);
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, contraseña);
+
+
+      // Obtén el documento del usuario
+      let userDoc = await getDoc(doc(db, 'UsuariosPacientes', response.user.uid));
+      if (!userDoc.exists()) {
+        userDoc = await getDoc(doc(db, 'UsuariosCuidadores', response.user.uid));
+      }
+
+      // Verifica el rol del usuario
+      if (userDoc.exists() && userDoc.data().rol === 'Paciente') {
+        gotoDashboardPaciente();
+      }
+      else {
+        await FIREBASE_AUTH.signOut();
+        alert('No tienes permiso para acceder al dashboard de pacientes');
+      }
+    } catch (error) {
+      console.log(error);
+      alert('--Iniciar Sesión Fallido-- Verifica si el correo electronico o contraseña este bien escrito o ¡Registrate!');
+    } finally {
+      setLoading(false);
+    }
+  };
   //mientras tanto que no este el backend
-  const gotoDashboard = () =>{
+  const gotoDashboardPaciente = () => {
     navigation.navigate('BienvenidaPaciente');
   }
 
@@ -84,31 +103,33 @@ const LoginPaciente = ({ navigation }) => {
               />
             </Pressable>
           </View>
-        
 
-          { loading ? (
-            <ActivityIndicator size="large" color="#0000" />
-        ) : (
+
+          {loading ? (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size={'large'} color={'#00AAE4'} />
+            </View>
+          ) : (
             <>
-                {/* CAMBIAR DASHBOARDPACIENTE HASTA QUE HAGA EL BACKEND */}
-                <Pressable style={styles.BotonEntrar} onPress={gotoDashboard}>
-                    <Text style={styles.TextoEntrar}>ENTRAR</Text>
-                </Pressable>
+              {/* CAMBIAR DASHBOARDPACIENTE HASTA QUE HAGA EL BACKEND */}
+              <Pressable style={styles.BotonEntrar} onPress={SignIn}>
+                <Text style={styles.TextoEntrar}>ENTRAR</Text>
+              </Pressable>
             </>
-        )}
+          )}
 
-        <View style={styles.contenedorRegistroYOlvidoContraseña}>
-        <Text style={styles.textoRegistrateYOlvidarContraseña}>¿No tiene una cuenta? <Text style={styles.textoRojo} onPress={goToRegister}>Registrate</Text>.</Text>
-        <Text style={styles.textoRegistrateYOlvidarContraseña}>¿Olvidaste tu contraseña? <Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}>Recuerdame</Text>.</Text>
-        </View>    
+          <View style={styles.contenedorRegistroYOlvidoContraseña}>
+            <Text style={styles.textoRegistrateYOlvidarContraseña}>¿No tiene una cuenta? <Text style={styles.textoRojo} onPress={goToRegister}>Registrate</Text>.</Text>
+            <Text style={styles.textoRegistrateYOlvidarContraseña}>¿Olvidaste tu contraseña? <Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}>Recuerdame</Text>.</Text>
+          </View>
         </View>
 
-        </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
 
 
       <View style={styles.ContenedorNiños}>
-        <Image style={styles.niña} source={require('../../../../assets/Image/Niña.png')}/>
-        <Image style={styles.niño} source={require('../../../../assets/Image/Niño.png')}/>
+        <Image style={styles.niña} source={require('../../../../assets/Image/Niña.png')} />
+        <Image style={styles.niño} source={require('../../../../assets/Image/Niño.png')} />
       </View>
 
     </SafeAreaView>
@@ -175,15 +196,15 @@ const styles = StyleSheet.create({
     top: hp('9%'),
     alignSelf: 'center'
   },
-  ContenedorNiños:{
-      marginVertical: hp('10%'),
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
+  ContenedorNiños: {
+    marginVertical: hp('10%'),
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   niña: {
-      right: wp('20%')
+    right: wp('20%')
   },
   niño: {
     left: wp('20%')
@@ -212,7 +233,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: wp('70%')
   },
-  inputContraseña:{
+  inputContraseña: {
     marginVertical: hp('1%'),
     marginHorizontal: wp('15%'),
     fontFamily: 'Play-fair-Display',
@@ -231,13 +252,13 @@ const styles = StyleSheet.create({
     right: wp('5%'),
   },
 
-  contenedorRegistroYOlvidoContraseña:{
+  contenedorRegistroYOlvidoContraseña: {
     marginVertical: hp('1%'),
     alignSelf: 'center',
     textAlign: 'center'
   },
 
-  BotonEntrar:{
+  BotonEntrar: {
     marginVertical: hp('1%'),
     marginHorizontal: wp('15%'),
     height: hp('6%'),
@@ -260,6 +281,9 @@ const styles = StyleSheet.create({
     fontSize: hp('1.7%'),
     textAlign: 'center',
     fontFamily: 'Play-fair-Display',
+  },
+  loadingContainer: {
+    alignItems: 'center',
   },
 
   textoRojo: {

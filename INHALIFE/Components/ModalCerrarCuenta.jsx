@@ -5,7 +5,7 @@ import Off from 'react-native-vector-icons/AntDesign';
 import IconAtras from 'react-native-vector-icons/Ionicons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-const ModalCerrarCuenta = ({ modalVisible, setModalVisible, color }) => {
+const ModalCerrarCuenta = ({ modalVisible, setModalVisible, cerrarSession ,color }) => {
   return (
     <Modal
       animationType="slide"
@@ -20,9 +20,7 @@ const ModalCerrarCuenta = ({ modalVisible, setModalVisible, color }) => {
 
         <TouchableHighlight
           style={{ ...styles.BotonCerrarSesion, backgroundColor: `${color}` }}
-          onPress={() => {
-            setModalVisible(!modalVisible);
-          }}
+          onPress={cerrarSession}
         >
           <Off name={'poweroff'} size={32} color={'black'} />
         </TouchableHighlight>

@@ -1,105 +1,230 @@
-import { View, Text, SafeAreaView, StyleSheet, TextInput, 
-  ActivityIndicator, Pressable, KeyboardAvoidingView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
+import { View, Text, SafeAreaView, StyleSheet, TextInput, ActivityIndicator, Pressable, KeyboardAvoidingView, Modal } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../Firebase/config';
+import { MaterialIcons } from '@expo/vector-icons';
 
-const RegistroPaciente = ({navigation}) => {
-  const [usuario, setUsuario] = useState('');
+const RegistroPaciente = ({ navigation }) => {
+  const [username, setUsername] = useState('');
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [email, setEmail] = useState('');
   const [contraseña, setContraseña] = useState('');
   const [confirmarContraseña, setConfirmarContraseña] = useState('');
   const [loading, setLoading] = useState(false);
+  const [modalVisibleRegistro, setModalVisibleRegistro] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [isModalClosedRegistro, setIsModalClosedRegistro] = useState(false);
+  const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [secureConfirmEntry, setSecureConfirmEntry] = useState(true);
+
+  const auth = FIREBASE_AUTH;
+  const firestore = FIRESTORE_DB;
 
   const goToLogin = () => {
-    navigation.navigate('LoginPaciente')
+    navigation.navigate('LoginPaciente');
   }
+
+  const ValidacionesYRegistro = async () => {
+    if (contraseña !== confirmarContraseña) {
+      alert('Las contraseñas no coinciden. Por favor, ingrésalas de nuevo.');
+    } else {
+      const usernameExists = await checkUsernameExists(username);
+      if (usernameExists) {
+        setModalVisible(true);
+      } else {
+        signUp();
+      }
+    }
+  };
+
+  const checkUsernameExists = async (username) => {
+    const querySnapshot = await getDocs(collection(firestore, 'UsuariosPacientes'));
+    const usernames = querySnapshot.docs.map(doc => doc.data().nombreUsuario);
+    return usernames.includes(username);
+  };
+
+  const signUp = async () => {
+    setLoading(true);
+    try {
+      createUserWithEmailAndPassword(auth, email, contraseña)
+        .then(async (response) => {
+          console.log(response);
+          await sendEmailVerification(auth.currentUser);
+          const userUID = auth.currentUser.uid;
+          const userRef = doc(firestore, 'UsuariosPacientes', userUID);
+          await setDoc(userRef, { nombreUsuario: username, email: email, nombre: nombre, apellido: apellido, rol: 'Paciente' });
+          setModalVisibleRegistro(true);
+        })
+        .catch((error) => {
+          console.log(error);
+          alert('Registro fallido: ' + error.message);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    } catch (error) {
+      console.log(error);
+      alert('Registro fallido: ' + error.message);
+      setLoading(false);
+    }
+  };
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+  };
+
+  const handleModalCloseRegistro = () => {
+    setModalVisibleRegistro(false);
+    setIsModalClosedRegistro(true);
+  };
+
+  useEffect(() => {
+    if (isModalClosedRegistro) {
+      navigation.navigate('LoginPaciente');
+    }
+  }, [isModalClosedRegistro, navigation]);
 
   return (
     <SafeAreaView style={styles.container}>
-   <KeyboardAvoidingView behavior="position" >
-      <View style={styles.ContenedorTitulo}>
-        <Text style={styles.Titulo}>INHALIFE</Text>
-      </View>
+      <KeyboardAvoidingView behavior="position">
+        <View style={styles.ContenedorTitulo}>
+          <Text style={styles.Titulo}>INHALIFE</Text>
+        </View>
 
+        <View style={styles.ContenedorInputs}>
+          <TextInput 
+            style={styles.input}
+            value={username}
+            placeholder='Nombre de Usuario:'
+            placeholderTextColor={'black'}
+            autoCapitalize='none'
+            onChangeText={(text) => setUsername(text)}
+          />
 
- 
-      <View style={styles.ContenedorInputs}>
-        <TextInput 
-          style={styles.input}
-          value={usuario}
-          placeholder='Usuario:'
-          placeholderTextColor={'black'}
-          autoCapitalize='none'
-          onChangeText={(text) => setUsuario(text)}
-        />
+          <TextInput 
+            style={styles.input}
+            value={nombre}
+            placeholder='Nombres:'
+            placeholderTextColor={'black'}
+            autoCapitalize='none'
+            onChangeText={(text) => setNombre(text)}
+          />
 
-        <TextInput 
-          style={styles.input}
-          value={nombre}
-          placeholder='Nombres:'
-          placeholderTextColor={'black'}
-          autoCapitalize='none'
-          onChangeText={(text) => setNombre(text)}
-        />
+          <TextInput 
+            style={styles.input}
+            value={apellido}
+            placeholder='Apellidos:'
+            placeholderTextColor={'black'}
+            autoCapitalize='none'
+            onChangeText={(text) => setApellido(text)}
+          />
 
-        <TextInput 
-          style={styles.input}
-          value={apellido}
-          placeholder='Apellidos:'
-          placeholderTextColor={'black'}
-          autoCapitalize='none'
-          onChangeText={(text) => setApellido(text)}
-        />
+          <TextInput 
+            style={styles.input}
+            value={email}
+            placeholder='Correo Electronico:'
+            placeholderTextColor={'black'}
+            autoCapitalize='none'
+            onChangeText={(text) => setEmail(text)}
+          />
 
-        <TextInput 
-          style={styles.input}
-          value={email}
-          placeholder='Correo Electronico:'
-          placeholderTextColor={'black'}
-          autoCapitalize='none'
-          onChangeText={(text) => setEmail(text)}
-        />
+          <View style={styles.passwordContainer}>
+            <TextInput 
+              style={styles.inputPassword}
+              value={contraseña}
+              placeholder='Contraseña:'
+              placeholderTextColor={'black'}
+              autoCapitalize='none'
+              secureTextEntry={secureTextEntry}
+              onChangeText={(text) => setContraseña(text)}
+            />
+            <Pressable onPress={() => setSecureTextEntry(!secureTextEntry)}>
+              <MaterialIcons name={secureTextEntry ? 'visibility-off' : 'visibility'} size={24} color="black" />
+            </Pressable>
+          </View>
 
-        <TextInput 
-          style={styles.input}
-          value={contraseña}
-          placeholder='Contraseña:'
-          placeholderTextColor={'black'}
-          autoCapitalize='none'
-          onChangeText={(text) => setContraseña(text)}
-        />
+          <View style={styles.passwordContainer}>
+            <TextInput 
+              style={styles.inputPassword}
+              value={confirmarContraseña}
+              placeholder=' Confirmar Contraseña:'
+              placeholderTextColor={'black'}
+              autoCapitalize='none'
+              secureTextEntry={secureConfirmEntry}
+              onChangeText={(text) => setConfirmarContraseña(text)}
+            />
+            <Pressable onPress={() => setSecureConfirmEntry(!secureConfirmEntry)}>
+              <MaterialIcons name={secureConfirmEntry ? 'visibility-off' : 'visibility'} size={24} color="black" />
+            </Pressable>
+          </View>
+        </View>
 
-        <TextInput 
-          style={styles.input}
-          value={confirmarContraseña}
-          placeholder=' Confirmar Contraseña:'
-          placeholderTextColor={'black'}
-          autoCapitalize='none'
-          onChangeText={(text) => setConfirmarContraseña(text)}
-        />
+        {loading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size={'large'} color={'#00AAE4'} />
+          </View>
+        ) : (
+          <>  
+            <Pressable style={styles.ContenedorBotonRegistro} onPress={ValidacionesYRegistro}>
+              <Text style={styles.TextoRegistrarse}>REGISTRARSE</Text>
+            </Pressable>    
+          </>
+        )}
 
-      </View>
+        <Text style={styles.textoIngresa}>¿Ya tienes cuenta? <Text style={styles.textoRojo} onPress={goToLogin}>Ingresa</Text>.</Text>
 
-      
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalText}>Este usuario ya está registrado. Por favor, ingresa otro nombre de usuario.</Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={handleModalClose}
+                >
+                  <Text style={styles.textStyle}>Cerrar</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
 
-      {loading ? 
-      (<ActivityIndicator size={'large'} color={'#0000'}/>): 
-      (<>  
-      <Pressable style={styles.ContenedorBotonRegistro}>
-          <Text style={styles.TextoRegistrarse}>REGISTRARSE</Text>
-      </Pressable>    
-       </>)
-    }
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisibleRegistro}
+          onRequestClose={() => {
+            setModalVisibleRegistro(!modalVisibleRegistro);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <View style={styles.modalContainer}>
+                <Text style={styles.modalText}>¡¡¡Te registraste Correctamente!!!</Text>
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={handleModalCloseRegistro}
+                >
+                  <Text style={styles.textStyle}>Cerrar</Text>
+                </Pressable>
+              </View>
+            </View>
+          </View>
+        </Modal>
 
-
-    <Text style={styles.textoIngresa}>¿Ya tienes cuenta? <Text style={styles.textoRojo} onPress={goToLogin}>Ingresa</Text>.</Text>
-   
-    </KeyboardAvoidingView>
-
+      </KeyboardAvoidingView>
     </SafeAreaView>
-  )
+  );
 }
 
 export default RegistroPaciente;
@@ -119,8 +244,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#00AAE4',
     alignSelf: 'center',
     borderRadius: 30,
-    alignItems: 'center', //horizontal
-    justifyContent: 'center', //vertical
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   Titulo: {
     fontFamily: 'noticia-text',
@@ -134,8 +259,7 @@ const styles = StyleSheet.create({
   ContenedorInputs: {
     top: hp('12%'),
     marginHorizontal: wp('13%'),
-    paddingVertical: hp('2%'),
-
+    paddingVertical: hp('2%'), 
   },
   input: {
     marginVertical: hp('1.3%'),
@@ -147,7 +271,19 @@ const styles = StyleSheet.create({
     fontFamily: 'Play-fair-Display',
     margin: hp('1%'),
   },
-
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: hp('1.3%'),
+    marginHorizontal: wp('2%'),
+    borderBottomWidth: 1,
+    paddingBottom: hp('1%'),
+  },
+  inputPassword: {
+    flex: 1,
+    fontSize: hp('1.7%'),
+    fontFamily: 'Play-fair-Display',
+  },
   ContenedorBotonRegistro: {
     marginTop: hp('12%'),
     marginHorizontal: wp('15%'),
@@ -173,5 +309,52 @@ const styles = StyleSheet.create({
   textoRojo: {
     fontFamily: 'Play-fair-Display',
     color: '#FF0000',
+  },
+  loadingContainer: {
+    marginTop: hp('12%'),
+    alignItems: 'center',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  modalContainer: {
+    alignItems: 'center'
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center'
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    backgroundColor: '#00AAE4'
+  },
+  buttonClose: {
+    backgroundColor: '#00AAE4',
+    marginTop: 10,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
 });

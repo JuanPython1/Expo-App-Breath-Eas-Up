@@ -1,19 +1,14 @@
 import { View, Text, SafeAreaView , StyleSheet, Image, StatusBar} from 'react-native'
 import React from 'react'
-import { useFonts } from 'expo-font';
+
 import BotonRol from '../../Components/BotonRol';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const Rol = ({navigation}) => {
   //fuentes
-  const [loaded] = useFonts({
-    'noticia-text': require('../../assets/fonts/NoticiaText-Regular.ttf'),
-    'Play-fair-Display': require('../../assets/fonts/PlayfairDisplay-VariableFont_wght.ttf'),
-  });
 
-  if (!loaded) {
-    return null;
-  }
+
+
 
 
   //botones roles

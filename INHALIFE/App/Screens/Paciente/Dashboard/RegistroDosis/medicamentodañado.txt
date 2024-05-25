@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, Image, ScrollView, Pressable } from 'react-native';
+import React, { useState } from 'react';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { CheckBox } from 'react-native-btr';
+import { CheckBox } from 'react-native-elements';
 
 const Medicamento = ({ navigation }) => {
   const [medicamento, setMedicamento] = useState('');
@@ -39,50 +39,46 @@ const Medicamento = ({ navigation }) => {
         <Text style={styles.TituloMedicamento}>ELIJE TU MEDICAMENTO</Text>
         <Image style={styles.imgInhalador} source={require('../../../../../assets/Image/imgMedicamento-removebg-preview.png')} />
         <View style={styles.checkboxContainer}>
-          <View style={styles.checkboxItem}>
-            <CheckBox
-              checked={medicamento === 'Salbutamol'}
-              color="#3498DB"
-              borderWidth={7}
-              onPress={() => handleMedicamentoChange('Salbutamol')}
-              style={styles.checkbox}
-            />
-            <Text style={styles.checkboxText}>Salbutamol</Text>
-          </View>
-
-          <View style={styles.checkboxItem}>
-            <CheckBox
-              checked={medicamento === 'Bromuro de ipratropio'}
-              borderWidth={7}
-              color="#3498DB"
-              onPress={() => handleMedicamentoChange('Bromuro de ipratropio')}
-              style={styles.checkbox}
-            />
-            <Text style={styles.checkboxText}>Bromuro de ipratropio</Text>
-          </View>
-
-          <View style={styles.checkboxItem}>
-            <CheckBox
-              checked={medicamento === 'Beclometasona'}
-              borderWidth={7}
-              color="#3498DB"
-              onPress={() => handleMedicamentoChange('Beclometasona')}
-              style={styles.checkbox}
-            />
-            <Text style={styles.checkboxText}>Beclometasona</Text>
-          </View>
-
-          <View style={styles.checkboxItem}>
-            <CheckBox
-              checked={medicamento === 'OTRO'}
-                borderWidth={7}
-              color="#ff6700"
-              onPress={() => handleMedicamentoChange('OTRO')}
-              style={styles.checkbox}
-            />
-            <Text style={styles.checkboxText}>OTRO</Text>
-          </View>
-
+          <CheckBox
+            title="Salbutamol"
+            checked={medicamento === 'Salbutamol'}
+            onPress={() => handleMedicamentoChange('Salbutamol')}
+            size={wp('9%')}
+            containerStyle={styles.checkbox}
+            textStyle={styles.checkboxText}
+            checkedColor='#3498DB'
+            uncheckedColor='#94E4FF'
+          />
+          <CheckBox
+            title="Bromuro de ipratropio"
+            checked={medicamento === 'Bromuro de ipratropio'}
+            size={wp('9%')}
+            onPress={() => handleMedicamentoChange('Bromuro de ipratropio')}
+            containerStyle={styles.checkbox}
+            textStyle={styles.checkboxText}
+            checkedColor='#3498DB'
+            uncheckedColor='#94E4FF'
+          />
+          <CheckBox
+            title="Beclometasona"
+            checked={medicamento === 'Beclometasona'}
+            size={wp('9%')}
+            onPress={() => handleMedicamentoChange('Beclometasona')}
+            containerStyle={styles.checkbox}
+            textStyle={styles.checkboxText}
+            checkedColor='#3498DB'
+            uncheckedColor='#94E4FF'
+          />
+          <CheckBox
+            title="OTRO"
+            checked={medicamento === 'OTRO'}
+            size={wp('9%')}
+            onPress={() => handleMedicamentoChange('OTRO')}
+            containerStyle={styles.checkbox}
+            textStyle={styles.checkboxText}
+            checkedColor='#ff6700'
+            uncheckedColor='#ff6700'
+          />
           {medicamento === 'OTRO' && (
             <TextInput
               style={styles.input}
@@ -127,29 +123,18 @@ const styles = StyleSheet.create({
     marginHorizontal: wp('10%'),
     borderRadius: 15,
     paddingVertical: hp('2%'),
-    paddingHorizontal: wp('5%'),
+    paddingHorizontal: wp('2%'),
     backgroundColor: '#3498DB'
-  },
-  checkboxItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginVertical: hp('2%'),
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: wp('3%')
   },
   checkbox: {
     backgroundColor: '#ffffff',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    marginRight: wp('2%'),
+    borderWidth: 0,
+    marginVertical: hp('2%'), // Esto agrega margen vertical entre los checkbox
   },
   checkboxText: {
     color: '#000',
-    fontSize: wp('5%'),
-    marginLeft: wp('2%')
+    fontSize: wp('4%')
   },
-
   TituloMedicamento: {
     color: 'black',
     fontSize: wp('6%'),
@@ -162,11 +147,11 @@ const styles = StyleSheet.create({
     borderColor: '#ff6700',
     fontSize: wp('4%'),
     fontWeight: 'bold',
-    borderWidth: 1,
+    borderWidth: 3,
+    marginTop: hp('1%'),
     paddingHorizontal: wp('2%'),
     borderRadius: 10,
-    backgroundColor: 'white',
-    marginTop: hp('1%'),
+    backgroundColor: 'white'
   },
   BotonEntrar:{
     marginTop: hp('4%'),
