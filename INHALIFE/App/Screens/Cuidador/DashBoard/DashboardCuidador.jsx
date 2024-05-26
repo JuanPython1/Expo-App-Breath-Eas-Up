@@ -1,11 +1,11 @@
 import { View, Text, SafeAreaView, StyleSheet, Pressable, Image } from 'react-native'
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import  Menu  from 'react-native-vector-icons/MaterialCommunityIcons';
+import Menu from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalCerrarCuenta from '../../../../Components/ModalCerrarCuenta';
 import { FIREBASE_AUTH } from '../../../../Firebase/config';
 
-const DashboardCuidador = ({navigation}) => {
+const DashboardCuidador = ({ navigation }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -19,15 +19,15 @@ const DashboardCuidador = ({navigation}) => {
   };
 
   return (
-      <SafeAreaView style={styles.container}> 
+    <SafeAreaView style={styles.container}>
 
       {/* ------------------------HEADER---------------------- */}
       <View style={styles.header}>
 
 
-      <Pressable style={styles.menu} onPress={() => { setModalVisible(true) }}>
-        <Menu name={'menu'} size={60} color={'black'}/>
-      </Pressable>
+        <Pressable style={styles.menu} onPress={() => { setModalVisible(true) }}>
+          <Menu name={'menu'} size={60} color={'black'} />
+        </Pressable>
 
       </View>
 
@@ -35,31 +35,31 @@ const DashboardCuidador = ({navigation}) => {
 
       <View style={styles.body}>
 
-      <View style={styles.ContenedorTitulo}>
-        <Text style={styles.Titulo}>INHALIFE</Text>
-      </View>
+        <View style={styles.ContenedorTitulo}>
+          <Text style={styles.Titulo}>INHALIFE</Text>
+        </View>
 
 
 
-      <View style={styles.fila2}>
-      <Pressable style={styles.boton} onPress={()=> navigation.navigate('RecordatorioDosisCompartidos')}>
-      <Text style={styles.textTitulo}>RECORDATORIOS DOSIS COMPARTIDOS</Text>
-      <Image style={styles.Imagen} source={require('../../../../assets/Image/calendario.png')}/>
-      </Pressable>
+        <View style={styles.fila2}>
+          <Pressable style={styles.boton} onPress={() => navigation.navigate('RecordatorioDosisCompartidos')}>
+            <Text style={styles.textTitulo}>RECORDATORIOS DOSIS COMPARTIDOS</Text>
+            <Image style={styles.Imagen} source={require('../../../../assets/Image/calendario.png')} />
+          </Pressable>
 
-      </View>
+        </View>
 
       </View>
 
       {/* ------------------------MODAL---------------------- */}
-      <ModalCerrarCuenta 
-      modalVisible={modalVisible} 
-      setModalVisible={setModalVisible}
-      cerrarSession={handleSignOut}
-      color={'#FB666F'}
+      <ModalCerrarCuenta
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        cerrarSession={handleSignOut}
+        color={'#52B4FA'}
       />
 
-      </SafeAreaView>
+    </SafeAreaView>
   )
 }
 
@@ -70,9 +70,9 @@ const styles = StyleSheet.create({
     flex: 1,
     height: hp('100%'),
     width: wp('100%'),
-    backgroundColor: '#FF9595',
+    backgroundColor: '#AADBFF',
   },
-  header:{
+  header: {
     flexDirection: 'row',
     height: hp('10%'),
     alignItems: 'center',
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  menu:{
+  menu: {
     justifyContent: 'center',
   },
 
@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     height: hp('9%'),
     width: wp('100%'),
     marginBottom: hp('3%'),
-    backgroundColor: '#F94242',
     alignSelf: 'center',
     borderRadius: 20,
     alignItems: 'center', //horizontal
@@ -118,14 +117,14 @@ const styles = StyleSheet.create({
     textShadowRadius: 1,
     transform: [{ scaleY: 1.2 }],
   },
-  fila1:{
+  fila1: {
     flexDirection: 'row',
     top: hp('6%')
   },
-  RegistroDosis:{
+  RegistroDosis: {
     marginHorizontal: wp('4%')
   },
-  fila2:{
+  fila2: {
     top: hp('8%'),
     alignItems: 'center'
   },
@@ -135,17 +134,17 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F94242'
-    },  
-    Imagen: {
-      width: wp('40%'),
-      height: hp('22'),
-    },
-    textTitulo:{
-      fontFamily: 'Play-fair-Display',
-      fontWeight: 'bold',
-      fontSize: wp('4%'),
-      marginBottom: '5%',
-      textAlign: 'center'
-}
+    backgroundColor: '#52B4FA'
+  },
+  Imagen: {
+    width: wp('40%'),
+    height: hp('22'),
+  },
+  textTitulo: {
+    fontFamily: 'Play-fair-Display',
+    fontWeight: 'bold',
+    fontSize: wp('4%'),
+    marginBottom: '5%',
+    textAlign: 'center'
+  }
 })

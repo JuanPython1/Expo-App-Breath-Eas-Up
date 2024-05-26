@@ -21,7 +21,7 @@ import OlvidoContraseñaPaciente from './App/Screens/Paciente/LoginRegistro/Olvi
 // Screens dashboard paciente
 import BienvenidaPaciente from './App/Screens/Paciente/Dashboard/BienvenidaPaciente';
 import DashboardPaciente from './App/Screens/Paciente/Dashboard/DashboardPaciente';
-import RecordatorioDosis from './App/Screens/Paciente/Dashboard/RecordatorioDosis';
+import RecordatorioDosis from './App/Screens/Paciente/Dashboard/RecordatorioDosis/RecordatorioDosis';
 import VideoTutoriales from './App/Screens/Paciente/Dashboard/VideoTutoriales';
 
 // Registro Dosis Paciente
@@ -31,6 +31,7 @@ import CantidadPuff from './App/Screens/Paciente/Dashboard/RegistroDosis/Cantida
 import FechaDosisDiaria from './App/Screens/Paciente/Dashboard/RegistroDosis/FechaDosisDiaria';
 import ElegirCuidador from './App/Screens/Paciente/Dashboard/RegistroDosis/ElegirCuidador';
 import RegistrarDosis from './App/Screens/Paciente/Dashboard/RegistroDosis/RegistrarDosis'
+import GraciasPorRegistrar from './App/Screens/Paciente/Dashboard/RegistroDosis/GraciasPorRegistrar'
 
 // CUIDADOR
 
@@ -64,7 +65,7 @@ function DiseñoInternoPaciente() {
       {/* Dashoard Paciente */}
       <StackPaciente.Screen name='BienvenidaPaciente' component={BienvenidaPaciente} options={{ headerShown: false }} />
       <StackPaciente.Screen name='DashboardPaciente' component={DashboardPaciente} options={{ headerShown: false }} />
-      <StackPaciente.Screen name='RecordatorioDosis' component={RecordatorioDosis} options={{ headerShown: true }} />
+      <StackPaciente.Screen name='RecordatorioDosis' component={RecordatorioDosis} options={{ headerShown: false }} />
       <StackPaciente.Screen name='VideoTutoriales' component={VideoTutoriales} options={{ headerShown: true }} />
 
       {/* Registro dosis paciente */}
@@ -74,6 +75,7 @@ function DiseñoInternoPaciente() {
       <StackPaciente.Screen name='FechaDosisDiaria' component={FechaDosisDiaria} options={{ headerShown: false }} />
       <StackPaciente.Screen name='ElegirCuidador' component={ElegirCuidador} options={{ headerShown: false }} />
       <StackPaciente.Screen name='RegistrarDosis' component={RegistrarDosis} options={{ headerShown: false }} />
+      <StackPaciente.Screen name={'GraciasPorRegistrar'} component={GraciasPorRegistrar} options={{ headerShown: false }} />
 
     </StackPaciente.Navigator>
   );
@@ -111,8 +113,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
 
   const [loaded] = useFonts({
-    'noticia-text': require('../INHALIFE/assets/fonts/NoticiaText-Regular.ttf'),
-    'Play-fair-Display': require('../INHALIFE/assets/fonts/PlayfairDisplay-VariableFont_wght.ttf'),
+    'noticia-text': require('../INHALIFE/assets/fonts/NoticiaText-BoldItalic.ttf'),
+    'Play-fair-Display': require('../INHALIFE/assets/fonts/PlayfairDisplaySC-Bold.ttf'),
+    'Vogue': require('../INHALIFE/assets/fonts/Vogue.ttf')
   });
 
   useEffect(() => {
@@ -170,7 +173,7 @@ export default function App() {
         {/* Dashoard Paciente */}
         <Stack.Screen name='BienvenidaPaciente' component={BienvenidaPaciente} options={{ headerShown: false }} />
         <Stack.Screen name='DashboardPaciente' component={DashboardPaciente} options={{ headerShown: false }} />
-        <Stack.Screen name='RecordatorioDosis' component={RecordatorioDosis} options={{ headerShown: true }} />
+        <Stack.Screen name='RecordatorioDosis' component={RecordatorioDosis} options={{ headerShown: false }} />
         <Stack.Screen name='VideoTutoriales' component={VideoTutoriales} options={{ headerShown: true }} />
 
         {/* Registro dosis paciente */}
@@ -180,6 +183,7 @@ export default function App() {
         <Stack.Screen name='FechaDosisDiaria' component={FechaDosisDiaria} options={{ headerShown: false }} />
         <Stack.Screen name='ElegirCuidador' component={ElegirCuidador} options={{ headerShown: false }} />
         <Stack.Screen name='RegistrarDosis' component={RegistrarDosis} options={{ headerShown: false }} />
+        <Stack.Screen name={'GraciasPorRegistrar'} component={GraciasPorRegistrar} options={{ headerShown: false }} />
 
 
         <Stack.Screen name='LoginCuidador' component={LoginCuidador} options={{ headerShown: false }} />

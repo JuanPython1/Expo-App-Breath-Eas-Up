@@ -28,6 +28,8 @@ const LoginCuidador = ({ navigation }) => {
 
       // Verifica el rol del usuario
       if (userDoc.exists() && userDoc.data().rol === 'Cuidador') {
+        setEmail('');
+        setContraseña('');
         goToDashBoardCuidador();
       }
       else {
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
     height: hp('10%'),
     width: wp('70%'),
     marginBottom: hp('3%'),
-    backgroundColor: '#F94242',
+    backgroundColor: '#AADBFF',
     alignSelf: 'center',
     borderRadius: 30,
     alignItems: 'center',
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
 
   Titulo: {
     fontFamily: 'noticia-text',
-    fontSize: hp('3%'),
+    fontSize: wp('6.25%'),
     color: '#F5F5F5',
     textShadowColor: 'black',
     textShadowOffset: { width: 1, height: 1 },
@@ -184,7 +186,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Play-fair-Display',
     fontSize: hp('3%'),
     top: hp('9%'),
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   ContenedorNiños: {
     marginVertical: hp('10%'),
@@ -212,7 +214,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: hp('1%'),
     textAlign: 'center',
-    backgroundColor: '#F94242',
+    backgroundColor: '#AADBFF',
     fontFamily: 'Play-fair-Display',
     margin: hp('1%'),
   },
@@ -233,7 +235,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 25,
     padding: hp('1%'),
-    backgroundColor: '#F94242',
+    backgroundColor: '#AADBFF',
     textAlign: 'center',
     justifyContent: 'center'
   },
@@ -254,7 +256,7 @@ const styles = StyleSheet.create({
     height: hp('6%'),
     borderWidth: 1,
     padding: hp('1%'),
-    backgroundColor: '#F94242',
+    backgroundColor: '#AADBFF',
     margin: hp('1%'),
     justifyContent: 'center'
   },

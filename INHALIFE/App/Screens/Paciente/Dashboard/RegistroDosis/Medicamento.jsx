@@ -36,7 +36,7 @@ const Medicamento = ({ navigation }) => {
         </Pressable>
       </View>
       <View style={styles.body}>
-        <Text style={styles.TituloMedicamento}>ELIJE TU MEDICAMENTO</Text>
+        <Text style={styles.TituloMedicamento}>ELIGE TU MEDICAMENTO</Text>
         <Image style={styles.imgInhalador} source={require('../../../../../assets/Image/imgMedicamento-removebg-preview.png')} />
         <View style={styles.checkboxContainer}>
           <View style={styles.checkboxItem}>
@@ -75,7 +75,7 @@ const Medicamento = ({ navigation }) => {
           <View style={styles.checkboxItem}>
             <CheckBox
               checked={medicamento === 'OTRO'}
-                borderWidth={7}
+              borderWidth={7}
               color="#ff6700"
               onPress={() => handleMedicamentoChange('OTRO')}
               style={styles.checkbox}
@@ -119,9 +119,9 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
   },
-  imgInhalador:{
+  imgInhalador: {
     alignSelf: 'center'
-  },  
+  },
   checkboxContainer: {
     marginTop: hp('4%'),
     marginHorizontal: wp('10%'),
@@ -160,15 +160,15 @@ const styles = StyleSheet.create({
   input: {
     height: wp('10%'),
     borderColor: '#ff6700',
-    fontSize: wp('4%'),
+    fontSize: wp('3.6%'),
     fontWeight: 'bold',
-    borderWidth: 1,
+    borderWidth: 3,
     paddingHorizontal: wp('2%'),
     borderRadius: 10,
     backgroundColor: 'white',
     marginTop: hp('1%'),
   },
-  BotonEntrar:{
+  BotonEntrar: {
     marginTop: hp('4%'),
     marginHorizontal: wp('10%'),
     height: hp('6%'),

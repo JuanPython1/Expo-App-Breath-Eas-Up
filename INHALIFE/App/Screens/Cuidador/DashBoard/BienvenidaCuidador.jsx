@@ -1,11 +1,12 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, StyleSheet, Image, Animated } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { doc, getDoc } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react'
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../Firebase/config'
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../Firebase/config';
 
 const BienvenidaCuidador = ({ navigation }) => {
   const [userData, setUserData] = useState('');
+  const fadeAnim = useRef(new Animated.Value(0)).current; // Valor inicial de opacidad 0
 
   useEffect(() => {
     const getUserData = async () => {
@@ -25,7 +26,15 @@ const BienvenidaCuidador = ({ navigation }) => {
   }, [FIRESTORE_DB]);
 
   useEffect(() => {
-    const delayTime = 4000; // Tiempo de retraso en milisegundos (2 segundos en este caso)
+    Animated.timing(fadeAnim, {
+      toValue: 1, // Valor final de opacidad 1
+      duration: 3000, // Duración de la animación en milisegundos
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
+  useEffect(() => {
+    const delayTime = 4000; // Tiempo de retraso en milisegundos
 
     const timeout = setTimeout(() => {
       // Navega a la siguiente pantalla después del tiempo de retraso
@@ -39,21 +48,23 @@ const BienvenidaCuidador = ({ navigation }) => {
   return (
     <View style={styles.contenedor}>
       <View style={styles.ContenedorBienvenida}>
-        <Text style={styles.tituloNombre}>{`Bienvenid@\n ${userData.nombreUsuario}`}</Text>
+        <Animated.Text style={[styles.tituloNombre, { opacity: fadeAnim }]}>
+          {`Bienvenid@\n ${userData.nombreUsuario}`}
+        </Animated.Text>
         <Image source={require('../../../../assets/Image/dino.png')} style={styles.imagenDino} />
       </View>
     </View>
   );
-}
-export default BienvenidaCuidador
+};
+
+export default BienvenidaCuidador;
 
 const styles = StyleSheet.create({
   contenedor: {
     width: wp('100%'),
     height: hp('100%'),
-    backgroundColor: '#F94242'
+    backgroundColor: '#AADBFF'
   },
-
   ContenedorBienvenida: {
     height: hp('70%'),
     marginVertical: hp('13%'),
@@ -71,5 +82,4 @@ const styles = StyleSheet.create({
     top: hp('6%'),
     marginVertical: hp('3%')
   }
-
-})
+});

@@ -1,52 +1,73 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable, Image} from 'react-native';
-import { CheckBox } from 'react-native-elements';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView, Pressable, Image } from 'react-native';
+import CheckBox from 'react-native-check-box';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { FIRESTORE_DB } from '../../../../../Firebase/config';
+import { collection, getDocs } from 'firebase/firestore';
 
 const ElegirCuidador = ({ navigation, route }) => {
   const { medicamento, TotalDosis, Dosis80Porciento, horaDosisDiaria } = route.params;
-  const [CuidadorSeleccionado, setCuidadorSeleccionado] = useState(null);
+  const [cuidadores, setCuidadores] = useState([]);
+  const [cuidadorSeleccionado, setCuidadorSeleccionado] = useState('');
 
-  const cuidadores = ['Cuidador 1', 'Cuidador 2', 'Cuidador 3', 'Cuidador 4',  'Cuidador 5',  'Cuidador 6',  'Cuidador 7',  'Cuidador 8',  'Cuidador 9',  'Cuidador 10']; // Añade más según sea necesario
+  useEffect(() => {
+    const obtenerCuidadores = async () => {
+      try {
+        const cuidadoresSnapshot = await getDocs(collection(FIRESTORE_DB, 'UsuariosCuidadores'));
+        const cuidadoresList = cuidadoresSnapshot.docs.map(doc => doc.data().nombreUsuario);
+        setCuidadores(cuidadoresList);
+      } catch (error) {
+        console.error('Error al obtener los cuidadores: ', error);
+      }
+    };
+
+    obtenerCuidadores();
+  }, []);
 
   const handleInputSiguiente = () => {
-    navigation.navigate( 'RegistrarDosis',{ 
-      medicamento, 
-      TotalDosis, 
-      Dosis80Porciento, 
+    console.log(cuidadorSeleccionado)
+    navigation.navigate('RegistrarDosis', {
+      medicamento,
+      TotalDosis,
+      Dosis80Porciento,
       horaDosisDiaria,
-      CuidadorSeleccionado
-    })
+      cuidadorSeleccionado
+    });
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <Pressable style={styles.contenedorAtras} onPress={() => navigation.goBack()}>
+        <Pressable style={styles.contenedorAtras} onPress={() => navigation.goBack()} accessibilityLabel="Volver">
           <Image style={styles.iconAtras} source={require('../../../../../assets/Image/Flechaatras.png')} />
         </Pressable>
       </View>
 
-      <Text style={styles.Titulo}>ELIGE TU CUIDADOR =)</Text>
+      <Text style={styles.titulo}>ELIGE TU CUIDADOR</Text>
       <ScrollView style={styles.body}>
         {cuidadores.map((cuidador, index) => (
           <View key={index} style={styles.checkboxContainer}>
             <CheckBox
-              title={cuidador}
-              checked={CuidadorSeleccionado === cuidador}
-              onPress={() => setCuidadorSeleccionado(cuidador)}
-              containerStyle={styles.checkbox}
+              style={styles.checkbox}
+              onClick={() => setCuidadorSeleccionado(cuidador)}
+              isChecked={cuidadorSeleccionado === cuidador}
+              leftText={cuidador}
+              leftTextStyle={styles.checkboxText}
+              checkBoxColor="#3498DB"
+              accessibilityLabel={`Seleccionar ${cuidador}`}
             />
+            <Text style={styles.checkboxText}>{cuidador}</Text>
           </View>
         ))}
       </ScrollView>
       <Pressable
-          style={[styles.BotonEntrar, { opacity: CuidadorSeleccionado ? 1 : 0.5 }]}
-          onPress={handleInputSiguiente}
-          disabled={!CuidadorSeleccionado}
-        >
-          <Text style={styles.TextoEntrar}>SIGUIENTE</Text>
-        </Pressable>
+        style={[styles.BotonEntrar, { opacity: cuidadorSeleccionado ? 1 : 0.5 }]}
+        onPress={handleInputSiguiente}
+        disabled={!cuidadorSeleccionado}
+        accessibilityLabel="Siguiente"
+      >
+        <Text style={styles.TextoEntrar}>Siguiente</Text>
+      </Pressable>
     </View>
   );
 };
@@ -80,7 +101,7 @@ const styles = StyleSheet.create({
     height: hp('90%'),
     paddingHorizontal: wp('5%'),
   },
-  Titulo: {
+  titulo: {
     color: 'black',
     fontSize: wp('6%'),
     textAlign: 'center',
@@ -90,26 +111,34 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: hp('2%'),
+    height: hp('10%'),
     borderBottomWidth: 1,
     borderBottomColor: '#CCCCCC',
   },
   checkbox: {
-    width: '100%',
-    backgroundColor: 'transparent',
-    borderWidth: 0,
+    marginRight: wp('3%'),
+  },
+  checkboxText: {
+    fontSize: wp('4%'),
+    color: 'black',
   },
   BotonEntrar: {
-    backgroundColor: '#3498DB',
-    paddingVertical: hp('2%'),
-    paddingHorizontal: wp('10%'),
+    marginTop: hp('4%'),
+    marginHorizontal: wp('10%'),
+    height: hp('6%'),
+    bottom: hp('4%'),
     borderRadius: 5,
-    alignItems: 'center',
-    margin: hp('2%'),
+    borderWidth: 1,
+    padding: hp('1%'),
+    backgroundColor: '#00AAE4',
+    margin: hp('1%'),
+    justifyContent: 'center'
   },
   TextoEntrar: {
-    color: '#FFFFFF',
-    fontSize: wp('5%'),
+    textAlign: 'center',
+    fontFamily: 'Play-fair-Display',
     fontWeight: 'bold',
+    color: 'white',
+    fontSize: hp('2%'),
   },
 });

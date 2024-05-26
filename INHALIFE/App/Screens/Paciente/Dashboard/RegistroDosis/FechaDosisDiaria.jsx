@@ -32,11 +32,11 @@ const FechaDosisDiaria = ({ navigation, route }) => {
   };
 
   const handleInputSiguiente = () => {
-    navigation.navigate('ElegirCuidador', { 
-      medicamento, 
-      TotalDosis, 
-      Dosis80Porciento, 
-      horaDosisDiaria: horaDosisDiaria.toISOString() // Convertir a string antes de pasar
+    navigation.navigate('ElegirCuidador', {
+      medicamento,
+      TotalDosis,
+      Dosis80Porciento,
+      horaDosisDiaria: horaDosisDiaria.toLocaleTimeString() // Convertir a string antes de pasar
     });
   };
 
@@ -63,12 +63,10 @@ const FechaDosisDiaria = ({ navigation, route }) => {
 
         {showTimePicker && (
           <DateTimePicker
-            testID="dateTimePicker"
+            mode='time'
             value={horaDosisDiaria}
-            mode="time"
-            is24Hour={true}
-            display="clock"
             onChange={handleInputChange}
+            minimumDate={horaDosisDiaria.toDateString() === new Date().toDateString() ? new Date() : undefined}
           />
         )}
 

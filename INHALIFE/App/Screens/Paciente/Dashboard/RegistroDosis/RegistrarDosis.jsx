@@ -1,24 +1,51 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { getDoc, doc, addDoc, collection } from 'firebase/firestore';
+import { View, Text, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { FIRESTORE_DB, FIREBASE_AUTH } from '../../../../../Firebase/config'
 
 const RegistrarDosis = ({ navigation, route }) => {
-  const { medicamento, TotalDosis, Dosis80Porciento, horaDosisDiaria, CuidadorSeleccionado } = route.params;
+  const { medicamento, TotalDosis, Dosis80Porciento, horaDosisDiaria, cuidadorSeleccionado } = route.params;
+  const [userData, setUserData] = useState('');
 
-  // Función para convertir la hora en formato AM/PM
-  const convertirAMPM = (hora24) => {
-    const [horas, minutos] = hora24.split(':');
-    const ampm = horas >= 12 ? 'PM' : 'AM';
-    const hora12 = horas % 12 || 12;
-    return `${hora12}:${minutos} ${ampm}`;
-  };
 
-  const goToDashBoard = () => {
-    navigation.navigate('DashboardPaciente')
+
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        if (FIREBASE_AUTH.currentUser) {
+          const userDoc = await getDoc(doc(FIRESTORE_DB, 'UsuariosPacientes', FIREBASE_AUTH.currentUser.uid));
+          if (userDoc.exists()) {
+            setUserData(userDoc.data());
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    getUserData();
+  }, [FIRESTORE_DB]);
+
+
+  const goToDashBoard = async () => {
+    try {
+      const recordatorioDocRef = collection(FIRESTORE_DB, 'RecordatoriosDosis');
+      await addDoc(recordatorioDocRef, {
+        medicamento,
+        TotalDosis,
+        Dosis80Porciento,
+        horaDosisDiaria,
+        cuidadorSeleccionado,
+        nombreUsuario: userData.nombreUsuario
+      });
+      navigation.navigate('GraciasPorRegistrar');
+    } catch (error) {
+      console.error('Error adding document:', error);
+    }
   }
-
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <Pressable style={styles.goBackButton} onPress={() => navigation.goBack()}>
           <Image style={styles.goBackIcon} source={require('../../../../../assets/Image/Flechaatras.png')} />
@@ -39,21 +66,23 @@ const RegistrarDosis = ({ navigation, route }) => {
 
         <Text style={styles.label}>Hora de dosis diaria:</Text>
         {/* Convertir la hora a formato AM/PM */}
-        <Text style={styles.text}>{convertirAMPM(horaDosisDiaria)}</Text>
+        <Text style={styles.text}>{horaDosisDiaria}</Text>
+
+        <Text style={styles.label}>Usuario:</Text>
+        <Text style={styles.text}>{userData.nombreUsuario}</Text>
 
         <Text style={styles.label}>Cuidador seleccionado:</Text>
-        <Text style={styles.text}>{CuidadorSeleccionado}</Text>
-      
+        <Text style={styles.text}>{cuidadorSeleccionado}</Text>
+
         <Pressable
           style={styles.BotonEntrar}
           onPress={goToDashBoard}
         >
           <Text style={styles.TextoEntrar}>REGISTRAR</Text>
         </Pressable>
-      
-      </View>
 
-    </View>
+      </View>
+    </ScrollView>
   );
 };
 
@@ -61,7 +90,7 @@ export default RegistrarDosis;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#F5F5F5',
   },
   header: {
@@ -82,7 +111,6 @@ const styles = StyleSheet.create({
     height: hp('2.5%'),
   },
   body: {
-    flex: 1,
     padding: wp('5%'),
   },
   title: {
@@ -108,7 +136,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ddd',
   },
-  BotonEntrar:{
+  BotonEntrar: {
     marginTop: hp('4%'),
     marginHorizontal: wp('10%'),
     height: hp('6%'),
@@ -119,7 +147,6 @@ const styles = StyleSheet.create({
     margin: hp('1%'),
     justifyContent: 'center'
   },
-
   TextoEntrar: {
     textAlign: 'center',
     fontFamily: 'Play-fair-Display',

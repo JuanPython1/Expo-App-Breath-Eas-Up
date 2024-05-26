@@ -34,6 +34,8 @@ const LoginPaciente = ({ navigation }) => {
       // Verifica el rol del usuario
       if (userDoc.exists() && userDoc.data().rol === 'Paciente') {
         gotoDashboardPaciente();
+        setEmail('');
+        setContraseña('');
       }
       else {
         await FIREBASE_AUTH.signOut();
