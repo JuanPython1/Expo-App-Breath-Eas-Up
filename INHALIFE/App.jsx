@@ -33,6 +33,9 @@ import ElegirCuidador from './App/Screens/Paciente/Dashboard/RegistroDosis/Elegi
 import RegistrarDosis from './App/Screens/Paciente/Dashboard/RegistroDosis/RegistrarDosis'
 import GraciasPorRegistrar from './App/Screens/Paciente/Dashboard/RegistroDosis/GraciasPorRegistrar'
 
+// Recordatorios dosis pacientes
+import InforRecordatorioDosisPaciente from './App/Screens/Paciente/Dashboard/RecordatorioDosis/InfoRecordatorioDosisPaciente'
+
 // CUIDADOR
 
 // Login Cuidador
@@ -75,7 +78,10 @@ function DiseñoInternoPaciente() {
       <StackPaciente.Screen name='FechaDosisDiaria' component={FechaDosisDiaria} options={{ headerShown: false }} />
       <StackPaciente.Screen name='ElegirCuidador' component={ElegirCuidador} options={{ headerShown: false }} />
       <StackPaciente.Screen name='RegistrarDosis' component={RegistrarDosis} options={{ headerShown: false }} />
-      <StackPaciente.Screen name={'GraciasPorRegistrar'} component={GraciasPorRegistrar} options={{ headerShown: false }} />
+      <StackPaciente.Screen name='GraciasPorRegistrar' component={GraciasPorRegistrar} options={{ headerShown: false }} />
+
+      {/* info de Recordatorios de las dosis del paciente */}
+      <StackPaciente.Screen name='InfoRecordatorioDosisPaciente' component={InforRecordatorioDosisPaciente} options={{ headerShown: false }} />
 
     </StackPaciente.Navigator>
   );
@@ -185,6 +191,10 @@ export default function App() {
         <Stack.Screen name='RegistrarDosis' component={RegistrarDosis} options={{ headerShown: false }} />
         <Stack.Screen name={'GraciasPorRegistrar'} component={GraciasPorRegistrar} options={{ headerShown: false }} />
 
+        {/* info recordatorio dosis */}
+        <Stack.Screen name='InfoRecordatorioDosisPaciente' component={InforRecordatorioDosisPaciente} options={{ headerShown: false }} />
+
+        {/* CUIDADOR */}
 
         <Stack.Screen name='LoginCuidador' component={LoginCuidador} options={{ headerShown: false }} />
         <Stack.Screen name='OlvidoContraseñaCuidador' component={OlvidoContraseñaCuidador} options={{ headerShown: false }} />

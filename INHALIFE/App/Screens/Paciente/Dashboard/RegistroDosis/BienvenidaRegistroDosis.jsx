@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Image } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import React, { useEffect } from 'react'
 
+
 const BienvenidaRegistroDosis = ({ navigation }) => {
   useEffect(() => {
     const delayTime = 5000; // Tiempo de retraso en milisegundos (2 segundos en este caso)

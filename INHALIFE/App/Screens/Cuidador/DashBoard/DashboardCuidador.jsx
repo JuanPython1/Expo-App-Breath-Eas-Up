@@ -57,6 +57,7 @@ const DashboardCuidador = ({ navigation }) => {
         setModalVisible={setModalVisible}
         cerrarSession={handleSignOut}
         color={'#52B4FA'}
+        colorFondo={'#AADBFF'}
       />
 
     </SafeAreaView>

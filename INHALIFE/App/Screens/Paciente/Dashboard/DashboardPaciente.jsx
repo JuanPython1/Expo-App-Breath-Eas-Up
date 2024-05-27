@@ -1,32 +1,34 @@
-import { View, Text, SafeAreaView, StyleSheet, 
-  Pressable, Image, Modal, TouchableHighlight } from 'react-native'
+import {
+  View, Text, SafeAreaView, StyleSheet,
+  Pressable, Image, Modal, TouchableHighlight
+} from 'react-native'
 import React, { useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import  Menu  from 'react-native-vector-icons/MaterialCommunityIcons';
+import Menu from 'react-native-vector-icons/MaterialCommunityIcons';
 import BotonDashBoardPaciente from '../../../../Components/BotonDashBoardPaciente';
 import ModalCerrarCuenta from '../../../../Components/ModalCerrarCuenta';
-import {FIREBASE_AUTH} from '../../../../Firebase/config'
+import { FIREBASE_AUTH } from '../../../../Firebase/config'
 
-const DashboardPaciente = ({navigation}) => {
+const DashboardPaciente = ({ navigation }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
   const botonRegistrarDosis = {
     titulo: 'REGISTRO DE DOSIS',
     imagen: require('../../../../assets/Image/inhalador.png'),
-    funcion: () => {navigation.navigate('BienvenidaRegistroDosis')}
+    funcion: () => { navigation.navigate('BienvenidaRegistroDosis') }
   }
 
   const botonRecordatorioDosis = {
     titulo: 'RECORDATORIO DOSIS',
     imagen: require('../../../../assets/Image/calendario.png'),
-    funcion: () => {navigation.navigate('RecordatorioDosis')}
+    funcion: () => { navigation.navigate('RecordatorioDosis') }
   }
 
   const botonVideosTutoriales = {
     titulo: 'VIDEO TUTORIAL',
     imagen: require('../../../../assets/Image/videotutorial.png'),
-    funcion: () => {navigation.navigate('VideoTutoriales')}
+    funcion: () => { navigation.navigate('VideoTutoriales') }
   }
 
   const handleSignOut = async () => {
@@ -39,14 +41,14 @@ const DashboardPaciente = ({navigation}) => {
   };
 
   return (
-      <SafeAreaView style={styles.container}> 
+    <SafeAreaView style={styles.container}>
 
       {/* ------------------------HEADER---------------------- */}
       <View style={styles.header}>
 
-      <Pressable style={styles.menu} onPress={() => { setModalVisible(true) }}>
-        <Menu name={'menu'} size={60} color={'black'}/>
-      </Pressable>
+        <Pressable style={styles.menu} onPress={() => { setModalVisible(true) }}>
+          <Menu name={'menu'} size={60} color={'black'} />
+        </Pressable>
 
       </View>
 
@@ -54,37 +56,38 @@ const DashboardPaciente = ({navigation}) => {
 
       <View style={styles.body}>
 
-      <View style={styles.ContenedorTitulo}>
-        <Text style={styles.Titulo}>INHALIFE</Text>
-      </View>
+        <View style={styles.ContenedorTitulo}>
+          <Text style={styles.Titulo}>INHALIFE</Text>
+        </View>
 
 
-      <View style={styles.fila1}>
+        <View style={styles.fila1}>
           <View style={styles.RegistroDosis}>
-          <BotonDashBoardPaciente props={botonRegistrarDosis}/>
+            <BotonDashBoardPaciente props={botonRegistrarDosis} />
           </View>
 
           <View style={styles.RecordatorioDosis}>
-          <BotonDashBoardPaciente props={botonRecordatorioDosis}/>
+            <BotonDashBoardPaciente props={botonRecordatorioDosis} />
           </View>
-      </View>
+        </View>
 
-      <View style={styles.fila2}>
-      <BotonDashBoardPaciente props={botonVideosTutoriales}/>
+        <View style={styles.fila2}>
+          <BotonDashBoardPaciente props={botonVideosTutoriales} />
 
-      </View>
+        </View>
 
       </View>
 
       {/* ------------------------MODAL---------------------- */}
-      <ModalCerrarCuenta 
-      modalVisible={modalVisible} 
-      setModalVisible={setModalVisible}
-      cerrarSession={handleSignOut}
-      color={'#2196F3'}
+      <ModalCerrarCuenta
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        cerrarSession={handleSignOut}
+        color={'#94E4FF'}
+        colorFondo={'#3498DB'}
       />
 
-      </SafeAreaView>
+    </SafeAreaView>
   )
 }
 
@@ -97,7 +100,7 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     backgroundColor: '#3498DB',
   },
-  header:{
+  header: {
     flexDirection: 'row',
     height: hp('10%'),
     alignItems: 'center',
@@ -111,7 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  menu:{
+  menu: {
     justifyContent: 'center',
   },
 
@@ -143,14 +146,14 @@ const styles = StyleSheet.create({
     textShadowRadius: 1,
     transform: [{ scaleY: 1.2 }],
   },
-  fila1:{
+  fila1: {
     flexDirection: 'row',
     top: hp('6%')
   },
-  RegistroDosis:{
+  RegistroDosis: {
     marginHorizontal: wp('4%')
   },
-  fila2:{
+  fila2: {
     top: hp('8%'),
     alignItems: 'center'
   },
@@ -185,7 +188,7 @@ const styles = StyleSheet.create({
     elevation: 50,
     marginBottom: hp('2%'),
   },
-  BotonAtras:{
+  BotonAtras: {
     backgroundColor: "#F194FF",
     borderRadius: 20,
     width: wp('15%'),

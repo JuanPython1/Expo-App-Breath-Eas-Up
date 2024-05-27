@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Pressable, Image } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import React from 'react'
+import RecordatorioItem from '../../../../../Components/RecordatorioItem'
 
 const RecordatoriosDosis = ({ navigation }) => {
   return (
@@ -12,6 +13,13 @@ const RecordatoriosDosis = ({ navigation }) => {
       </View>
 
       <View style={styles.body}>
+
+        <View style={styles.fondoTitulo}>
+          <Text style={styles.TituloRecordatorios}>TUS RECORDATORIOS</Text>
+        </View>
+
+        <RecordatorioItem funcionNav={() => { navigation.navigate('InfoRecordatorioDosisPaciente') }} />
+
 
       </View>
 
@@ -41,7 +49,27 @@ const styles = StyleSheet.create({
     height: hp('2.5%'),
   },
   body: {
-    height: hp('90')
+    height: hp('90'),
+    backgroundColor: '#3498DB',
+  },
+  fondoTitulo: {
+    backgroundColor: '#94E4FF',
+    height: hp('9%'),
+    marginBottom: hp('5%'),
+    justifyContent: 'center',
+
+
+  },
+  TituloRecordatorios: {
+    fontFamily: 'noticia-text',
+    fontSize: hp('4%'),
+    color: 'black',
+    textShadowColor: 'black',
+    textShadowRadius: 1,
+    transform: [{ scaleX: 0.8 }, { scaleY: 1.2 }],
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 1,
+    textAlign: 'center'
   }
 
 
