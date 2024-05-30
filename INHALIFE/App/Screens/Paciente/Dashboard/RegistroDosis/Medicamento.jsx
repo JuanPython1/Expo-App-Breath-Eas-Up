@@ -89,6 +89,7 @@ const Medicamento = ({ navigation }) => {
               placeholder="Escribe el nombre del medicamento"
               value={otroMedicamento}
               onChangeText={handleOtroMedicamentoChange}
+              maxLength={25}
             />
           )}
         </View>

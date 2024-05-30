@@ -35,6 +35,9 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
         cargarDatosIniciales();
     }, [recordatorio.id]);
 
+    // Define el límite máximo de dosis permitido
+    const DOSE_LIMIT = recordatorio.TotalDosis;
+
     const handleAgregarDosis = async () => {
         if (inputDosis !== '') {
             const newDosis = parseInt(inputDosis); // Nueva dosis ingresada
@@ -42,26 +45,33 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
 
             // Validar que la nueva dosis no sea negativa
             if (newDosis >= 0) {
-                const nuevasFilas = [...filas];
-                nuevasFilas[filaSeleccionada].dosis = newDosis;
-                setFilas(nuevasFilas);
-
-                // Actualizar la dosis total
+                // Calcular la nueva dosis total
                 const diferenciaDosis = newDosis - oldDosis;
                 const nuevaDosisTotal = totalDosis + diferenciaDosis;
-                setTotalDosis(nuevaDosisTotal);
 
-                // Actualizar la DosisInicial y el registro de dosis en la base de datos
-                const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
-                await updateDoc(RecordatorioRef, {
-                    DosisInicial: nuevaDosisTotal,
-                    registroDosis: nuevasFilas
-                });
+                // Verificar si la nueva dosis total excede el límite
+                if (nuevaDosisTotal <= DOSE_LIMIT) {
+                    const nuevasFilas = [...filas];
+                    nuevasFilas[filaSeleccionada].dosis = newDosis;
+                    setFilas(nuevasFilas);
 
-                setModalVisible(false);
-                setInputDosis('');
+                    // Actualizar la dosis total
+                    setTotalDosis(nuevaDosisTotal);
 
-                actualizarDosisInicial(nuevaDosisTotal);
+                    // Actualizar la DosisInicial y el registro de dosis en la base de datos
+                    const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
+                    await updateDoc(RecordatorioRef, {
+                        DosisInicial: nuevaDosisTotal,
+                        registroDosis: nuevasFilas
+                    });
+
+                    setModalVisible(false);
+                    setInputDosis('');
+
+                    actualizarDosisInicial(nuevaDosisTotal);
+                } else {
+                    Alert.alert('Error', `La suma total de dosis no puede exceder ${DOSE_LIMIT}`);
+                }
             } else {
                 Alert.alert('Error', 'La dosis no puede ser negativa');
             }
@@ -129,7 +139,7 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
 
 
             <View style={styles.botonContainer}>
-                <Button title="Agregar Día" onPress={handleAgregarFila} />
+                <Button title="Siguiente Día" onPress={handleAgregarFila} />
             </View>
 
             <Modal

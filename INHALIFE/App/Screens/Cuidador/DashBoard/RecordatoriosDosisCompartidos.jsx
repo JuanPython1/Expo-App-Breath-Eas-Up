@@ -4,9 +4,11 @@ import { collection, deleteDoc, doc, onSnapshot, query, where, getDoc } from 'fi
 import React, { useState, useEffect, useRef } from 'react';
 import RecordatorioItemCompartido from '../../../../Components/RecordatorioItemCompartido'
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../Firebase/config';
+import * as Notifications from 'expo-notifications'
 
 const RecordatoriosDosisCompartidos = ({ navigation }) => {
   const [recordatoriosCompartidos, setRecordatoriosCompartidos] = useState([]);
+  const [notificacionEnviada, setNotificacionEnviada] = useState(false);
 
   useEffect(() => {
     const user = FIREBASE_AUTH.currentUser;
@@ -21,6 +23,25 @@ const RecordatoriosDosisCompartidos = ({ navigation }) => {
 
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    recordatoriosCompartidos.forEach((recordatorio) => {
+      if (recordatorio.DosisInicial >= recordatorio.Dosis80Porciento && recordatorio.DosisInicial < recordatorio.TotalDosis && !notificacionEnviada) {
+        sendNotification(recordatorio);
+        setNotificacionEnviada(true);
+      }
+    });
+  }, [recordatoriosCompartidos]);
+
+  const sendNotification = async (recordatorio) => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: '¡¡¡¡El Paciente debe recargar la dosis!!!!',
+        body: `El paciente ${recordatorio.nombreUsuario}, ya paso al 80% de su cantidad de dosis. ¡Debe recargarlo lo antes posible!`,
+      },
+      trigger: null, // enviar inmediatamente
+    });
+  };
 
 
   return (
@@ -45,7 +66,7 @@ const RecordatoriosDosisCompartidos = ({ navigation }) => {
               <RecordatorioItemCompartido
                 key={recordatoriosCompartidos.id}
                 recordatorioCompartido={recordatoriosCompartidos}
-                funcionNav={() => { navigation.navigate('InfoRecordatorioDosisPaciente', { recordatorio: recordatoriosCompartidos }) }} />
+                funcionNav={() => { navigation.navigate('InfoRecordatorioDosisCompartida', { recordatorio: recordatoriosCompartidos }) }} />
             ))}
           </View>
         </ScrollView>

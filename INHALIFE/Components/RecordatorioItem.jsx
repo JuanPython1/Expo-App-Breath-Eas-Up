@@ -125,6 +125,7 @@ const RecordatorioItem = ({ colorFondo, recordatorio, onEliminarRecordatorio, fu
                     <Animated.Text
                         style={[styles.nombreMedicamento, { transform: [{ translateX }] }]}
                         onLayout={handleTextLayout}
+                        numberOfLines={1}
                     >
                         {recordatorio.medicamento}
                     </Animated.Text>

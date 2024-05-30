@@ -49,6 +49,9 @@ import DashboardCuidador from './App/Screens/Cuidador/DashBoard/DashboardCuidado
 import RecordatorioDosisCompartidos from './App/Screens/Cuidador/DashBoard/RecordatoriosDosisCompartidos'
 import BienvenidaCuidador from './App/Screens/Cuidador/DashBoard/BienvenidaCuidador'
 
+//InfoCompartido
+import InfoRecordatorioDosisCompartida from './App/Screens/Cuidador/DashBoard/InfoRecordatorioDosisCompartida';
+
 
 
 
@@ -103,6 +106,9 @@ function DiseñoInternoCuidador() {
       <StackCuidador.Screen name='DashboardCuidador' component={DashboardCuidador} options={{ headerShown: false }} />
       <StackCuidador.Screen name='RecordatorioDosisCompartidos' component={RecordatorioDosisCompartidos} options={{ headerShown: false }} />
       <StackCuidador.Screen name='BienvenidaCuidador' component={BienvenidaCuidador} options={{ headerShown: false }} />
+
+      {/* Dashboard Cuidador */}
+      <StackCuidador.Screen name='InfoRecordatorioDosisCompartida' component={InfoRecordatorioDosisCompartida} options={{ headerShown: false }} />
     </StackCuidador.Navigator>
   );
 }
@@ -130,37 +136,46 @@ export default function App() {
     })
   })
 
-  const registerForPushNotificationAsync = async () => {
-    let token;
-    if (Device.isDevice) {
-      const { status: existingStatus } = await Notificaciones.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
-        const { status } = await Notificaciones.requestPermissionsAsync();
-        finalStatus = status
-      }
-      if (finalStatus !== 'granted') {
-        alert('la obtencion del token del push Notification fue fallida')
-        return;
-      }
-      token = (await Notificaciones.getExpoPushTokenAsync()).data;
-      console.log(token);
-    } else { return; }
-
-    if (Platform.OS === 'android') {
-      Notificaciones.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notificaciones.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
-      });
-    }
-    return token;
-  }
-
   useEffect(() => {
-    registerForPushNotificationAsync().then(token => setExpoPushToken(token))
-  }, [])
+    const registerForPushNotificationAsync = async () => {
+      let token = null;
+      if (user && (userRole === 'paciente' || userRole === 'cuidador')) {
+        if (Device.isDevice) {
+          const { status: existingStatus } = await Notificaciones.getPermissionsAsync();
+          let finalStatus = existingStatus;
+          if (existingStatus !== 'granted') {
+            const { status } = await Notificaciones.requestPermissionsAsync();
+            finalStatus = status
+          }
+          if (finalStatus !== 'granted') {
+            alert('La obtención del token del push Notification fue fallida')
+          } else {
+            token = (await Notificaciones.getExpoPushTokenAsync()).data;
+            console.log(token);
+          }
+        } else { return; }
+
+        if (Platform.OS === 'android') {
+          Notificaciones.setNotificationChannelAsync('default', {
+            name: 'default',
+            importance: Notificaciones.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: '#FF231F7C',
+          });
+        }
+      }
+      console.log("Token:", token);
+      return token;
+    }
+
+    registerForPushNotificationAsync().then(token => {
+      if (token) {
+        setExpoPushToken(token)
+      }
+    });
+  }, [user, userRole]);
+
+
 
   const [loaded] = useFonts({
     'noticia-text': require('../INHALIFE/assets/fonts/NoticiaText-BoldItalic.ttf'),
@@ -251,6 +266,9 @@ export default function App() {
         <Stack.Screen name='DashboardCuidador' component={DashboardCuidador} options={{ headerShown: false }} />
         <Stack.Screen name='RecordatorioDosisCompartidos' component={RecordatorioDosisCompartidos} options={{ headerShown: false }} />
         <Stack.Screen name='BienvenidaCuidador' component={BienvenidaCuidador} options={{ headerShown: false }} />
+
+        {/* Info recordatorio dosis compartida */}
+        <Stack.Screen name='InfoRecordatorioDosisCompartida' component={InfoRecordatorioDosisCompartida} options={{ headerShown: false }} />
 
 
       </Stack.Navigator>

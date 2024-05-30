@@ -5,6 +5,7 @@ import AtributoRecordatorioDosis from '../../../../../Components/AtributoRecorda
 import TablaRecordatorio from '../../../../../Components/TablaRecordatorio';
 import AtributoPuffDosis from '../../../../../Components/atributoPuffDosis';
 import * as Notifications from 'expo-notifications'
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../../Firebase/config';
 
 const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
     const { recordatorio } = route.params;
@@ -19,6 +20,8 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
         if (!notificacionEnviada && dosisInicial >= recordatorio.Dosis80Porciento && dosisInicial < recordatorio.TotalDosis) {
             sendNotification();
             setNotificacionEnviada(true);
+        } else if (notificacionEnviada && dosisInicial >= recordatorio.TotalDosis) {
+            setNotificacionEnviada(false);
         }
     }, [dosisInicial]);
 
@@ -31,6 +34,7 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
             trigger: null, // enviar inmediatamente
         });
     };
+
 
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
