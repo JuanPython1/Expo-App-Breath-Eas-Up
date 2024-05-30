@@ -20,8 +20,10 @@
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "@rneui/themed": "^4.0.0-rc.8",
-    "expo": "~51.0.8",
-    "expo-font": "~12.0.5",
+    "expo": "~51.0.9",
+    "expo-device": "~6.0.2",
+    "expo-font": "~12.0.6",
+    "expo-notifications": "~0.28.4",
     "expo-status-bar": "^1.12.1",
     "firebase": "^10.11.1",
     "react": "18.2.0",
@@ -32,11 +34,12 @@
     "react-native-elements": "^3.4.3",
     "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-push-notification": "^8.1.1",
-    "react-native-reanimated": "^3.11.0",
+    "react-native-reanimated": "^3.10.1",
     "react-native-responsive-screen": "^1.4.2",
     "react-native-select-multiple": "^2.1.0",
     "react-native-vector-icons": "^10.1.0",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "typescript": "~5.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

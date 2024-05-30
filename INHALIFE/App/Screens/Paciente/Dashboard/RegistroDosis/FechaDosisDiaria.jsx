@@ -7,6 +7,7 @@ const FechaDosisDiaria = ({ navigation, route }) => {
   const { medicamento, TotalDosis, Dosis80Porciento } = route.params;
 
   const [horaDosisDiaria, setHoraDosisDiaria] = useState(new Date());
+  console.log('Fecha inicial:', horaDosisDiaria);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const spinValue = new Animated.Value(0);
 
@@ -28,7 +29,9 @@ const FechaDosisDiaria = ({ navigation, route }) => {
       duration: 300,
       easing: Easing.linear,
       useNativeDriver: true,
-    }).start();
+    }).start(() => {
+      spinValue.setValue(0); // Reinicia el valor de la animación después de completarse
+    });
   };
 
   const handleInputSiguiente = () => {
@@ -36,7 +39,7 @@ const FechaDosisDiaria = ({ navigation, route }) => {
       medicamento,
       TotalDosis,
       Dosis80Porciento,
-      horaDosisDiaria: horaDosisDiaria.toLocaleTimeString() // Convertir a string antes de pasar
+      horaDosisDiaria: horaDosisDiaria.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false }) // Enviar solo la hora en formato de cadena en 24 horas
     });
   };
 
@@ -55,7 +58,7 @@ const FechaDosisDiaria = ({ navigation, route }) => {
           <Text style={styles.textoHoraTitulo}>Hora Seleccionada:</Text>
           <Pressable style={styles.contenedorHoraSeleccionada} onPress={handleShowTimePicker}>
             <Animated.Text style={[styles.textoHora, { transform: [{ rotate: spin }] }]}>
-              {horaDosisDiaria.toLocaleTimeString()}
+              {horaDosisDiaria.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })} {/* Mostrar en 24 horas */}
             </Animated.Text>
             <Image style={styles.iconoCalendario} source={require('../../../../../assets/Image/calendario.png')} />
           </Pressable>
@@ -66,7 +69,7 @@ const FechaDosisDiaria = ({ navigation, route }) => {
             mode='time'
             value={horaDosisDiaria}
             onChange={handleInputChange}
-            minimumDate={horaDosisDiaria.toDateString() === new Date().toDateString() ? new Date() : undefined}
+            is24Hour={true} // Usar formato de 24 horas
           />
         )}
 

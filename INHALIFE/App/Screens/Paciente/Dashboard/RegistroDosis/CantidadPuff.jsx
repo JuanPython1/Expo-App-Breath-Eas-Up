@@ -10,6 +10,12 @@ const CantidadPuff = ({ navigation, route }) => {
   const [totalDosisOn, setTotalDosisOn] = useState(false);
 
   const handleInputChange = (text) => {
+    if (text.length > 3) {
+      // Si se ingresan más de 3 dígitos, truncamos el texto a los primeros 3 dígitos
+      text = text.slice(0, 3);
+      // Mostrar el aviso de que solo se pueden digitar 3 dígitos
+      console.log('Solo se puede digitar 3 digitos :)');
+    }
     const numericValue = parseInt(text.replace(/[^0-9]/g, ''), 10);
     setTotalDosis(isNaN(numericValue) ? 0 : numericValue);
     // Calcular el 80% de las dosis ingresadas
@@ -17,11 +23,12 @@ const CantidadPuff = ({ navigation, route }) => {
     // Redondear a 1 decimal si tiene decimales, sino mostrar número entero
     setDosis80Porciento(dosis80 % 1 === 0 ? dosis80 : dosis80.toFixed(1));
 
-    setTotalDosisOn(text !== '')
+    setTotalDosisOn(text !== '');
   };
 
+
   const handleInputSiguiente = () => {
-    navigation.navigate('FechaDosisDiaria', {medicamento, TotalDosis, Dosis80Porciento})
+    navigation.navigate('FechaDosisDiaria', { medicamento, TotalDosis, Dosis80Porciento })
   }
 
   return (
@@ -194,7 +201,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black',
   },
-  BotonEntrar:{
+  BotonEntrar: {
     marginTop: hp('4%'),
     marginHorizontal: wp('10%'),
     height: hp('6%'),

@@ -31,6 +31,13 @@ const DashboardPaciente = ({ navigation }) => {
     funcion: () => { navigation.navigate('VideoTutoriales') }
   }
 
+  const botonNotificaciones = {
+    titulo: 'Notificaciones',
+    imagen: require('../../../../assets/Image/perro.png'),
+    funcion: () => { navigation.navigate('notificacionesPacientes') }
+  }
+
+
   const handleSignOut = async () => {
     try {
       await FIREBASE_AUTH.signOut();
@@ -72,7 +79,13 @@ const DashboardPaciente = ({ navigation }) => {
         </View>
 
         <View style={styles.fila2}>
-          <BotonDashBoardPaciente props={botonVideosTutoriales} />
+          <View style={styles.RegistroDosis}>
+            <BotonDashBoardPaciente props={botonVideosTutoriales} />
+          </View>
+
+          <View style={styles.RecordatorioDosis}>
+            <BotonDashBoardPaciente props={botonNotificaciones} />
+          </View>
 
         </View>
 
@@ -154,8 +167,8 @@ const styles = StyleSheet.create({
     marginHorizontal: wp('4%')
   },
   fila2: {
-    top: hp('8%'),
-    alignItems: 'center'
+    flexDirection: 'row',
+    top: hp('8%')
   },
   modalView: {
     position: 'absolute',

@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { StatusBar, View, Text } from 'react-native';
+import { StatusBar, View, Text, Platform } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { doc, getDoc } from 'firebase/firestore';
 import { User, onAuthStateChanged } from 'firebase/auth';
@@ -7,7 +7,8 @@ import React, { useState, useEffect } from 'react';
 import { FIREBASE_AUTH, FIRESTORE_DB } from './Firebase/config';
 import { useFonts } from 'expo-font';
 import { ActivityIndicator } from 'react-native';
-
+import * as Notificaciones from 'expo-notifications';
+import * as Device from 'expo-device'
 
 // Screens rol, login, Registro
 import Rol from './App/Screens/Rol';
@@ -23,6 +24,7 @@ import BienvenidaPaciente from './App/Screens/Paciente/Dashboard/BienvenidaPacie
 import DashboardPaciente from './App/Screens/Paciente/Dashboard/DashboardPaciente';
 import RecordatorioDosis from './App/Screens/Paciente/Dashboard/RecordatorioDosis/RecordatorioDosis';
 import VideoTutoriales from './App/Screens/Paciente/Dashboard/VideoTutoriales';
+import NotificacionesPacientes from './App/Screens/Paciente/Dashboard/notificacionesActivas'
 
 // Registro Dosis Paciente
 import BienvenidaRegistroDosis from './App/Screens/Paciente/Dashboard/RegistroDosis/BienvenidaRegistroDosis';
@@ -70,6 +72,7 @@ function DiseñoInternoPaciente() {
       <StackPaciente.Screen name='DashboardPaciente' component={DashboardPaciente} options={{ headerShown: false }} />
       <StackPaciente.Screen name='RecordatorioDosis' component={RecordatorioDosis} options={{ headerShown: false }} />
       <StackPaciente.Screen name='VideoTutoriales' component={VideoTutoriales} options={{ headerShown: true }} />
+      <StackPaciente.Screen name='notificacionesPacientes' component={NotificacionesPacientes} options={{ headerShown: false }} />
 
       {/* Registro dosis paciente */}
       <StackPaciente.Screen name='BienvenidaRegistroDosis' component={BienvenidaRegistroDosis} options={{ headerShown: false }} />
@@ -117,6 +120,47 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [expoPushToken, setExpoPushToken] = React.useState('');
+
+  Notificaciones.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+    })
+  })
+
+  const registerForPushNotificationAsync = async () => {
+    let token;
+    if (Device.isDevice) {
+      const { status: existingStatus } = await Notificaciones.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Notificaciones.requestPermissionsAsync();
+        finalStatus = status
+      }
+      if (finalStatus !== 'granted') {
+        alert('la obtencion del token del push Notification fue fallida')
+        return;
+      }
+      token = (await Notificaciones.getExpoPushTokenAsync()).data;
+      console.log(token);
+    } else { return; }
+
+    if (Platform.OS === 'android') {
+      Notificaciones.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notificaciones.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+    return token;
+  }
+
+  useEffect(() => {
+    registerForPushNotificationAsync().then(token => setExpoPushToken(token))
+  }, [])
 
   const [loaded] = useFonts({
     'noticia-text': require('../INHALIFE/assets/fonts/NoticiaText-BoldItalic.ttf'),
@@ -145,6 +189,9 @@ export default function App() {
         } else {
           setUserRole(null);
         }
+
+
+
       } else {
         setUserRole(null);
       }
@@ -181,6 +228,7 @@ export default function App() {
         <Stack.Screen name='DashboardPaciente' component={DashboardPaciente} options={{ headerShown: false }} />
         <Stack.Screen name='RecordatorioDosis' component={RecordatorioDosis} options={{ headerShown: false }} />
         <Stack.Screen name='VideoTutoriales' component={VideoTutoriales} options={{ headerShown: true }} />
+        <Stack.Screen name='notificacionesPacientes' component={NotificacionesPacientes} options={{ headerShown: false }} />
 
         {/* Registro dosis paciente */}
         <Stack.Screen name='BienvenidaRegistroDosis' component={BienvenidaRegistroDosis} options={{ headerShown: false }} />

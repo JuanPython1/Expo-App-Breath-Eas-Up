@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Animated, Easing, Pressable } from 'react-nativ
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const RecordatorioItem = ({ colorFondo, nombreMedicamento, hora, dosisActual, dosisLimite, funcionNav }) => {
+const RecordatorioItem = ({ colorFondo, recordatorio, onEliminarRecordatorio, funcionNav }) => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const [textWidth, setTextWidth] = useState(0);
     const [containerWidth, setContainerWidth] = useState(0);
@@ -54,60 +54,67 @@ const RecordatorioItem = ({ colorFondo, nombreMedicamento, hora, dosisActual, do
 
     const translateX = scrollX.interpolate({
         inputRange: [0, 1, 2, 4],
-        outputRange: [textWidth * 0.2, -textWidth, textWidth * 2.2, textWidth * 0.2],
+        outputRange: [textWidth * 0, -textWidth, textWidth * 2.2, textWidth * 0],
     });
+
+    // Helper function to format time to HH:mm AM/PM
+    const formatTime = (timeString) => {
+        const [hours, minutes] = timeString.split(':');
+        let hour = parseInt(hours, 10);
+
+        hour = hour % 12;
+        hour = hour ? hour : 12; // the hour '0' should be '12'
+        return `${hour}:${minutes} `;
+    };
 
     const styles = StyleSheet.create({
         contenedorItemRecordatorio: {
             flexDirection: 'row',
-            height: hp('15%'),
+            height: hp('13%'),
             marginHorizontal: wp('10%'),
+            marginBottom: hp('5%'),
             borderRadius: 10,
-            backgroundColor: '#94E4FF',
+            backgroundColor: '#F0F0F0', // Cambio de color a un tono más sobrio
+            borderWidth: 1, // Añadir borde
+            borderColor: '#E0E0E0', // Color del borde
+            paddingHorizontal: wp('3%'), // Espaciado interno
+            alignItems: 'center', // Alinear elementos verticalmente
         },
         ContenedorIzq: {
-            width: '85%',
-            height: '100%',
-            borderTopStartRadius: 10,
-            borderBottomStartRadius: 10,
-            left: '3%',
+            flex: 1, // Expandir el contenido
         },
         letrasSuperior: {
-            height: '61%',
-            padding: '2%',
-            borderTopStartRadius: 10,
+            paddingVertical: hp('1%'), // Ajustar espaciado superior e inferior
+            borderBottomWidth: 1, // Añadir línea divisoria inferior
+            borderColor: '#CCCCCC', // Color de la línea divisoria
             overflow: 'hidden',
-            justifyContent: 'center',
         },
         letrasInferior: {
             flexDirection: 'row',
-            height: '40%',
-            borderBottomStartRadius: 10,
             justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: '2%',
+            paddingVertical: hp('1%'), // Ajustar espaciado superior e inferior
         },
         ContenedorDer: {
-            width: '15%',
-            backgroundColor: 'orange',
-            borderTopEndRadius: 10,
-            borderBottomEndRadius: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
+            marginLeft: wp('3%'), // Añadir espacio a la izquierda
+            borderLeftWidth: 1, // Añadir borde izquierdo
+            borderColor: '#CCCCCC', // Color del borde izquierdo
+            paddingHorizontal: wp('3%'), // Espaciado interno
         },
         nombreMedicamento: {
-            fontSize: wp('6%'),
-            whiteSpace: 'nowrap', // Evita que el texto salte de línea
+            fontSize: wp('5%'),
+            whiteSpace: 'nowrap',
         },
         hora: {
-            fontSize: wp('5%'),
+            fontSize: wp('4%'), // Reducir tamaño de fuente
+            color: '#666666', // Cambiar color de texto
         },
         dosis: {
-            fontSize: wp('5%'),
+            fontSize: wp('4%'), // Reducir tamaño de fuente
+            color: '#666666', // Cambiar color de texto
         },
         iconoBasura: {
             color: 'red',
-            fontSize: wp('8%'),
+            fontSize: wp('6%'), // Ajustar tamaño de icono
         }
     });
 
@@ -116,20 +123,21 @@ const RecordatorioItem = ({ colorFondo, nombreMedicamento, hora, dosisActual, do
             <Pressable style={styles.ContenedorIzq} onPress={funcionNav} onLayout={handleContainerLayout}>
                 <View style={styles.letrasSuperior}>
                     <Animated.Text
-                        style={[styles.nombreMedicamento, { transform: [{ translateX }, { scaleX: 1.4 }, { scaleY: 1.7 }] }]}
+                        style={[styles.nombreMedicamento, { transform: [{ translateX }] }]}
                         onLayout={handleTextLayout}
                     >
-                        Salbutamol
+                        {recordatorio.medicamento}
                     </Animated.Text>
                 </View>
                 <View style={styles.letrasInferior}>
-                    <Text style={styles.hora}>hora</Text>
-                    <Text style={styles.dosis}>0% - 200%</Text>
+                    <Text style={styles.hora}>{recordatorio.horaDosisDiaria}</Text>
+                    <Text style={styles.dosis}>{recordatorio.DosisInicial} - {recordatorio.TotalDosis} PUFF</Text>
                 </View>
             </Pressable>
-            <View style={styles.ContenedorDer}>
+
+            <Pressable style={styles.ContenedorDer} onLongPress={() => onEliminarRecordatorio(recordatorio.id)}>
                 <Icon name="trash" style={styles.iconoBasura} />
-            </View>
+            </Pressable>
         </View>
     );
 };

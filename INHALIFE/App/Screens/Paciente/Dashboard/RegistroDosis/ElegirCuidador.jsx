@@ -8,13 +8,16 @@ import { collection, getDocs } from 'firebase/firestore';
 const ElegirCuidador = ({ navigation, route }) => {
   const { medicamento, TotalDosis, Dosis80Porciento, horaDosisDiaria } = route.params;
   const [cuidadores, setCuidadores] = useState([]);
-  const [cuidadorSeleccionado, setCuidadorSeleccionado] = useState('');
+  const [cuidadorSeleccionado, setCuidadorSeleccionado] = useState(null);
 
   useEffect(() => {
     const obtenerCuidadores = async () => {
       try {
         const cuidadoresSnapshot = await getDocs(collection(FIRESTORE_DB, 'UsuariosCuidadores'));
-        const cuidadoresList = cuidadoresSnapshot.docs.map(doc => doc.data().nombreUsuario);
+        const cuidadoresList = cuidadoresSnapshot.docs.map(doc => ({
+          uid: doc.id,
+          nombreUsuario: doc.data().nombreUsuario,
+        }));
         setCuidadores(cuidadoresList);
       } catch (error) {
         console.error('Error al obtener los cuidadores: ', error);
@@ -25,14 +28,17 @@ const ElegirCuidador = ({ navigation, route }) => {
   }, []);
 
   const handleInputSiguiente = () => {
-    console.log(cuidadorSeleccionado)
-    navigation.navigate('RegistrarDosis', {
-      medicamento,
-      TotalDosis,
-      Dosis80Porciento,
-      horaDosisDiaria,
-      cuidadorSeleccionado
-    });
+    if (cuidadorSeleccionado) {
+      console.log(cuidadorSeleccionado);
+      navigation.navigate('RegistrarDosis', {
+        medicamento,
+        TotalDosis,
+        Dosis80Porciento,
+        horaDosisDiaria,
+        cuidadorUID: cuidadorSeleccionado.uid,
+        cuidadorNombre: cuidadorSeleccionado.nombreUsuario
+      });
+    }
   };
 
   return (
@@ -45,18 +51,18 @@ const ElegirCuidador = ({ navigation, route }) => {
 
       <Text style={styles.titulo}>ELIGE TU CUIDADOR</Text>
       <ScrollView style={styles.body}>
-        {cuidadores.map((cuidador, index) => (
-          <View key={index} style={styles.checkboxContainer}>
+        {cuidadores.map(cuidador => (
+          <View key={cuidador.uid} style={styles.checkboxContainer}>
             <CheckBox
               style={styles.checkbox}
               onClick={() => setCuidadorSeleccionado(cuidador)}
-              isChecked={cuidadorSeleccionado === cuidador}
-              leftText={cuidador}
+              isChecked={cuidadorSeleccionado?.uid === cuidador.uid}
+              leftText={cuidador.nombreUsuario}
               leftTextStyle={styles.checkboxText}
               checkBoxColor="#3498DB"
-              accessibilityLabel={`Seleccionar ${cuidador}`}
+              accessibilityLabel={`Seleccionar ${cuidador.nombreUsuario}`}
             />
-            <Text style={styles.checkboxText}>{cuidador}</Text>
+            <Text style={styles.checkboxText}>{cuidador.nombreUsuario}</Text>
           </View>
         ))}
       </ScrollView>
