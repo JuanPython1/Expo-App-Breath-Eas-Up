@@ -8,6 +8,45 @@ import * as Notifications from 'expo-notifications'
 
 const InfoRecordatorioDosisCompartida = ({ navigation, route }) => {
     const { recordatorio } = route.params;
+    const [dosisBackgroundColor, setDosisBackgroundColor] = useState('#45EB1B'); // Color por defecto
+
+    useEffect(() => {
+        // Calcular el color gradualmente
+        let color;
+        if (recordatorio.DosisInicial >= 0 && recordatorio.DosisInicial < recordatorio.Dosis80Porciento) {
+            // Interpolar entre verde y amarillo desde 0 hasta el 80%
+            const percent = recordatorio.DosisInicial / recordatorio.Dosis80Porciento;
+            color = interpolateColor('#45EB1B', '#E7EB1B', percent);
+        } else if (recordatorio.DosisInicial >= recordatorio.Dosis80Porciento && recordatorio.DosisInicial < recordatorio.TotalDosis) {
+            // Interpolar entre amarillo y rojo entre el 80% y el 100%
+            const percent = (recordatorio.DosisInicial - recordatorio.Dosis80Porciento) / (recordatorio.TotalDosis - recordatorio.Dosis80Porciento);
+            color = interpolateColor('#E7EB1B', '#F94242', percent);
+        } else {
+            // Rojo cuando la dosis llega al 200%
+            color = '#F94242';
+        }
+        setDosisBackgroundColor(color);
+    }, [recordatorio.DosisInicial]);
+
+    // Función para interpolar entre dos colores
+    const interpolateColor = (color1, color2, percent) => {
+        const color1Value = parseInt(color1.slice(1), 16);
+        const color2Value = parseInt(color2.slice(1), 16);
+
+        const r1 = (color1Value >> 16) & 255;
+        const g1 = (color1Value >> 8) & 255;
+        const b1 = color1Value & 255;
+
+        const r2 = (color2Value >> 16) & 255;
+        const g2 = (color2Value >> 8) & 255;
+        const b2 = color2Value & 255;
+
+        const r = Math.round(r1 + (r2 - r1) * percent);
+        const g = Math.round(g1 + (g2 - g1) * percent);
+        const b = Math.round(b1 + (b2 - b1) * percent);
+
+        return `rgb(${r},${g},${b})`;
+    };
 
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -35,7 +74,7 @@ const InfoRecordatorioDosisCompartida = ({ navigation, route }) => {
                                 contenido={recordatorio.DosisInicial} // Utilizando el estado dosisInicial
                                 tamañoTitulo={4}
                                 tamañoContenido={3}
-                                colorFondo={'#45EB1B'}
+                                colorFondo={dosisBackgroundColor} // Cambiado al color de fondo dinámico
                             />
                         </View>
 
@@ -124,6 +163,6 @@ const styles = StyleSheet.create({
         fontSize: wp('4%')
     },
     contenedorTabla: {
-        marginBottom: hp('15%')
+        marginBottom: hp('13.3%')
     }
 });

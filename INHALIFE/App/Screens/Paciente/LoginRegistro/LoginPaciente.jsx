@@ -275,6 +275,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Play-fair-Display',
     fontSize: hp('2%'),
+    fontWeight: 'bold'
   },
 
   textoRegistrateYOlvidarContraseña: {

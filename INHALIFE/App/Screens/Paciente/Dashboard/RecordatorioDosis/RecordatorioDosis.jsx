@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, ScrollView, Modal, TouchableOpacity } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { collection, deleteDoc, doc, onSnapshot, query, where, getDoc } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
@@ -8,6 +8,8 @@ import * as Notificaciones from 'expo-notifications';
 
 const RecordatoriosDosis = ({ navigation }) => {
   const [recordatorios, setRecordatorios] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [recordatorioAEliminar, setRecordatorioAEliminar] = useState(null);
 
   useEffect(() => {
     const user = FIREBASE_AUTH.currentUser;
@@ -49,6 +51,22 @@ const RecordatoriosDosis = ({ navigation }) => {
     }
   };
 
+  const confirmarEliminacion = (recordatorio) => {
+    setRecordatorioAEliminar(recordatorio);
+    setModalVisible(true);
+  };
+
+  const handleEliminarConfirmado = () => {
+    eliminarRecordatorio(recordatorioAEliminar.id);
+    setModalVisible(false);
+    setRecordatorioAEliminar(null);
+  };
+
+  const handleCancelarEliminacion = () => {
+    setModalVisible(false);
+    setRecordatorioAEliminar(null);
+  };
+
   return (
     <View style={styles.Container}>
       <View style={styles.header}>
@@ -69,20 +87,41 @@ const RecordatoriosDosis = ({ navigation }) => {
                 <RecordatorioItem
                   key={recordatorio.id}
                   recordatorio={recordatorio}
-                  onEliminarRecordatorio={eliminarRecordatorio} // Pasa la función eliminarRecordatorio como prop
+                  onEliminarRecordatorio={() => confirmarEliminacion(recordatorio)} // Llama a confirmarEliminacion en lugar de eliminarRecordatorio
                   funcionNav={() => { navigation.navigate('InfoRecordatorioDosisPaciente', { recordatorio: recordatorio }); }}
                 />
               ))
             ) : (
-
               <Text style={styles.noRecordatorios}>
                 {`No has registrado ni un recordatorio :( `}
               </Text>
-
             )}
           </View>
         </ScrollView>
       </View>
+
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={handleCancelarEliminacion}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>
+              ¿Estás seguro de que deseas eliminar el recordatorio del medicamento {recordatorioAEliminar?.medicamento}?
+            </Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity style={styles.modalButtonRojo} onPress={handleEliminarConfirmado}>
+                <Text style={styles.modalButtonText}>Sí</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.modalButton} onPress={handleCancelarEliminacion}>
+                <Text style={styles.modalButtonText}>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -144,5 +183,49 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: wp('4%'),
     fontWeight: 'bold'
-  }
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: wp('80%'),
+    padding: hp('2%'),
+    backgroundColor: 'white',
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: hp('2%'),
+    marginBottom: hp('2%'),
+    textAlign: 'center',
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  modalButton: {
+    width: '45%',
+    padding: hp('1%'),
+    backgroundColor: '#3498DB',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  modalButtonRojo: {
+    width: '45%',
+    padding: hp('1%'),
+    backgroundColor: 'red',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: 'white',
+    fontSize: hp('2%'),
+  },
 });
+
+
+

@@ -10,12 +10,6 @@ const CantidadPuff = ({ navigation, route }) => {
   const [totalDosisOn, setTotalDosisOn] = useState(false);
 
   const handleInputChange = (text) => {
-    if (text.length > 3) {
-      // Si se ingresan más de 3 dígitos, truncamos el texto a los primeros 3 dígitos
-      text = text.slice(0, 3);
-      // Mostrar el aviso de que solo se pueden digitar 3 dígitos
-      console.log('Solo se puede digitar 3 digitos :)');
-    }
     const numericValue = parseInt(text.replace(/[^0-9]/g, ''), 10);
     setTotalDosis(isNaN(numericValue) ? 0 : numericValue);
     // Calcular el 80% de las dosis ingresadas
@@ -68,6 +62,7 @@ const CantidadPuff = ({ navigation, route }) => {
                   onChangeText={handleInputChange}
                   keyboardType="numeric"
                   placeholder="Ingrese Cantidad De Puff"
+                  maxLength={3}
                 />
               </View>
             </View>

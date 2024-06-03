@@ -28,6 +28,11 @@ const RegistroPaciente = ({ navigation }) => {
   }
 
   const ValidacionesYRegistro = async () => {
+    if (!username || !nombre || !apellido) {
+      alert('Por favor, completa todos los campos requeridos.');
+      return;
+    }
+
     if (contraseña !== confirmarContraseña) {
       alert('Las contraseñas no coinciden. Por favor, ingrésalas de nuevo.');
     } else {
@@ -60,7 +65,7 @@ const RegistroPaciente = ({ navigation }) => {
         })
         .catch((error) => {
           console.log(error);
-          alert('Registro fallido: ' + error.message);
+          alert('Registro fallido: Error en el correo o en la contraseña');
         })
         .finally(() => {
           setLoading(false);
