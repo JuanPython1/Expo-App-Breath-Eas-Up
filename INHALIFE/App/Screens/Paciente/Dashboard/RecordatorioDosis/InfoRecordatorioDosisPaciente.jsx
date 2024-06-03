@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import AtributoRecordatorioDosis from '../../../../../Components/AtributoRecordatorioDosis';
-import TablaRecordatorio from '../../../../../Components/TablaRecordatorio';
-import AtributoPuffDosis from '../../../../../Components/atributoPuffDosis';
+import AtributoRecordatorioDosis from '../../../../components/AtributoRecordatorioDosis';
+import TablaRecordatorio from '../../../../components/TablaRecordatorio';
+import AtributoPuffDosis from '../../../../components/atributoPuffDosis';
 import * as Notifications from 'expo-notifications'
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../../Firebase/config';
 
 const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
     const { recordatorio } = route.params;

@@ -2,8 +2,8 @@ import { View, Text, StyleSheet, Pressable, Image, ScrollView } from 'react-nati
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { collection, deleteDoc, doc, onSnapshot, query, where, getDoc } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
-import RecordatorioItem from '../../../../../Components/RecordatorioItem';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../../Firebase/config';
+import RecordatorioItem from '../../../../components/RecordatorioItem';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../firebase/config';
 import * as Notificaciones from 'expo-notifications';
 
 const RecordatoriosDosis = ({ navigation }) => {

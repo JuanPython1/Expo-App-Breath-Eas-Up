@@ -1,15 +1,11 @@
 import { View, Text, SafeAreaView, StyleSheet, Image, StatusBar } from 'react-native'
 import React from 'react'
 
-import BotonRol from '../../Components/BotonRol';
+import BotonRol from '../components/BotonRol';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const Rol = ({ navigation }) => {
   //fuentes
-
-
-
-
 
   //botones roles
   const botonInfoPaciente = { Titulo: "PACIENTE", colorFondo: '#00AAE4', fuente: 'Play-fair-Display', navegacion: () => navigation.navigate('LoginPaciente') }
@@ -29,7 +25,7 @@ const Rol = ({ navigation }) => {
 
 
       <View style={styles.RolContainer}>
-        <Text style={styles.TextoElijeRol}>ELIJE TU ROL</Text>
+        <Text style={styles.TextoElijeRol}>ELIGE TU ROL</Text>
 
         <View style={styles.contenedorPaciente}>
           <BotonRol props={botonInfoPaciente} />

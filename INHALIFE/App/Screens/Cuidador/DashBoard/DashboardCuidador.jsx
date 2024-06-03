@@ -1,12 +1,12 @@
-import { View, Text, SafeAreaView, StyleSheet, Pressable, Image } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, SafeAreaView, StyleSheet, Pressable, Image, BackHandler } from 'react-native';
+import React, { useState, useCallback } from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useFocusEffect } from '@react-navigation/native';
 import Menu from 'react-native-vector-icons/MaterialCommunityIcons';
-import ModalCerrarCuenta from '../../../../Components/ModalCerrarCuenta';
-import { FIREBASE_AUTH } from '../../../../Firebase/config';
+import ModalCerrarCuenta from '../../../components/ModalCerrarCuenta';
+import { FIREBASE_AUTH } from '../../../firebase/config';
 
 const DashboardCuidador = ({ navigation }) => {
-
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleSignOut = async () => {
@@ -18,37 +18,40 @@ const DashboardCuidador = ({ navigation }) => {
     }
   };
 
+  useFocusEffect(
+    useCallback(() => {
+      const backAction = () => {
+        BackHandler.exitApp(); // Salir de la aplicación
+        return true;
+      };
+
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+      return () => backHandler.remove();
+    }, [])
+  );
+
   return (
     <SafeAreaView style={styles.container}>
-
       {/* ------------------------HEADER---------------------- */}
       <View style={styles.header}>
-
-
         <Pressable style={styles.menu} onPress={() => { setModalVisible(true) }}>
           <Menu name={'menu'} size={60} color={'black'} />
         </Pressable>
-
       </View>
 
       {/* ------------------------BODY---------------------- */}
-
       <View style={styles.body}>
-
         <View style={styles.ContenedorTitulo}>
           <Text style={styles.Titulo}>INHALIFE</Text>
         </View>
-
-
 
         <View style={styles.fila2}>
           <Pressable style={styles.boton} onPress={() => navigation.navigate('RecordatorioDosisCompartidos')}>
             <Text style={styles.textTitulo}>RECORDATORIOS DOSIS COMPARTIDOS</Text>
             <Image style={styles.Imagen} source={require('../../../../assets/Image/calendario.png')} />
           </Pressable>
-
         </View>
-
       </View>
 
       {/* ------------------------MODAL---------------------- */}
@@ -59,12 +62,11 @@ const DashboardCuidador = ({ navigation }) => {
         color={'#52B4FA'}
         colorFondo={'#AADBFF'}
       />
-
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default DashboardCuidador
+export default DashboardCuidador;
 
 const styles = StyleSheet.create({
   container: {
@@ -83,21 +85,17 @@ const styles = StyleSheet.create({
     left: wp('5%'),
     height: hp('5%'),
     width: wp('15%'),
-
     justifyContent: 'center',
   },
-
   menu: {
     justifyContent: 'center',
   },
-
   iconAtras: {
     width: wp('10%'),
     height: hp('2.5%'),
   },
-
   body: {
-    height: hp('90'),
+    height: hp('90%'),
   },
   ContenedorTitulo: {
     top: hp('1%'),
@@ -106,8 +104,8 @@ const styles = StyleSheet.create({
     marginBottom: hp('3%'),
     alignSelf: 'center',
     borderRadius: 20,
-    alignItems: 'center', //horizontal
-    justifyContent: 'center', //vertical
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   Titulo: {
     fontFamily: 'noticia-text',
@@ -139,7 +137,7 @@ const styles = StyleSheet.create({
   },
   Imagen: {
     width: wp('40%'),
-    height: hp('22'),
+    height: hp('22%'),
   },
   textTitulo: {
     fontFamily: 'Play-fair-Display',
@@ -148,4 +146,4 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
     textAlign: 'center'
   }
-})
+});

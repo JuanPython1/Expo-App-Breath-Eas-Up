@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { doc, getDoc } from 'firebase/firestore';
 import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../Firebase/config';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import DashboardPaciente from '../Dashboard/DashboardPaciente';
@@ -274,7 +274,6 @@ const styles = StyleSheet.create({
   TextoEntrar: {
     textAlign: 'center',
     fontFamily: 'Play-fair-Display',
-    fontWeight: 'bold',
     fontSize: hp('2%'),
   },
 

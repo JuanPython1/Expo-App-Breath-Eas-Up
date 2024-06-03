@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import AtributoRecordatorioDosis from '../../../../Components/AtributoRecordatorioDosis';
-import TablaRecordatorioCompartido from '../../../../Components/TablaRecordatorioCompartido';
-import AtributoPuffDosis from '../../../../Components/atributoPuffDosis';
+import AtributoRecordatorioDosis from '../../../components/AtributoRecordatorioDosis';
+import TablaRecordatorioCompartido from '../../../components/TablaRecordatorioCompartido';
+import AtributoPuffDosis from '../../../components/atributoPuffDosis';
 import * as Notifications from 'expo-notifications'
 
 const InfoRecordatorioDosisCompartida = ({ navigation, route }) => {
     const { recordatorio } = route.params;
-
-
-
-
 
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -128,6 +124,6 @@ const styles = StyleSheet.create({
         fontSize: wp('4%')
     },
     contenedorTabla: {
-        marginBottom: hp('6%')
+        marginBottom: hp('15%')
     }
 });

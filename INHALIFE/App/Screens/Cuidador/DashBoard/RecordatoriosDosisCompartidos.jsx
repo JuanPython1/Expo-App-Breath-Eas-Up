@@ -2,8 +2,8 @@ import { View, Text, StyleSheet, Pressable, Image, ScrollView } from 'react-nati
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import { collection, deleteDoc, doc, onSnapshot, query, where, getDoc } from 'firebase/firestore';
 import React, { useState, useEffect, useRef } from 'react';
-import RecordatorioItemCompartido from '../../../../Components/RecordatorioItemCompartido'
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../Firebase/config';
+import RecordatorioItemCompartido from '../../../components/RecordatorioItemCompartido'
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import * as Notifications from 'expo-notifications'
 
 const RecordatoriosDosisCompartidos = ({ navigation }) => {

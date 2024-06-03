@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Button, Alert } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { FIRESTORE_DB } from '../Firebase/config';
+import { FIRESTORE_DB } from '../firebase/config';
 import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 
 const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
@@ -10,6 +10,7 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
     const [inputDosis, setInputDosis] = useState('');
     const [filaSeleccionada, setFilaSeleccionada] = useState(null);
     const [totalDosis, setTotalDosis] = useState(recordatorio.DosisInicial);
+    const [nuevacantidadTotalTabla, setnuevacantidadTotalTabla] = useState(0)
 
     // Cargar datos iniciales desde Firestore
     useEffect(() => {
@@ -69,6 +70,7 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
                     setInputDosis('');
 
                     actualizarDosisInicial(nuevaDosisTotal);
+                    setnuevacantidadTotalTabla(nuevaDosisTotal);
                 } else {
                     Alert.alert('Error', `La suma total de dosis no puede exceder ${DOSE_LIMIT}`);
                 }
@@ -81,17 +83,22 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
     };
 
     const handleAgregarFila = async () => {
-        const nuevoDia = filas.length + 1;
-        const nuevaFila = { dia: nuevoDia, dosis: 0 };
 
-        // Actualizar el estado local
-        setFilas([...filas, nuevaFila]);
+        if (nuevacantidadTotalTabla < DOSE_LIMIT) {
+            const nuevoDia = filas.length + 1;
+            const nuevaFila = { dia: nuevoDia, dosis: 0 };
 
-        // Actualizar la base de datos
-        const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
-        await updateDoc(RecordatorioRef, {
-            registroDosis: arrayUnion(nuevaFila) // Agrega la nueva fila al arreglo existente
-        });
+            // Actualizar el estado local
+            setFilas([...filas, nuevaFila]);
+
+            // Actualizar la base de datos
+            const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
+            await updateDoc(RecordatorioRef, {
+                registroDosis: arrayUnion(nuevaFila) // Agrega la nueva fila al arreglo existente
+            });
+        } else {
+            Alert.alert('Error', 'La catidad tota ya alcanzo a su limite, no puedes agregar mas días :(');
+        }
     };
 
     const handleCancelar = () => {
@@ -156,6 +163,7 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
                             onChangeText={text => setInputDosis(text)}
                             value={inputDosis}
                             keyboardType="numeric"
+                            maxLength={3}
                             accessibilityLabel="Input de dosis"
                         />
                         <View style={styles.botonContainerModal}>

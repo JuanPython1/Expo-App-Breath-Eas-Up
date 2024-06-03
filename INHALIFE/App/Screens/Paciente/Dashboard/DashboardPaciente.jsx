@@ -1,13 +1,16 @@
 import {
   View, Text, SafeAreaView, StyleSheet,
-  Pressable, Image, Modal, TouchableHighlight
-} from 'react-native'
-import React, { useState } from 'react'
+  Pressable, Image, Modal, TouchableHighlight, BackHandler
+} from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Menu from 'react-native-vector-icons/MaterialCommunityIcons';
-import BotonDashBoardPaciente from '../../../../Components/BotonDashBoardPaciente';
-import ModalCerrarCuenta from '../../../../Components/ModalCerrarCuenta';
-import { FIREBASE_AUTH } from '../../../../Firebase/config'
+import BotonDashBoardPaciente from '../../../components/BotonDashBoardPaciente';
+import ModalCerrarCuenta from '../../../components/ModalCerrarCuenta';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
+import { useFocusEffect } from '@react-navigation/native';
+import * as Notifications from 'expo-notifications';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 const DashboardPaciente = ({ navigation }) => {
 
@@ -17,31 +20,63 @@ const DashboardPaciente = ({ navigation }) => {
     titulo: 'REGISTRO DE DOSIS',
     imagen: require('../../../../assets/Image/inhalador.png'),
     funcion: () => { navigation.navigate('BienvenidaRegistroDosis') }
-  }
+  };
 
   const botonRecordatorioDosis = {
     titulo: 'RECORDATORIO DOSIS',
     imagen: require('../../../../assets/Image/calendario.png'),
     funcion: () => { navigation.navigate('RecordatorioDosis') }
-  }
+  };
 
   const botonVideosTutoriales = {
     titulo: 'VIDEO TUTORIAL',
     imagen: require('../../../../assets/Image/videotutorial.png'),
     funcion: () => { navigation.navigate('VideoTutoriales') }
-  }
+  };
 
-  const botonNotificaciones = {
-    titulo: 'Notificaciones',
-    imagen: require('../../../../assets/Image/perro.png'),
-    funcion: () => { navigation.navigate('notificacionesPacientes') }
-  }
+  useFocusEffect(
+    useCallback(() => {
+      const backAction = () => {
+        BackHandler.exitApp()
+        return true
+      };
+
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+      return () => backHandler.remove();
+
+    }, [])
+  )
 
 
   const handleSignOut = async () => {
     try {
-      await FIREBASE_AUTH.signOut();
-      navigation.navigate('Rol'); // Redirige a la pantalla de inicio de sesión del cuidador
+      const user = FIREBASE_AUTH.currentUser;
+      if (user) {
+        // Obtener el documento del usuario en Firestore
+        const userRole = 'paciente'; // O 'cuidador' dependiendo del rol del usuario
+        const userDocRef = doc(FIRESTORE_DB, userRole === 'paciente' ? 'UsuariosPacientes' : 'UsuariosCuidadores', user.uid);
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          const expoPushToken = userData.expoPushToken;
+
+          if (expoPushToken) {
+            // Remover el token de notificaciones push
+            await Notifications.unregisterForNotificationsAsync(expoPushToken);
+            console.log('Token removido exitosamente de Expo.');
+
+            // Actualizar el documento del usuario en Firestore para eliminar el token
+            await updateDoc(userDocRef, { expoPushToken: '' });
+            console.log('Token removido exitosamente de Firestore.');
+          }
+        }
+
+        // Cerrar sesión en Firebase Authentication
+        await FIREBASE_AUTH.signOut();
+        navigation.navigate('Rol'); // Redirige a la pantalla de selección de rol
+      }
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }
@@ -49,30 +84,23 @@ const DashboardPaciente = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-
       {/* ------------------------HEADER---------------------- */}
       <View style={styles.header}>
-
         <Pressable style={styles.menu} onPress={() => { setModalVisible(true) }}>
           <Menu name={'menu'} size={60} color={'black'} />
         </Pressable>
-
       </View>
 
       {/* ------------------------BODY---------------------- */}
-
       <View style={styles.body}>
-
         <View style={styles.ContenedorTitulo}>
           <Text style={styles.Titulo}>INHALIFE</Text>
         </View>
-
 
         <View style={styles.fila1}>
           <View style={styles.RegistroDosis}>
             <BotonDashBoardPaciente props={botonRegistrarDosis} />
           </View>
-
           <View style={styles.RecordatorioDosis}>
             <BotonDashBoardPaciente props={botonRecordatorioDosis} />
           </View>
@@ -82,13 +110,7 @@ const DashboardPaciente = ({ navigation }) => {
           <View style={styles.RegistroDosis}>
             <BotonDashBoardPaciente props={botonVideosTutoriales} />
           </View>
-
-          <View style={styles.RecordatorioDosis}>
-            <BotonDashBoardPaciente props={botonNotificaciones} />
-          </View>
-
         </View>
-
       </View>
 
       {/* ------------------------MODAL---------------------- */}
@@ -99,12 +121,11 @@ const DashboardPaciente = ({ navigation }) => {
         color={'#94E4FF'}
         colorFondo={'#3498DB'}
       />
-
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default DashboardPaciente
+export default DashboardPaciente;
 
 const styles = StyleSheet.create({
   container: {
@@ -123,21 +144,17 @@ const styles = StyleSheet.create({
     left: wp('5%'),
     height: hp('5%'),
     width: wp('15%'),
-
     justifyContent: 'center',
   },
-
   menu: {
     justifyContent: 'center',
   },
-
   iconAtras: {
     width: wp('10%'),
     height: hp('2.5%'),
   },
-
   body: {
-    height: hp('90'),
+    height: hp('90%'),
   },
   ContenedorTitulo: {
     top: hp('1%'),
@@ -147,8 +164,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#94E4FF',
     alignSelf: 'center',
     borderRadius: 20,
-    alignItems: 'center', //horizontal
-    justifyContent: 'center', //vertical
+    alignItems: 'center', // horizontal
+    justifyContent: 'center', // vertical
   },
   Titulo: {
     fontFamily: 'noticia-text',
@@ -167,7 +184,7 @@ const styles = StyleSheet.create({
     marginHorizontal: wp('4%')
   },
   fila2: {
-    flexDirection: 'row',
+    alignSelf: 'center',
     top: hp('8%')
   },
   modalView: {
@@ -209,5 +226,4 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 50
   },
-
-})
+});

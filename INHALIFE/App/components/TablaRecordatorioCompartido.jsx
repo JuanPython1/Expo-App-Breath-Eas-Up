@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { FIRESTORE_DB } from '../Firebase/config';
+import { FIRESTORE_DB } from '../firebase/config';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 
 const TablaRecordatorio = ({ recordatorio }) => {

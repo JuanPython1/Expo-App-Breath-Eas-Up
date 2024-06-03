@@ -3,7 +3,7 @@ import { View, Text, SafeAreaView, StyleSheet, TextInput, ActivityIndicator, Pre
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../Firebase/config';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import { MaterialIcons } from '@expo/vector-icons';
 
 const RegistroPaciente = ({ navigation }) => {
@@ -95,7 +95,7 @@ const RegistroPaciente = ({ navigation }) => {
         </View>
 
         <View style={styles.ContenedorInputs}>
-          <TextInput 
+          <TextInput
             style={styles.input}
             value={username}
             placeholder='Nombre de Usuario:'
@@ -104,7 +104,7 @@ const RegistroPaciente = ({ navigation }) => {
             onChangeText={(text) => setUsername(text)}
           />
 
-          <TextInput 
+          <TextInput
             style={styles.input}
             value={nombre}
             placeholder='Nombres:'
@@ -113,7 +113,7 @@ const RegistroPaciente = ({ navigation }) => {
             onChangeText={(text) => setNombre(text)}
           />
 
-          <TextInput 
+          <TextInput
             style={styles.input}
             value={apellido}
             placeholder='Apellidos:'
@@ -122,7 +122,7 @@ const RegistroPaciente = ({ navigation }) => {
             onChangeText={(text) => setApellido(text)}
           />
 
-          <TextInput 
+          <TextInput
             style={styles.input}
             value={email}
             placeholder='Correo Electronico:'
@@ -132,7 +132,7 @@ const RegistroPaciente = ({ navigation }) => {
           />
 
           <View style={styles.passwordContainer}>
-            <TextInput 
+            <TextInput
               style={styles.inputPassword}
               value={contraseña}
               placeholder='Contraseña:'
@@ -147,7 +147,7 @@ const RegistroPaciente = ({ navigation }) => {
           </View>
 
           <View style={styles.passwordContainer}>
-            <TextInput 
+            <TextInput
               style={styles.inputPassword}
               value={confirmarContraseña}
               placeholder=' Confirmar Contraseña:'
@@ -167,10 +167,10 @@ const RegistroPaciente = ({ navigation }) => {
             <ActivityIndicator size={'large'} color={'#00AAE4'} />
           </View>
         ) : (
-          <>  
+          <>
             <Pressable style={styles.ContenedorBotonRegistro} onPress={ValidacionesYRegistro}>
               <Text style={styles.TextoRegistrarse}>REGISTRARSE</Text>
-            </Pressable>    
+            </Pressable>
           </>
         )}
 
@@ -230,7 +230,7 @@ const RegistroPaciente = ({ navigation }) => {
 export default RegistroPaciente;
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
     height: hp('100%'),
     width: wp('100%'),
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
   ContenedorInputs: {
     top: hp('12%'),
     marginHorizontal: wp('13%'),
-    paddingVertical: hp('2%'), 
+    paddingVertical: hp('2%'),
   },
   input: {
     marginVertical: hp('1.3%'),
@@ -297,7 +297,6 @@ const styles = StyleSheet.create({
   TextoRegistrarse: {
     textAlign: 'center',
     fontFamily: 'Play-fair-Display',
-    fontWeight: 'bold',
     fontSize: hp('2%'),
   },
   textoIngresa: {

@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../Firebase/config';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 

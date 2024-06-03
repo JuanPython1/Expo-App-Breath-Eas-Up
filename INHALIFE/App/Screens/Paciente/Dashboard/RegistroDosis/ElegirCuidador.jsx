@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, Image } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { FIRESTORE_DB } from '../../../../../Firebase/config';
+import { FIRESTORE_DB } from '../../../../firebase/config';
 import { collection, getDocs } from 'firebase/firestore';
 
 const ElegirCuidador = ({ navigation, route }) => {

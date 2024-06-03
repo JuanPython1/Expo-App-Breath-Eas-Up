@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, Image, Animated } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { doc, getDoc } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../Firebase/config';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 
 const BienvenidaPaciente = ({ navigation }) => {
   const [userData, setUserData] = useState('');

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { getDoc, doc, addDoc, collection } from 'firebase/firestore';
 import { View, Text, StyleSheet, Pressable, Image, ScrollView, ActivityIndicator } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { FIRESTORE_DB, FIREBASE_AUTH } from '../../../../../Firebase/config';
+import { FIRESTORE_DB, FIREBASE_AUTH } from '../../../../firebase/config';
 import * as Notificaciones from 'expo-notifications';
 
 const RegistrarDosis = ({ navigation, route }) => {
@@ -45,7 +45,7 @@ const RegistrarDosis = ({ navigation, route }) => {
     const notificationId = await Notificaciones.scheduleNotificationAsync({
       content: {
         title: "Recordatorio de dosis",
-        body: `Es hora de tomar tu dosis de ${medicamento}.`,
+        body: `${userData.nombreUsuario} es hora de tomar tu dosis de ${medicamento}.`,
         sound: true,
         priority: Notificaciones.AndroidNotificationPriority.HIGH,
         sticky: false,
@@ -68,7 +68,7 @@ const RegistrarDosis = ({ navigation, route }) => {
       // Convertir la horaDosisDiaria al formato de 24 horas
       const { hour, minute } = convertTo24Hour(horaDosisDiaria);
 
-      console.log('hora= ' + hour + '' + minute)
+      console.log('hora= ' + hour + ':' + minute)
 
       // Programar la notificación y obtener el ID de la notificación
       const notificationId = await scheduleDailyNotification(hour, minute);
