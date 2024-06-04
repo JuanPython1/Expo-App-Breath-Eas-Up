@@ -9,7 +9,7 @@ import { User, onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
 import * as Device from 'expo-device'
-import * as Notificaciones from 'expo-notifications';
+import * as Notificaciones from 'expo-notifications'
 import { View, Text, Platform } from 'react-native';
 // Screens rol, login, Registro
 import Rol from '../Screens/Rol';
@@ -67,9 +67,7 @@ Notificaciones.setNotificationHandler({
 
 const AppNavigator = () => {
     const [userRole, setUserRole] = useState(null);
-
     const [user, setUser] = useState(null);
-
     const [loading, setLoading] = useState(true);
     const [expoPushToken, setExpoPushToken] = React.useState('');
 
@@ -108,7 +106,6 @@ const AppNavigator = () => {
                     });
                 }
             }
-            console.log("Token:", token);
             return token;
         }
 
@@ -117,13 +114,12 @@ const AppNavigator = () => {
                 setExpoPushToken(token)
             }
         });
+
     }, [user, userRole]);
 
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
-            console.log('user', user);
-            console.log('rol', userRole)
             setUser(user);
 
             if (user) {
@@ -144,10 +140,6 @@ const AppNavigator = () => {
                 } else {
                     setUserRole(null);
                 }
-
-
-
-
 
             } else {
                 setUserRole(null);
@@ -177,7 +169,6 @@ const AppNavigator = () => {
                     <Stack.Screen name='Rol' component={Rol} options={{ headerShown: false }} />
                 )}
 
-
                 {/* Login y Registro Paciente */}
                 <Stack.Screen name='LoginPaciente' component={LoginPaciente} options={{ headerShown: false }} />
                 <Stack.Screen name='RegistroPaciente' component={RegistroPaciente} options={{ headerShown: false }} />
@@ -187,7 +178,7 @@ const AppNavigator = () => {
                 <Stack.Screen name='BienvenidaPaciente' component={BienvenidaPaciente} options={{ headerShown: false }} />
                 <Stack.Screen name='DashboardPaciente' component={DashboardPaciente} options={{ headerShown: false }} />
                 <Stack.Screen name='RecordatorioDosis' component={RecordatorioDosis} options={{ headerShown: false }} />
-                <Stack.Screen name='VideoTutoriales' component={VideoTutoriales} options={{ headerShown: true }} />
+                <Stack.Screen name='VideoTutoriales' component={VideoTutoriales} options={{ headerShown: false }} />
                 <Stack.Screen name='notificacionesPacientes' component={NotificacionesPacientes} options={{ headerShown: false }} />
 
                 {/* Registro dosis paciente */}

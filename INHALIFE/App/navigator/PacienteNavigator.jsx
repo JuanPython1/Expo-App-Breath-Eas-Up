@@ -45,7 +45,7 @@ const PacienteNavigator = () => {
             <StackPaciente.Screen name='BienvenidaPaciente' component={BienvenidaPaciente} options={{ headerShown: false }} />
             <StackPaciente.Screen name='DashboardPaciente' component={DashboardPaciente} options={{ headerShown: false }} />
             <StackPaciente.Screen name='RecordatorioDosis' component={RecordatorioDosis} options={{ headerShown: false }} />
-            <StackPaciente.Screen name='VideoTutoriales' component={VideoTutoriales} options={{ headerShown: true }} />
+            <StackPaciente.Screen name='VideoTutoriales' component={VideoTutoriales} options={{ headerShown: false }} />
             <StackPaciente.Screen name='notificacionesPacientes' component={NotificacionesPacientes} options={{ headerShown: false }} />
 
             {/* Registro dosis paciente */}

@@ -33,6 +33,16 @@ const RegistroPaciente = ({ navigation }) => {
       return;
     }
 
+    if (!email) {
+      alert('Por favor, llena el correo electronico.');
+      return;
+    }
+
+    if (!contraseña || !confirmarContraseña) {
+      alert('Por favor, completa el ingreso de las contraseñas.');
+      return;
+    }
+
     if (contraseña !== confirmarContraseña) {
       alert('Las contraseñas no coinciden. Por favor, ingrésalas de nuevo.');
     } else {
@@ -54,25 +64,31 @@ const RegistroPaciente = ({ navigation }) => {
   const signUp = async () => {
     setLoading(true);
     try {
-      createUserWithEmailAndPassword(auth, email, contraseña)
-        .then(async (response) => {
-          console.log(response);
-          await sendEmailVerification(auth.currentUser);
-          const userUID = auth.currentUser.uid;
-          const userRef = doc(firestore, 'UsuariosPacientes', userUID);
-          await setDoc(userRef, { nombreUsuario: username, email: email, nombre: nombre, apellido: apellido, rol: 'Paciente' });
-          setModalVisibleRegistro(true);
-        })
-        .catch((error) => {
-          console.log(error);
-          alert('Registro fallido: Error en el correo o en la contraseña');
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      const userCredential = await createUserWithEmailAndPassword(auth, email, contraseña);
+      console.log(userCredential);
+      await sendEmailVerification(auth.currentUser);
+      const userUID = auth.currentUser.uid;
+      const userRef = doc(firestore, 'UsuariosPacientes', userUID);
+      await setDoc(userRef, { nombreUsuario: username, email: email, nombre: nombre, apellido: apellido, rol: 'Paciente' });
+      setModalVisibleRegistro(true);
     } catch (error) {
       console.log(error);
-      alert('Registro fallido: ' + error.message);
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          alert('El correo electrónico ya está en uso por otro usuario.');
+          break;
+        case 'auth/invalid-email':
+          alert('El correo electrónico no es válido.');
+          break;
+        case 'auth/operation-not-allowed':
+          alert('La autenticación por correo electrónico y contraseña no está habilitada.');
+          break;
+        case 'auth/weak-password':
+          alert('La contraseña no es lo suficientemente segura.');
+          break;
+        default:
+          alert('Registro fallido');
+      }
       setLoading(false);
     }
   };
