@@ -1,28 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Image, ScrollView, Modal, TouchableOpacity } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import AtributoRecordatorioDosis from '../../../../components/AtributoRecordatorioDosis';
 import TablaRecordatorio from '../../../../components/TablaRecordatorio';
 import AtributoPuffDosis from '../../../../components/atributoPuffDosis';
-import * as Notifications from 'expo-notifications'
+import * as Notifications from 'expo-notifications';
+import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
+import * as Notificaciones from 'expo-notifications';
 import { FIRESTORE_DB } from '../../../../firebase/config';
 
 const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
     const { recordatorio } = route.params;
     const [dosisInicial, setDosisInicial] = useState(recordatorio.DosisInicial);
-    const [notificacionEnviada, setNotificacionEnviada] = useState(false);
+    const [notificacionEnviada80, setNotificacionEnviada80] = useState(false);
+    const [notificacionEnviadaTotal, setNotificacionEnviadaTotal] = useState(false);
     const [dosisBackgroundColor, setDosisBackgroundColor] = useState('#45EB1B'); // Color por defecto
+    const [mostrarModal, setMostrarModal] = useState(false);
+    const [estadoReset, setEstadoReset] = useState(false);
 
     const actualizarDosisInicial = (nuevaDosis) => {
         setDosisInicial(nuevaDosis);
     };
 
+    const actualizarEstadoReset = (nuevaEstado) => {
+        setEstadoReset(nuevaEstado);
+    };
+
+
+
+
     useEffect(() => {
-        if (!notificacionEnviada && dosisInicial >= recordatorio.Dosis80Porciento && dosisInicial < recordatorio.TotalDosis) {
-            sendNotification();
-            setNotificacionEnviada(true);
-        } else if (notificacionEnviada && dosisInicial >= recordatorio.TotalDosis) {
-            setNotificacionEnviada(false);
+        if (!notificacionEnviada80 && dosisInicial >= recordatorio.Dosis80Porciento && dosisInicial < recordatorio.TotalDosis) {
+            sendNotification('¡Recarga tu dosis!', `${recordatorio.nombreUsuario}, ya pasaste al 80% de tu cantidad de dosis. ¡Recargarlo lo antes posible!`);
+            setNotificacionEnviada80(true);
+        } else if (!notificacionEnviadaTotal && dosisInicial >= recordatorio.TotalDosis) {
+            sendNotification('¡Llegaste a tu dosis total!', `${recordatorio.nombreUsuario}, llegaste a tu dosis total, ¡Recarga ya mismo!`);
+            setNotificacionEnviadaTotal(true);
+            setNotificacionEnviada80(false); // Resetear la notificación del 80% si llega al total
         }
 
         // Calcular el color gradualmente
@@ -36,17 +50,17 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
             const percent = (dosisInicial - recordatorio.Dosis80Porciento) / (recordatorio.TotalDosis - recordatorio.Dosis80Porciento);
             color = interpolateColor('#E7EB1B', '#F94242', percent);
         } else {
-            // Rojo cuando la dosis llega al 200%
+            // Rojo cuando la dosis llega al 100%
             color = '#F94242';
         }
         setDosisBackgroundColor(color);
     }, [dosisInicial]);
 
-    const sendNotification = async () => {
+    const sendNotification = async (title, body) => {
         await Notifications.scheduleNotificationAsync({
             content: {
-                title: '¡Recarga tu dosis!',
-                body: `${recordatorio.nombreUsuario}, ya pasaste al 80% de tu cantidad de dosis. ¡Recargarlo lo antes posible!`,
+                title,
+                body,
             },
             trigger: null, // enviar inmediatamente
         });
@@ -72,9 +86,78 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
         return `rgb(${r},${g},${b})`;
     };
 
+    const handleReiniciar = async () => {
+        setMostrarModal(false);
+        setEstadoReset(true);
+    };
+
+    const eliminarRecordatorio = async (id) => {
+        try {
+            const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', id);
+            const RecordatorioDoc = await getDoc(RecordatorioRef);
+            if (RecordatorioDoc.exists()) {
+                const recordatorioData = RecordatorioDoc.data();
+                const notificationId = recordatorioData.notificationId;
+
+                // Cancelar la notificación
+                if (notificationId) {
+                    await Notificaciones.cancelScheduledNotificationAsync(notificationId);
+                }
+
+                // Eliminar el documento de la base de datos
+                await deleteDoc(RecordatorioRef);
+
+                // Redirigir a la pantalla anterior
+                navigation.goBack();
+            } else {
+                console.log('El recordatorio no existe.');
+            }
+        } catch (error) {
+            console.error('Error al eliminar el recordatorio:', error);
+        }
+    };
+
+    const handleEliminar = () => {
+        eliminarRecordatorio(recordatorio.id);
+        setMostrarModal(false);
+    };
+
+
+    useEffect(() => {
+        if (dosisInicial === 200) {
+            setMostrarModal(true);
+        }
+    }, [dosisInicial]);
+
+
     return (
         <ScrollView contentContainerStyle={styles.scrollViewContainer}>
             <View style={styles.container}>
+
+                <Modal
+                    visible={mostrarModal}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() => setMostrarModal(false)}
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                            <Text style={styles.modalText}>
+                                Llegaste a tu límite de medicación. ¿Quieres reiniciar o eliminar el recordatorio?
+                            </Text>
+                            <View style={styles.modalButtons}>
+                                <TouchableOpacity style={styles.modalButtonRojo} onPress={handleEliminar}>
+                                    <Text style={styles.modalButtonText}>Eliminar</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={styles.modalButton} onPress={handleReiniciar}>
+                                    <Text style={styles.modalButtonText}>Reiniciar</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
+
+
                 <View style={styles.header}>
                     <Pressable style={styles.backContainer} onPress={() => { navigation.navigate('RecordatorioDosis') }}>
                         <Image style={styles.backIcon} source={require('../../../../../assets/Image/Flechaatras.png')} />
@@ -139,7 +222,12 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
                         colorFondo={'#7CDBFC'}
                     />
                     <View style={styles.contenedorTabla}>
-                        <TablaRecordatorio recordatorio={recordatorio} actualizarDosisInicial={actualizarDosisInicial} />
+                        <TablaRecordatorio
+                            recordatorio={recordatorio}
+                            actualizarDosisInicial={actualizarDosisInicial}
+                            estadoReset={estadoReset}
+                            actualizarEstadoReset={actualizarEstadoReset}
+                        />
                     </View>
                 </View>
             </View>
@@ -167,7 +255,6 @@ const styles = StyleSheet.create({
     },
     backIcon: {
         width: wp('10%'),
-
         height: hp('2.5%'),
     },
     body: {
@@ -189,5 +276,47 @@ const styles = StyleSheet.create({
     },
     contenedorTabla: {
         marginBottom: hp('3.6%')
-    }
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        width: wp('80%'),
+        padding: hp('2%'),
+        backgroundColor: 'white',
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalText: {
+        fontSize: hp('2.5%'),
+        marginBottom: hp('2%'),
+        textAlign: 'center',
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    modalButton: {
+        width: '45%',
+        padding: hp('1%'),
+        backgroundColor: '#3498DB',
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    modalButtonRojo: {
+        width: '45%',
+        padding: hp('1%'),
+        backgroundColor: 'red',
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    modalButtonText: {
+        color: 'white',
+        fontSize: hp('2%'),
+    },
+
 });

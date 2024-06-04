@@ -85,7 +85,7 @@ const RegistrarDosis = ({ navigation, route }) => {
         nombreUsuario: userData?.nombreUsuario || 'nadie',
         UsuarioId: user ? user.uid : null,
         DosisInicial,
-        notificationId // Vincular el ID de la notificación
+        notificationId, // Vincular el ID de la notificación
       });
 
       navigation.navigate('GraciasPorRegistrar');

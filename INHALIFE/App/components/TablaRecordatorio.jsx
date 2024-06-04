@@ -4,15 +4,16 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { FIRESTORE_DB } from '../firebase/config';
 import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 
-const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
+const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, actualizarEstadoReset }) => {
     const [filas, setFilas] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [inputDosis, setInputDosis] = useState('');
     const [filaSeleccionada, setFilaSeleccionada] = useState(null);
     const [totalDosis, setTotalDosis] = useState(recordatorio.DosisInicial);
-    const [nuevacantidadTotalTabla, setnuevacantidadTotalTabla] = useState(0)
+    const [nuevacantidadTotalTabla, setnuevacantidadTotalTabla] = useState(0);
+    const [isInputEmpty, setIsInputEmpty] = useState(true);
+    const [diaSeleccionado, setDiaSeleccionado] = useState(null);
 
-    // Cargar datos iniciales desde Firestore
     useEffect(() => {
         const cargarDatosIniciales = async () => {
             const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
@@ -25,7 +26,7 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
                     setFilas([{ dia: 1, dosis: recordatorio.DosisInicial }]);
                     await updateDoc(RecordatorioRef, {
                         registroDosis: [{ dia: 1, dosis: recordatorio.DosisInicial }]
-                    }); // Guardar la primera fila en Firestore
+                    });
                 }
                 setTotalDosis(data.DosisInicial);
             } else {
@@ -36,46 +37,71 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
         cargarDatosIniciales();
     }, [recordatorio.id]);
 
-    // Define el límite máximo de dosis permitido
+    const resetearTabla = async () => {
+        // Mantén la primera fila y reinicia su dosis a 0
+        const nuevasFilas = [{ dia: 1, dosis: 0 }];
+        let nuevaDosisTotal = 0;
+
+        // Actualiza el estado local
+        setFilas(nuevasFilas);
+        setTotalDosis(nuevaDosisTotal);
+        setnuevacantidadTotalTabla(nuevaDosisTotal);
+        actualizarDosisInicial(nuevaDosisTotal);
+
+        // Actualiza en Firestore
+        const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
+        await updateDoc(RecordatorioRef, {
+            registroDosis: nuevasFilas,
+            DosisInicial: nuevaDosisTotal
+        });
+    };
+
+
+    useEffect(() => {
+        if (estadoReset) {
+            resetearTabla();
+            actualizarEstadoReset(false);
+        }
+    }, [estadoReset]);
+
     const DOSE_LIMIT = recordatorio.TotalDosis;
 
     const handleAgregarDosis = async () => {
         if (inputDosis !== '') {
-            const newDosis = parseInt(inputDosis); // Nueva dosis ingresada
-            const oldDosis = filas[filaSeleccionada].dosis; // Dosis anterior
+            const newDosis = parseInt(inputDosis);
+            if (filaSeleccionada !== null && filas[filaSeleccionada]) {
+                const oldDosis = filas[filaSeleccionada].dosis;
 
-            // Validar que la nueva dosis no sea negativa
-            if (newDosis >= 0) {
-                // Calcular la nueva dosis total
-                const diferenciaDosis = newDosis - oldDosis;
-                const nuevaDosisTotal = totalDosis + diferenciaDosis;
+                if (newDosis >= 0) {
+                    const diferenciaDosis = newDosis - oldDosis;
+                    const nuevaDosisTotal = totalDosis + diferenciaDosis;
 
-                // Verificar si la nueva dosis total excede el límite
-                if (nuevaDosisTotal <= DOSE_LIMIT) {
-                    const nuevasFilas = [...filas];
-                    nuevasFilas[filaSeleccionada].dosis = newDosis;
-                    setFilas(nuevasFilas);
+                    if (nuevaDosisTotal <= DOSE_LIMIT) {
+                        const nuevasFilas = [...filas];
+                        nuevasFilas[filaSeleccionada].dosis = newDosis;
+                        setFilas(nuevasFilas);
 
-                    // Actualizar la dosis total
-                    setTotalDosis(nuevaDosisTotal);
+                        setTotalDosis(nuevaDosisTotal);
 
-                    // Actualizar la DosisInicial y el registro de dosis en la base de datos
-                    const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
-                    await updateDoc(RecordatorioRef, {
-                        DosisInicial: nuevaDosisTotal,
-                        registroDosis: nuevasFilas
-                    });
+                        const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
+                        await updateDoc(RecordatorioRef, {
+                            DosisInicial: nuevaDosisTotal,
+                            registroDosis: nuevasFilas
+                        });
 
-                    setModalVisible(false);
-                    setInputDosis('');
+                        setModalVisible(false);
+                        setInputDosis('');
 
-                    actualizarDosisInicial(nuevaDosisTotal);
-                    setnuevacantidadTotalTabla(nuevaDosisTotal);
+                        actualizarDosisInicial(nuevaDosisTotal);
+                        setnuevacantidadTotalTabla(nuevaDosisTotal);
+                    } else {
+                        Alert.alert('Error', `La suma total de dosis no puede exceder ${DOSE_LIMIT}`);
+                    }
                 } else {
-                    Alert.alert('Error', `La suma total de dosis no puede exceder ${DOSE_LIMIT}`);
+                    Alert.alert('Error', 'La dosis no puede ser negativa');
                 }
             } else {
-                Alert.alert('Error', 'La dosis no puede ser negativa');
+                Alert.alert('Error', 'Error seleccionando la fila');
             }
         } else {
             Alert.alert('Error', 'Por favor ingresa una dosis válida');
@@ -83,21 +109,39 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
     };
 
     const handleAgregarFila = async () => {
-
         if (nuevacantidadTotalTabla < DOSE_LIMIT) {
             const nuevoDia = filas.length + 1;
             const nuevaFila = { dia: nuevoDia, dosis: 0 };
 
-            // Actualizar el estado local
             setFilas([...filas, nuevaFila]);
 
-            // Actualizar la base de datos
             const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
             await updateDoc(RecordatorioRef, {
-                registroDosis: arrayUnion(nuevaFila) // Agrega la nueva fila al arreglo existente
+                registroDosis: arrayUnion(nuevaFila)
             });
         } else {
-            Alert.alert('Error', 'La catidad tota ya alcanzo a su limite, no puedes agregar mas días :(');
+            Alert.alert('Error', 'La cantidad total ya alcanzó su límite, no puedes agregar más días :(');
+        }
+    };
+
+    const handleEliminarUltimaFila = async () => {
+        if (filas.length > 1) {
+            const nuevasFilas = filas.slice(0, -1);
+            const ultimaDosis = filas[filas.length - 1].dosis;
+            const nuevaDosisTotal = totalDosis - ultimaDosis;
+
+            setFilas(nuevasFilas);
+            setTotalDosis(nuevaDosisTotal);
+            setnuevacantidadTotalTabla(nuevaDosisTotal);
+            actualizarDosisInicial(nuevaDosisTotal);
+
+            const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
+            await updateDoc(RecordatorioRef, {
+                registroDosis: nuevasFilas,
+                DosisInicial: nuevaDosisTotal
+            });
+        } else {
+            Alert.alert('Error', 'No se puede eliminar la última fila');
         }
     };
 
@@ -105,6 +149,12 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
         setModalVisible(false);
         setInputDosis('');
     };
+
+    useEffect(() => {
+        setIsInputEmpty(inputDosis.trim() === '');
+    }, [inputDosis]);
+
+    const hasZeroDosis = filas.some(fila => fila.dosis === 0);
 
     return (
         <View style={styles.tabla}>
@@ -131,6 +181,7 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
                         <TouchableOpacity
                             onPress={() => {
                                 setFilaSeleccionada(index);
+                                setDiaSeleccionado(fila.dia);
                                 setModalVisible(true);
                             }}
                             style={styles.boton}
@@ -141,12 +192,13 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-
             ))}
 
-
             <View style={styles.botonContainer}>
-                <Button title="Siguiente Día" onPress={handleAgregarFila} />
+                <Button title="Siguiente Día" onPress={handleAgregarFila} disabled={hasZeroDosis} />
+            </View>
+            <View style={styles.botonContainer}>
+                <Button title="Eliminar Último Día" onPress={handleEliminarUltimaFila} />
             </View>
 
             <Modal
@@ -157,7 +209,7 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text>AGREGA TU DOSIS DEL DIA</Text>
+                        <Text>{filaSeleccionada !== null && filas[filaSeleccionada]?.dosis === 0 ? "AGREGAR" : "ACTUALIZAR"} TU DOSIS DEL DIA {diaSeleccionado}</Text>
                         <TextInput
                             style={styles.input}
                             onChangeText={text => setInputDosis(text)}
@@ -167,7 +219,10 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial }) => {
                             accessibilityLabel="Input de dosis"
                         />
                         <View style={styles.botonContainerModal}>
-                            <Button title="Actualizar" onPress={handleAgregarDosis} />
+                            <Button
+                                title={filaSeleccionada !== null && filas[filaSeleccionada]?.dosis === 0 ? "Agregar" : "Actualizar"}
+                                onPress={handleAgregarDosis}
+                            />
                             <View style={styles.margin} />
                             <Button title="Cancelar" onPress={handleCancelar} color="#FF6347" />
                         </View>
@@ -226,7 +281,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
+        margin: 20
     },
     modalView: {
         margin: 20,

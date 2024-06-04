@@ -34,6 +34,9 @@ const DashboardPaciente = ({ navigation }) => {
     funcion: () => { navigation.navigate('VideoTutoriales') }
   };
 
+
+
+
   useFocusEffect(
     useCallback(() => {
       const backAction = () => {
