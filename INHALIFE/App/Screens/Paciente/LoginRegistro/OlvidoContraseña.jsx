@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Pressable, TextInput, Modal } from 'react-native'
 import React, { useState } from 'react'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
-import { FIREBASE_AUTH } from '../../Cuidador/Login/OlvidoContraseña'
+import { FIREBASE_AUTH } from '../../../firebase/config'
 import { sendPasswordResetEmail } from 'firebase/auth';
 
 const OlvidoContraseñaPaciente = ({ navigation }) => {

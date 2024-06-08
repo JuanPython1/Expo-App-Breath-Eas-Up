@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Image, Animated } from 'react-native';
+import { View, Text, StyleSheet, Image, Animated, BackHandler } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { doc, getDoc } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
@@ -43,6 +43,20 @@ const BienvenidaPaciente = ({ navigation }) => {
 
     // Limpia el temporizador cuando el componente se desmonta
     return () => clearTimeout(timeout);
+  }, [navigation]);
+
+  useEffect(() => {
+    const onBackPress = () => {
+      if (navigation.isFocused()) {
+        BackHandler.exitApp();
+        return true;
+      }
+      return false;
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+    return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
   }, [navigation]);
 
   console.log(userData);

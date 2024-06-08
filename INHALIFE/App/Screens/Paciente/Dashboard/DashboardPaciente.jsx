@@ -34,6 +34,12 @@ const DashboardPaciente = ({ navigation }) => {
     funcion: () => { navigation.navigate('VideoTutoriales') }
   };
 
+  const botonNotificaciones = {
+    titulo: 'Notificaciones',
+    imagen: require('../../../../assets/Image/videotutorial.png'),
+    funcion: () => { navigation.navigate('notificacionesPacientes') }
+  };
+
 
 
 
@@ -112,6 +118,9 @@ const DashboardPaciente = ({ navigation }) => {
         <View style={styles.fila2}>
           <View style={styles.RegistroDosis}>
             <BotonDashBoardPaciente props={botonVideosTutoriales} />
+          </View>
+          <View style={styles.RegistroDosis}>
+            <BotonDashBoardPaciente props={botonNotificaciones} />
           </View>
         </View>
       </View>

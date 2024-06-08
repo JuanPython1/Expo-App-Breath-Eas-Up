@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View, Text, SafeAreaView, StyleSheet, StatusBar, Image, KeyboardAvoidingView, Pressable,
-  TextInput, Dimensions, TouchableOpacity, ActivityIndicator
+  TextInput, Dimensions, TouchableOpacity, ActivityIndicator, Platform, ScrollView
 } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
@@ -14,6 +14,7 @@ const LoginCuidador = ({ navigation }) => {
   const [contraseña, setContraseña] = useState('');
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [loading, setLoading] = useState(false);
+  const contraseñaInputRef = useRef(null);
 
   const SignIn = async () => {
     setLoading(true);
@@ -23,7 +24,6 @@ const LoginCuidador = ({ navigation }) => {
       let userDoc = await getDoc(doc(FIRESTORE_DB, 'UsuariosCuidadores', response.user.uid));
       if (!userDoc.exists()) {
         userDoc = await getDoc(doc(FIRESTORE_DB, 'UsuariosPacientes', response.user.uid));
-
       }
 
       // Verifica el rol del usuario
@@ -52,78 +52,79 @@ const LoginCuidador = ({ navigation }) => {
     navigation.navigate('OlvidoContraseñaCuidador');
   };
 
-
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} >
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.keyboardAvoidingView}>
+        <ScrollView contentContainerStyle={styles.scrollViewContent} keyboardShouldPersistTaps='handled'>
+          <Pressable style={styles.contenedorAtras} onPress={() => { navigation.navigate('Rol') }}>
+            <Image style={styles.iconAtras} source={require('../../../../assets/Image/Flechaatras.png')} />
+          </Pressable>
 
-      <StatusBar style="auto" backgroundColor="#00AAE4" />
+          <View style={styles.ContenedorTitulo}>
+            <Text style={styles.Titulo}>INHALIFE</Text>
+          </View>
 
-      <Pressable style={styles.contenedorAtras} onPress={() => { navigation.navigate('Rol') }}>
-        <Image style={styles.iconAtras} source={require('../../../../assets/Image/Flechaatras.png')} />
-      </Pressable>
+          <View style={styles.ContenedorBienvenida}>
+            <Text style={styles.TextBienvenida}>{`BIENVENIDO\nCUIDADOR`}</Text>
+          </View>
 
-      <View style={styles.ContenedorTitulo}>
-        <Text style={styles.Titulo}>INHALIFE</Text>
-      </View>
-
-      <View style={styles.ContenedorBienvenida}>
-        <Text style={styles.TextBienvenida}>{`BIENVENIDO\nCUIDADOR`}</Text>
-      </View>
-
-      <KeyboardAvoidingView behavior="height" >
-        <View style={styles.ContenedorInputs}>
-
-          <TextInput style={styles.input}
-            value={email}
-            placeholder='CORREO ELECTRONICO'
-            placeholderTextColor={'black'}
-            autoCapitalize='none'
-            onChangeText={(text) => setEmail(text)}
-          />
-
-          <View style={styles.ContenedorContraseña}>
+          <View style={styles.ContenedorInputs}>
             <TextInput
-              style={styles.inputContraseña}
-              value={contraseña}
-              placeholder='CONTRASEÑA'
+              style={styles.input}
+              value={email}
+              placeholder='CORREO ELECTRONICO'
               placeholderTextColor={'black'}
               autoCapitalize='none'
-              secureTextEntry={!mostrarContraseña}
-              onChangeText={(text) => setContraseña(text)}
+              onChangeText={(text) => setEmail(text)}
+              returnKeyType="next"
+              onSubmitEditing={() => contraseñaInputRef.current.focus()}
+              blurOnSubmit={false}
             />
-            <Pressable onPress={() => setMostrarContraseña(!mostrarContraseña)} style={styles.OjoContainer}>
-              <MaterialIcon
-                name={mostrarContraseña ? 'eye' : 'eye-with-line'}
-                size={20}
-                color="#000000"
+
+            <View style={styles.ContenedorContraseña}>
+              <TextInput
+                ref={contraseñaInputRef}
+                style={styles.inputContraseña}
+                value={contraseña}
+                placeholder='CONTRASEÑA'
+                placeholderTextColor={'black'}
+                autoCapitalize='none'
+                secureTextEntry={!mostrarContraseña}
+                onChangeText={(text) => setContraseña(text)}
+                returnKeyType="done"
+                onSubmitEditing={SignIn}
+                blurOnSubmit={false}
               />
-            </Pressable>
-          </View>
-
-
-          {loading ? (
-            <ActivityIndicator size={'large'} color={'#F94242'} />
-          ) : (
-            <>
-              <Pressable style={styles.BotonEntrar} onPress={SignIn}>
-                <Text style={styles.TextoEntrar}>ENTRAR</Text>
+              <Pressable onPress={() => setMostrarContraseña(!mostrarContraseña)} style={styles.OjoContainer}>
+                <MaterialIcon
+                  name={mostrarContraseña ? 'eye' : 'eye-with-line'}
+                  size={20}
+                  color="#000000"
+                />
               </Pressable>
-            </>
-          )}
+            </View>
 
-          <View style={styles.contenedorRegistroYOlvidoContraseña}>
-            <Text style={styles.textoRegistrateYOlvidarContraseña}>¿Olvidaste tu contraseña? <Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}>Recuerdame</Text>.</Text>
+            {loading ? (
+              <ActivityIndicator size={'large'} color={'#F94242'} />
+            ) : (
+              <>
+                <Pressable style={styles.BotonEntrar} onPress={SignIn}>
+                  <Text style={styles.TextoEntrar}>ENTRAR</Text>
+                </Pressable>
+              </>
+            )}
+
+            <View style={styles.contenedorRegistroYOlvidoContraseña}>
+              <Text style={styles.textoRegistrateYOlvidarContraseña}>¿Olvidaste tu contraseña? <Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}>Recuerdame</Text>.</Text>
+            </View>
           </View>
-        </View>
 
+          <View style={styles.ContenedorNiños}>
+            <Image style={styles.niña} source={require('../../../../assets/Image/Niña.png')} />
+            <Image style={styles.niño} source={require('../../../../assets/Image/Niño.png')} />
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
-
-
-      <View style={styles.ContenedorNiños}>
-        <Image style={styles.niña} source={require('../../../../assets/Image/Niña.png')} />
-        <Image style={styles.niño} source={require('../../../../assets/Image/Niño.png')} />
-      </View>
-
     </SafeAreaView>
   );
 };
@@ -133,13 +134,20 @@ export default LoginCuidador;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: hp('100%'),
-    width: wp('100%'),
     backgroundColor: 'F1F1F1',
   },
 
+  keyboardAvoidingView: {
+    flex: 1,
+  },
+
+  scrollViewContent: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+
   contenedorAtras: {
-    top: hp('2%'),
+    top: hp('3%'),
     left: wp('5%'),
     height: hp('5%'),
     width: wp('15%'),
@@ -176,7 +184,6 @@ const styles = StyleSheet.create({
 
   ContenedorBienvenida: {
     height: hp('12%'),
-    width: 'auto',
     marginVertical: hp('2%'),
   },
 
@@ -189,7 +196,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   ContenedorNiños: {
-    marginVertical: hp('10%'),
+    marginVertical: hp('6%'),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
