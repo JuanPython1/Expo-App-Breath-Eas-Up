@@ -52,13 +52,6 @@ const DashboardAdmin = ({ navigation }) => {
                         <Image style={styles.Imagen} source={require('../../../assets/Image/medicaRegistro.png')} />
                     </Pressable>
                 </View>
-
-                <View style={styles.fila2}>
-                    <Pressable style={styles.boton} onPress={() => navigation.navigate('RegistroCuidadores')}>
-                        <Text style={styles.textTitulo}>CUIDADORES REGISTRADOS</Text>
-                        <Image style={styles.Imagen} source={require('../../../assets/Image/perro.png')} />
-                    </Pressable>
-                </View>
             </View>
 
             {/* ------------------------MODAL---------------------- */}
@@ -131,7 +124,7 @@ const styles = StyleSheet.create({
         marginHorizontal: wp('4%')
     },
     fila2: {
-        marginVertical: hp('1%'),
+        marginTop: hp('13%'),
         alignItems: 'center'
     },
     boton: {

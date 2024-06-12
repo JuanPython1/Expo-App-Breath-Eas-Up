@@ -4,7 +4,6 @@ import {
     SafeAreaView, Platform, ScrollView, ActivityIndicator, Modal, Alert
 } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 
@@ -66,37 +65,63 @@ const RegistroCuidadores = ({ navigation }) => {
     };
 
     const signUp = async () => {
-        setLoading(true)
+        setLoading(true);
         try {
-            await createUserWithEmailAndPassword(auth, correo, contraseña);
+            const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAxeAPzMfHxcjDZCd_VlFbveNcyPTWLXyU', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: correo,
+                    password: contraseña,
+                    returnSecureToken: false // Esto evita que se devuelva un token de acceso
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error.message);
+            }
+
             console.log('Usuario registrado exitosamente');
-            const userRef = doc(firestore, 'UsuariosCuidadores', auth.currentUser.uid);
-            await setDoc(userRef, { nombreUsuario: usuario, email: correo, nombre: nombres, apellido: apellidos, rol: 'Cuidador' });
+
+            // Continúa guardando el UID del usuario en Firestore
+            const userData = await response.json();
+            const uid = userData.localId; // Obtener el UID del usuario creado
+            const userRef = doc(firestore, 'UsuariosCuidadores', uid);
+            await setDoc(userRef, {
+                nombreUsuario: usuario,
+                email: correo,
+                nombre: nombres,
+                apellido: apellidos,
+                rol: 'Cuidador'
+            });
+
             setLoading(false);
             // No hay redirección o inicio de sesión automático después del registro
         } catch (error) {
-            console.log(error);
-            switch (error.code) {
-                case 'auth/email-already-in-use':
+            console.log(error.message);
+            switch (error.message) {
+                case 'EMAIL_EXISTS':
                     alert('El correo electrónico ya está en uso por otro cuidador.');
                     break;
-                case 'auth/invalid-email':
-                    alert('El correo electrónico no es válido.');
+                case 'INVALID_EMAIL':
+                    alert('El correo electrónico proporcionado no es válido.');
                     break;
-                case 'auth/operation-not-allowed':
-                    alert('La autenticación por correo electrónico y contraseña no está habilitada.');
+                case 'OPERATION_NOT_ALLOWED':
+                    alert('La operación no está permitida. Consulta la configuración de tu proyecto Firebase para asegurarte de que la autenticación con correo electrónico y contraseña esté habilitada.');
                     break;
-                case 'auth/weak-password':
-                    alert('La contraseña no es lo suficientemente segura.');
+                case 'WEAK_PASSWORD':
+                    alert('La contraseña proporcionada no es lo suficientemente segura.');
                     break;
+                // Otros errores que puedan surgir
                 default:
-                    alert('Registro fallido');
+                    alert('Registro fallido. Por favor, inténtalo de nuevo más tarde.');
             }
-
         } finally {
             setLoading(false);
         }
-
     };
 
 
