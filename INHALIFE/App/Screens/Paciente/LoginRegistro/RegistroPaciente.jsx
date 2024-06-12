@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, TextInput, ActivityIndicator, Pressable, KeyboardAvoidingView, Modal } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
@@ -19,6 +19,13 @@ const RegistroPaciente = ({ navigation }) => {
   const [isModalClosedRegistro, setIsModalClosedRegistro] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [secureConfirmEntry, setSecureConfirmEntry] = useState(true);
+
+  const nombreRef = useRef(null);
+  const apellidoRef = useRef(null);
+  const emailRef = useRef(null);
+  const contraseñaRef = useRef(null);
+  const confirmarContraseñaRef = useRef(null);
+
 
   const auth = FIREBASE_AUTH;
   const firestore = FIRESTORE_DB;
@@ -104,7 +111,7 @@ const RegistroPaciente = ({ navigation }) => {
 
   useEffect(() => {
     if (isModalClosedRegistro) {
-      navigation.navigate('LoginPaciente');
+      navigation.navigate('BienvenidaPaciente');
     }
   }, [isModalClosedRegistro, navigation]);
 
@@ -123,37 +130,53 @@ const RegistroPaciente = ({ navigation }) => {
             placeholderTextColor={'black'}
             autoCapitalize='none'
             onChangeText={(text) => setUsername(text)}
+            returnKeyType='next'
+            onSubmitEditing={() => { nombreRef.current.focus() }}
+            blurOnSubmit={false}
           />
 
           <TextInput
+            ref={nombreRef}
             style={styles.input}
             value={nombre}
             placeholder='Nombres:'
             placeholderTextColor={'black'}
             autoCapitalize='none'
             onChangeText={(text) => setNombre(text)}
+            returnKeyType='next'
+            onSubmitEditing={() => { apellidoRef.current.focus() }}
+            blurOnSubmit={false}
           />
 
           <TextInput
+            ref={apellidoRef}
             style={styles.input}
             value={apellido}
             placeholder='Apellidos:'
             placeholderTextColor={'black'}
             autoCapitalize='none'
             onChangeText={(text) => setApellido(text)}
+            returnKeyType='next'
+            onSubmitEditing={() => { emailRef.current.focus() }}
+            blurOnSubmit={false}
           />
 
           <TextInput
+            ref={emailRef}
             style={styles.input}
             value={email}
             placeholder='Correo Electronico:'
             placeholderTextColor={'black'}
             autoCapitalize='none'
             onChangeText={(text) => setEmail(text)}
+            returnKeyType='next'
+            onSubmitEditing={() => { contraseñaRef.current.focus() }}
+            blurOnSubmit={false}
           />
 
           <View style={styles.passwordContainer}>
             <TextInput
+              ref={contraseñaRef}
               style={styles.inputPassword}
               value={contraseña}
               placeholder='Contraseña:'
@@ -161,6 +184,9 @@ const RegistroPaciente = ({ navigation }) => {
               autoCapitalize='none'
               secureTextEntry={secureTextEntry}
               onChangeText={(text) => setContraseña(text)}
+              returnKeyType='next'
+              onSubmitEditing={() => { confirmarContraseñaRef.current.focus() }}
+              blurOnSubmit={false}
             />
             <Pressable onPress={() => setSecureTextEntry(!secureTextEntry)}>
               <MaterialIcons name={secureTextEntry ? 'visibility-off' : 'visibility'} size={24} color="black" />
@@ -169,6 +195,7 @@ const RegistroPaciente = ({ navigation }) => {
 
           <View style={styles.passwordContainer}>
             <TextInput
+              ref={confirmarContraseñaRef}
               style={styles.inputPassword}
               value={confirmarContraseña}
               placeholder=' Confirmar Contraseña:'
@@ -176,6 +203,8 @@ const RegistroPaciente = ({ navigation }) => {
               autoCapitalize='none'
               secureTextEntry={secureConfirmEntry}
               onChangeText={(text) => setConfirmarContraseña(text)}
+              returnKeyType='done'
+              onSubmitEditing={ValidacionesYRegistro}
             />
             <Pressable onPress={() => setSecureConfirmEntry(!secureConfirmEntry)}>
               <MaterialIcons name={secureConfirmEntry ? 'visibility-off' : 'visibility'} size={24} color="black" />

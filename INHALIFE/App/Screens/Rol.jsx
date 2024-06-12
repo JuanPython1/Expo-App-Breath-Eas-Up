@@ -41,8 +41,10 @@ const Rol = ({ navigation }) => {
 
       </View>
 
-
       <Image style={styles.niño} source={require('../../assets/Image/Niño.png')} />
+
+      {/* <Text style={styles.textoAdmin}> ¿Eres administrador? presiona<Text onPress={() => { navigation.navigate('LoginAdmin') }}> aqui </Text> </Text> */}
+      <Text onPress={() => { navigation.navigate('LoginAdmin') }} style={styles.textoAdmin}> ¿Eres administrador? presiona aqui </Text>
 
     </SafeAreaView>
   )
@@ -66,7 +68,6 @@ const styles = StyleSheet.create({
   niño: {
     width: wp('37.5%'),
     height: hp('24%'),
-    top: hp('2%'),
     left: wp('60%')
   },
 
@@ -117,4 +118,11 @@ const styles = StyleSheet.create({
   contenedorCuidador: {
     width: wp('25%'),
   },
+
+  textoAdmin: {
+    alignSelf: 'center',
+    color: '#F1F1F1',
+    fontSize: wp('3%'),
+    fontFamily: 'Play-fair-Display',
+  }
 });

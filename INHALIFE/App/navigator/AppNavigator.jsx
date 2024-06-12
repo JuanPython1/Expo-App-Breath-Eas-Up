@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -50,8 +49,19 @@ import BienvenidaCuidador from '../Screens/Cuidador/DashBoard/BienvenidaCuidador
 
 //InfoCompartido
 import InfoRecordatorioDosisCompartida from '../Screens/Cuidador/DashBoard/InfoRecordatorioDosisCompartida';
+
+//ADMINS
+import LoginAdmin from '../Screens/Admin/LoginAdmin';
+import DashboardAdmin from '../Screens/Admin/DashboardAdmin';
+import RegistroCuidadores from '../Screens/Admin/RegistroCuidadores';
+import BienvenidaAdmin from '../Screens/Admin/BienvenidaAdmin';
+import OlvidoContraseñaAdmin from '../Screens/Admin/OlvidoContraseñaAdmin'
+
+
+//Navigators
 import CuidadorNavigator from './CuidadorNavigator';
 import PacienteNavigator from './PacienteNavigator'
+import AdminNavigator from './AdminNavigator';
 
 
 const Stack = createNativeStackNavigator();
@@ -131,13 +141,19 @@ const AppNavigator = () => {
                 const docRefCuidador = doc(FIRESTORE_DB, 'UsuariosCuidadores', user.uid);
                 const docSnapCuidador = await getDoc(docRefCuidador);
 
+                const docRefAdmin = doc(FIRESTORE_DB, 'Administradores', user.uid);
+                const docSnapAdministrador = await getDoc(docRefAdmin);
+
                 if (docSnapPaciente.exists()) {
                     setUserRole('paciente');
 
                 } else if (docSnapCuidador.exists()) {
                     setUserRole('cuidador');
-
-                } else {
+                }
+                else if (docSnapAdministrador.exists()) {
+                    setUserRole('Admin')
+                }
+                else {
                     setUserRole(null);
                 }
 
@@ -165,9 +181,10 @@ const AppNavigator = () => {
                     <Stack.Screen name='Paciente' component={PacienteNavigator} options={{ headerShown: false }} />
                 ) : userRole === 'cuidador' ? (
                     <Stack.Screen name='Cuidador' component={CuidadorNavigator} options={{ headerShown: false }} />
-                ) : (
-                    <Stack.Screen name='Rol' component={Rol} options={{ headerShown: false }} />
-                )}
+                ) : userRole == 'Admin' ? (
+                    <Stack.Screen name='Admin' component={AdminNavigator} options={{ headerShown: false }} />
+                ) :
+                    (<Stack.Screen name='Rol' component={Rol} options={{ headerShown: false }} />)}
 
                 {/* Login y Registro Paciente */}
                 <Stack.Screen name='LoginPaciente' component={LoginPaciente} options={{ headerShown: false }} />
@@ -206,6 +223,12 @@ const AppNavigator = () => {
                 {/* Info recordatorio dosis compartida */}
                 <Stack.Screen name='InfoRecordatorioDosisCompartida' component={InfoRecordatorioDosisCompartida} options={{ headerShown: false }} />
 
+                {/* ADMIN */}
+                <Stack.Screen name='LoginAdmin' component={LoginAdmin} options={{ headerShown: false }} />
+                <Stack.Screen name={'BienvenidaAdmin'} component={BienvenidaAdmin} options={{ headerShown: false }} />
+                <Stack.Screen name='OlvidoContraseñaAdmin' component={OlvidoContraseñaAdmin} options={{ headerShown: false }} />
+                <Stack.Screen name='DashboardAdmin' component={DashboardAdmin} options={{ headerShown: false }} />
+                <Stack.Screen name='RegistroCuidadores' component={RegistroCuidadores} options={{ headerShown: false }} />
 
             </Stack.Navigator>
         </NavigationContainer>
