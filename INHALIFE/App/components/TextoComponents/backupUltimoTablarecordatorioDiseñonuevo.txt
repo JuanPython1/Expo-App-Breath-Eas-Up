@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Alert } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Button, Alert } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../firebase/config';
 
@@ -52,15 +52,21 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
 
     useEffect(() => {
         const interval = setInterval(() => {
+            const currentTime = new Date();
+            const [horaDosis, minutoDosis] = hora.split(':').map(Number);
             const today = new Date();
             const formattedDate = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
 
             const lastDateArray = diaSeleccionado ? diaSeleccionado.split('-') : [];
             const lastDate = lastDateArray.length === 3 ? new Date(lastDateArray[2], lastDateArray[1] - 1, lastDateArray[0]) : new Date();
             const timeDifference = today.getTime() - lastDate.getTime();
-            const dayDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
+            const dayDifference = timeDifference / (1000 * 3600 * 24);
 
-            if (dayDifference >= 1 && !dosisRegistradaHoy) {
+            if (
+                (currentTime.getHours() > horaDosis ||
+                    (currentTime.getHours() === horaDosis && currentTime.getMinutes() >= minutoDosis)) &&
+                !dosisRegistradaHoy && dayDifference >= 1
+            ) {
                 setIsButtonEnabled(true);
                 setPuedeEditar(true);
             } else {
@@ -76,7 +82,7 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [hora, filas, diaSeleccionado, dosisRegistradaHoy]);
+    }, [hora, filas, diaSeleccionado]);
 
     const resetearTabla = async () => {
         const nuevasFilas = [{ dia: 1, dosis: 0 }];
@@ -154,17 +160,13 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
     const handleAgregarFila = async () => {
         const today = new Date();
         const formattedDate = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
-
-        const ultimaFila = filas[filas.length - 1];
-        const lastDateArray = ultimaFila.fecha.split('-');
+        const lastDateArray = diaSeleccionado.split('-');
         const lastDate = new Date(lastDateArray[2], lastDateArray[1] - 1, lastDateArray[0]);
 
-        // Calcula la diferencia en días entre la fecha actual y la última fecha registrada
         const timeDifference = today.getTime() - lastDate.getTime();
-        const dayDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
+        const dayDifference = timeDifference / (1000 * 3600 * 24);
 
-        // Verifica si ha pasado al menos un día desde el último registro y no se ha registrado una dosis hoy
-        if (dayDifference >= 1 && !dosisRegistradaHoy) {
+        if (puedeEditar && !dosisRegistradaHoy && dayDifference >= 1) {
             if (nuevacantidadTotalTabla < DOSE_LIMIT) {
                 const nuevoDia = filas.length + 1;
                 const nuevaFila = { dia: nuevoDia, dosis: 0, fecha: formattedDate };
@@ -175,26 +177,26 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
                 await updateDoc(RecordatorioRef, {
                     registroDosis: arrayUnion(nuevaFila)
                 });
+
                 setDiaSeleccionado(formattedDate);
             } else {
                 Alert.alert('Error', 'La cantidad total ya alcanzó su límite, no puedes agregar más días :(');
             }
         } else {
-            Alert.alert('Error', 'Solo puedes agregar una fila si ha pasado al menos un día desde el último registro y no se ha registrado una dosis hoy.');
+            Alert.alert('Error', 'No puedes agregar más días ahora');
         }
     };
 
     const handleEliminarUltimaFila = async () => {
         if (filas.length > 1) {
-            const ultimaFila = filas[filas.length - 1];
             const nuevasFilas = filas.slice(0, -1);
-            const nuevaDosisTotal = totalDosis - ultimaFila.dosis;
+            const ultimaDosis = filas[filas.length - 1].dosis;
+            const nuevaDosisTotal = totalDosis - ultimaDosis;
 
             setFilas(nuevasFilas);
             setTotalDosis(nuevaDosisTotal);
             setnuevacantidadTotalTabla(nuevaDosisTotal);
             actualizarDosisInicial(nuevaDosisTotal);
-
             const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
             await updateDoc(RecordatorioRef, {
                 registroDosis: nuevasFilas,
@@ -217,12 +219,6 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
         setFilaSeleccionada(null);
     };
 
-    const isToday = (date) => {
-        const today = new Date();
-        const [day, month, year] = date.split('-');
-        return today.getDate() === parseInt(day) && (today.getMonth() + 1) === parseInt(month) && today.getFullYear() === parseInt(year);
-    };
-
     return (
         <View>
             <View style={styles.tablaContainer}>
@@ -230,20 +226,15 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
                     <Text style={styles.headerTitulo}>REGISTRO DE LA DOSIS DEL PACIENTE</Text>
                 </View>
                 <View style={styles.headerContainer}>
-                    <Text style={[styles.headerText, styles.bordeDerecho]}>Día</Text>
-                    <Text style={[styles.headerText, styles.bordeDerecho]}>Dosis</Text>
+                    <Text style={styles.headerText}>Día</Text>
+                    <Text style={styles.headerText}>Dosis</Text>
                     <Text style={styles.headerText}>Fecha</Text>
                 </View>
                 {filas.map((fila, index) => (
-                    <TouchableOpacity
-                        key={index}
-                        style={[styles.filaContainer, fila.dosis > 0 && styles.filaAzulOscuro]}
-                        onPress={() => fila.dosis === 0 && abrirModal(index)}
-                        disabled={fila.dosis > 0}
-                    >
-                        <Text style={[styles.headerText, styles.bordeDerecho]}>{fila.dia}</Text>
-                        <Text style={[styles.headerText, styles.bordeDerecho]}>{fila.dosis}</Text>
-                        <Text style={[styles.headerText]}>{fila.fecha}</Text>
+                    <TouchableOpacity key={index} style={styles.filaContainer} onPress={() => abrirModal(index)}>
+                        <Text style={styles.textoFila}>{fila.dia}</Text>
+                        <Text style={styles.textoFila}>{fila.dosis}</Text>
+                        <Text style={styles.textoFila}>{fila.fecha}</Text>
                     </TouchableOpacity>
                 ))}
             </View>
@@ -275,14 +266,10 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
                 </View>
             </Modal>
 
-            {filas.some(fila => fila.dosis > 1) && (
-                <Text style={styles.errorText}>Regresa y registrar tu dosis diaria, INAHALIFE te recordara ;)</Text>
-            )}
-
             <TouchableOpacity
-                style={[styles.botonAgregar, { backgroundColor: puedeEditar ? 'blue' : 'grey' }]}
+                style={[styles.botonAgregar, { backgroundColor: isButtonEnabled ? 'blue' : 'grey' }]}
                 onPress={handleAgregarFila}
-                disabled={!puedeEditar}
+                disabled={!isButtonEnabled}
             >
                 <Text style={styles.textoBoton}>Siguiente Día</Text>
             </TouchableOpacity>
@@ -290,52 +277,42 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
     );
 };
 
-
 const styles = StyleSheet.create({
     tablaContainer: {
         borderWidth: 1,
         borderColor: 'black',
         margin: 10,
-        marginTop: hp('4%')
     },
     header: {
         backgroundColor: 'lightgrey',
-        borderBottomWidth: 1,
     },
     headerTitulo: {
         flex: 1,
         textAlign: 'center',
-        fontFamily: 'noticia-text',
+        fontWeight: 'bold',
+        fontFamily: 'Play-fair-Display',
         padding: 10,
         fontSize: 14
     },
     headerContainer: {
         flexDirection: 'row',
-        // backgroundColor: 'lightgrey',
+        backgroundColor: 'lightgrey',
     },
     headerText: {
         flex: 1,
         textAlign: 'center',
-        fontFamily: 'noticia-text',
+        fontWeight: 'bold',
         padding: 10,
     },
     filaContainer: {
         flexDirection: 'row',
         borderTopWidth: 1,
         borderColor: 'black',
-
-    },
-    filaAzulOscuro: {
-        backgroundColor: '#3498DB',
     },
     textoFila: {
         flex: 1,
         textAlign: 'center',
         padding: 10,
-    },
-    bordeDerecho: {
-        borderRightWidth: 1,
-        borderRightColor: 'black',
     },
     botonAgregar: {
         backgroundColor: 'blue',
@@ -343,7 +320,7 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 5,
         alignItems: 'center',
-        marginBottom: hp('5.7%')
+        marginBottom: hp('8.5%')
     },
     botonEliminar: {
         backgroundColor: 'red',
@@ -351,12 +328,6 @@ const styles = StyleSheet.create({
         margin: 10,
         borderRadius: 5,
         alignItems: 'center',
-    },
-    errorText: {
-        color: 'red',
-        textAlign: 'center',
-        marginBottom: 10,
-        fontFamily: 'Play-fair-Display',
     },
     textoBoton: {
         color: 'white',

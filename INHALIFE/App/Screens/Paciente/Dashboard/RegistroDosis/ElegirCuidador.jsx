@@ -14,10 +14,14 @@ const ElegirCuidador = ({ navigation, route }) => {
     const obtenerCuidadores = async () => {
       try {
         const cuidadoresSnapshot = await getDocs(collection(FIRESTORE_DB, 'UsuariosCuidadores'));
-        const cuidadoresList = cuidadoresSnapshot.docs.map(doc => ({
-          uid: doc.id,
-          nombreUsuario: doc.data().nombreUsuario,
-        }));
+        const cuidadoresList = cuidadoresSnapshot.docs.map(doc => {
+          const data = doc.data();
+          const nombreCompleto = `${data.nombre} ${data.apellido}`;
+          return {
+            uid: doc.id,
+            nombreCompleto,
+          };
+        });
         setCuidadores(cuidadoresList);
       } catch (error) {
         console.error('Error al obtener los cuidadores: ', error);
@@ -36,7 +40,7 @@ const ElegirCuidador = ({ navigation, route }) => {
         Dosis80Porciento,
         horaDosisDiaria,
         cuidadorUID: cuidadorSeleccionado.uid,
-        cuidadorNombre: cuidadorSeleccionado.nombreUsuario
+        cuidadorNombre: cuidadorSeleccionado.nombreCompleto
       });
     }
   };
@@ -57,12 +61,12 @@ const ElegirCuidador = ({ navigation, route }) => {
               style={styles.checkbox}
               onClick={() => setCuidadorSeleccionado(cuidador)}
               isChecked={cuidadorSeleccionado?.uid === cuidador.uid}
-              leftText={cuidador.nombreUsuario}
+              leftText={cuidador.nombreCompleto}
               leftTextStyle={styles.checkboxText}
               checkBoxColor="#3498DB"
-              accessibilityLabel={`Seleccionar ${cuidador.nombreUsuario}`}
+              accessibilityLabel={`Seleccionar ${cuidador.nombreCompleto}`}
             />
-            <Text style={styles.checkboxText}>{cuidador.nombreUsuario}</Text>
+            <Text style={styles.checkboxText}>{cuidador.nombreCompleto}</Text>
           </View>
         ))}
       </ScrollView>

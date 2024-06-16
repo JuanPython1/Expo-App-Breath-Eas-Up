@@ -33,28 +33,19 @@ const TablaRecordatorio = ({ recordatorio }) => {
 
     return (
         <View style={styles.tabla}>
-            <View style={styles.fila}>
-                <View style={styles.celdaTitulo}>
-                    <Text style={styles.textoTitulo}>REGISTRO DIAS</Text>
-                </View>
+            <View style={styles.header}>
+                <Text style={styles.headerTitulo}>REGISTRO DE LA DOSIS DEL PACIENTE</Text>
             </View>
-            <View style={styles.fila}>
-                <View style={styles.celda}>
-                    <Text style={styles.textoCeldaDias}>DIAS</Text>
-                </View>
-                <View style={styles.celda}>
-                    <Text style={styles.textoCeldaCantidad}>CANTIDAD DOSIS</Text>
-                </View>
+            <View style={styles.headerContainer}>
+                <Text style={[styles.headerText, styles.bordeDerecho]}>Día</Text>
+                <Text style={[styles.headerText, styles.bordeDerecho]}>Dosis</Text>
+                <Text style={styles.headerText}>Fecha</Text>
             </View>
-
             {filas.map((fila, index) => (
-                <View key={index} style={styles.fila}>
-                    <View style={styles.celda}>
-                        <Text style={styles.textoCelda}>{fila.dia}</Text>
-                    </View>
-                    <View style={styles.celda}>
-                        <Text style={styles.textoCelda}>{fila.dosis} PUFF</Text>
-                    </View>
+                <View key={index} style={styles.filaContainer}>
+                    <Text style={[styles.textoFila, styles.bordeDerecho]}>{fila.dia}</Text>
+                    <Text style={[styles.textoFila, styles.bordeDerecho]}>{fila.dosis} PUFF</Text>
+                    <Text style={styles.textoFila}>{fila.fecha}</Text>
                 </View>
             ))}
         </View>
@@ -63,48 +54,50 @@ const TablaRecordatorio = ({ recordatorio }) => {
 
 const styles = StyleSheet.create({
     tabla: {
-        marginHorizontal: wp('5%'),
         borderWidth: 1,
-        borderColor: '#000',
-        flexDirection: 'column',
-        marginTop: hp('2%'),
-        backgroundColor: '#7CDBFC'
+        borderColor: 'black',
+        margin: 10,
+        marginTop: hp('5%'),
+        marginBottom: hp('2.5%')
     },
-    fila: {
+    header: {
+        backgroundColor: 'lightgrey',
+
+    },
+    headerContainer: {
         flexDirection: 'row',
+        backgroundColor: 'lightgrey',
+
+        borderColor: 'black',
     },
-    celdaTitulo: {
-        borderWidth: 1,
-        backgroundColor: '#C8EFFC',
-        borderColor: '#000',
+    headerTitulo: {
         flex: 1,
+        textAlign: 'center',
+        fontFamily: 'noticia-text',
+        padding: 10,
+        fontSize: 14
+    },
+    headerText: {
+        flex: 1,
+        textAlign: 'center',
+        fontFamily: 'noticia-text',
         padding: 10,
     },
-    celda: {
-        borderWidth: 1,
-        borderColor: '#000',
+    filaContainer: {
+        flexDirection: 'row',
+        borderTopWidth: 1,
+        borderColor: 'black',
+    },
+    textoFila: {
         flex: 1,
+        textAlign: 'center',
         padding: 10,
-        justifyContent: 'center'
+        fontFamily: 'noticia-text',
     },
-    textoCeldaDias: {
-        textAlign: 'center',
-        fontSize: wp('4%'),
-        fontFamily: 'noticia-text'
-    },
-    textoCeldaCantidad: {
-        textAlign: 'center',
-        fontSize: wp('4%'),
-        fontFamily: 'noticia-text'
-    },
-    textoTitulo: {
-        textAlign: 'center',
-        fontSize: wp('5%'),
-        fontFamily: 'noticia-text'
-    },
-    textoCelda: {
-        textAlign: 'center',
-    },
+    bordeDerecho: {
+        borderRightWidth: 1,
+        borderRightColor: 'black',
+    }
 });
 
 export default TablaRecordatorio;

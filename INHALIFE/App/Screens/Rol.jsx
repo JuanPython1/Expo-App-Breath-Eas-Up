@@ -44,7 +44,7 @@ const Rol = ({ navigation }) => {
       <Image style={styles.niño} source={require('../../assets/Image/Niño.png')} />
 
       {/* <Text style={styles.textoAdmin}> ¿Eres administrador? presiona<Text onPress={() => { navigation.navigate('LoginAdmin') }}> aqui </Text> </Text> */}
-      <Text onPress={() => { navigation.navigate('LoginAdmin') }} style={styles.textoAdmin}> ¿Eres administrador? presiona aqui </Text>
+      <Text style={styles.textoAdmin}> ¿Eres administrador? presiona <Text style={{ color: 'red' }} onPress={() => { navigation.navigate('LoginAdmin') }}> aqui </Text>  </Text>
 
     </SafeAreaView>
   )
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
 
   textoAdmin: {
     alignSelf: 'center',
-    color: '#F1F1F1',
+    color: 'black',
     fontSize: wp('3%'),
     fontFamily: 'Play-fair-Display',
   }

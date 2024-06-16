@@ -29,6 +29,8 @@ const RegistrarDosis = ({ navigation, route }) => {
     getUserData();
   }, []);
 
+  const nombreCompletoPaciente = `${userData.nombre} ${userData.apellido} `
+
   const convertTo24Hour = (time) => {
     let [timePart, period] = time.split(' ');
     let [hours, minutes] = timePart.split(':');
@@ -82,7 +84,7 @@ const RegistrarDosis = ({ navigation, route }) => {
         horaDosisDiaria,
         cuidadorNombre,
         cuidadorUID,
-        nombreUsuario: userData?.nombreUsuario || 'nadie',
+        nombreUsuario: nombreCompletoPaciente || 'nadie',
         UsuarioId: user ? user.uid : null,
         DosisInicial,
         notificationId, // Vincular el ID de la notificación
@@ -94,7 +96,7 @@ const RegistrarDosis = ({ navigation, route }) => {
     } finally {
       setLoading(false);
     }
-  }, [medicamento, TotalDosis, Dosis80Porciento, horaDosisDiaria, cuidadorNombre, userData, DosisInicial, navigation]);
+  }, [medicamento, TotalDosis, Dosis80Porciento, horaDosisDiaria, cuidadorNombre, nombreCompletoPaciente, DosisInicial, navigation]);
 
   const cancelRegistration = () => {
     navigation.navigate('DashboardPaciente');
@@ -126,8 +128,8 @@ const RegistrarDosis = ({ navigation, route }) => {
         <Text style={styles.label}>Hora de dosis diaria:</Text>
         <Text style={styles.text}>{horaDosisDiaria}</Text>
 
-        <Text style={styles.label}>Usuario:</Text>
-        <Text style={styles.text}>{userData.nombreUsuario}</Text>
+        <Text style={styles.label}>Paciente:</Text>
+        <Text style={styles.text}>{nombreCompletoPaciente}</Text>
 
         <Text style={styles.label}>Cuidador seleccionado:</Text>
         <Text style={styles.text}>{cuidadorNombre}</Text>

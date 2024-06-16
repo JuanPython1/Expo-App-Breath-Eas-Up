@@ -49,7 +49,7 @@ const BienvenidaAdmin = ({ navigation }) => {
         <View style={styles.contenedor}>
             <View style={styles.ContenedorBienvenida}>
                 <Animated.Text style={[styles.tituloNombre, { opacity: fadeAnim }]}>
-                    {`Bienvenida\n Admin ${userData.nombre}`}
+                    {`Bienvenid@\n ${userData.nombre}`}
                 </Animated.Text>
                 <Image source={require('../../../assets/Image/adminmujer.png')} style={styles.imagenDino} />
             </View>
