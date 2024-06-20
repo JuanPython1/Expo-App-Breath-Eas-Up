@@ -8,7 +8,16 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_APIKEY": "AIzaSyAxeAPzMfHxcjDZCd_VlFbveNcyPTWLXyU",
+        "EXPO_PUBLIC_AUTHDOMAIN" : "inhalapp.firebaseapp.com",
+        "EXPO_PUBLIC_PROJECTID":"inhalapp",
+        "EXPO_PUBLIC_STORAGEBUCKET":"inhalapp.appspot.com",
+        "EXPO_PUBLIC_MESSAGINGSENDERID": "590459159262", 
+        "EXPO_PUBLIC_APPID":"1:590459159262:web:2b1bdfe1ff6b1ea677b84f",
+        "EXPO_PUBLIC_MEASUREMENTID":"G-0CT7QRM9R7" 
+      }
     },
     "production": {}
   },

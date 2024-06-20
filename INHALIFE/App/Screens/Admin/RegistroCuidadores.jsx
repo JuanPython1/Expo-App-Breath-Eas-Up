@@ -6,6 +6,7 @@ import {
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import MaterialIcon from 'react-native-vector-icons/Entypo';
 
 const RegistroCuidadores = ({ navigation }) => {
     const [usuario, setUsuario] = useState('');
@@ -15,6 +16,7 @@ const RegistroCuidadores = ({ navigation }) => {
     const [contraseña, setContraseña] = useState('');
     const [loading, setLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const [passwordVisible, setPasswordVisible] = useState(false);
 
     // Referencias para cada TextInput
     const nombresRef = useRef(null);
@@ -205,16 +207,25 @@ const RegistroCuidadores = ({ navigation }) => {
                             blurOnSubmit={false}
                         />
                         <Text style={styles.label}>Contraseña</Text>
-                        <TextInput
-                            ref={contraseñaRef}
-                            style={styles.input}
-                            value={contraseña}
-                            onChangeText={setContraseña}
-                            placeholder="Ingrese la contraseña"
-                            secureTextEntry={false}
-                            returnKeyType="done"
-                            onSubmitEditing={handleModal}
-                        />
+                        <View style={styles.passwordContainer}>
+                            <TextInput
+                                ref={contraseñaRef}
+                                style={styles.inputContraseña}
+                                value={contraseña}
+                                onChangeText={setContraseña}
+                                placeholder="Ingrese la contraseña"
+                                secureTextEntry={!passwordVisible}
+                                returnKeyType="done"
+                                onSubmitEditing={handleModal}
+                            />
+                            <Pressable style={styles.OjoContainer} onPress={() => setPasswordVisible(!passwordVisible)}>
+                                <MaterialIcon
+                                    name={passwordVisible ? 'eye' : 'eye-with-line'}
+                                    size={24}
+                                    color="black"
+                                />
+                            </Pressable>
+                        </View>
                         {loading ? (
                             <ActivityIndicator size={'large'} color={'#F94242'} />
                         ) : (
@@ -371,6 +382,31 @@ const styles = StyleSheet.create({
         backgroundColor: '#00AAE4',
         marginTop: 10,
     },
+    passwordContainer: {
+        flexDirection: 'row',
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: wp('85%')
+    },
+    inputContraseña: {
+        height: hp('6%'),
+        borderColor: '#ccc',
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: wp('3%'),
+        marginBottom: hp('2%'),
+        marginVertical: hp('1%'),
+        width: '100%',
+        padding: hp('1%'),
+        justifyContent: 'center'
+    },
+
+    OjoContainer: {
+        position: 'absolute',
+        right: wp('5%'),
+        top: hp('2.7%'),
+    },
     textStyle: {
         color: 'white',
         fontWeight: 'bold',
@@ -382,4 +418,5 @@ const styles = StyleSheet.create({
         fontSize: wp('5%'),
         fontFamily: 'Play-fair-Display',
     },
+
 });

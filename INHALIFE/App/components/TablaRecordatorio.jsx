@@ -275,7 +275,7 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
                 </View>
             </Modal>
 
-            {filas.some(fila => fila.dosis > 1) && (
+            {filas.some(fila => fila.dosis > 1) && !puedeEditar && (
                 <Text style={styles.errorText}>Regresa y registrar tu dosis diaria, INAHALIFE te recordara ;)</Text>
             )}
 

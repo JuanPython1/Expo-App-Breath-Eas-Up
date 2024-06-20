@@ -119,9 +119,9 @@ const DashboardPaciente = ({ navigation }) => {
           <View style={styles.RegistroDosis}>
             <BotonDashBoardPaciente props={botonVideosTutoriales} />
           </View>
-          <View style={styles.RegistroDosis}>
+          {/* <View style={styles.RegistroDosis}>
             <BotonDashBoardPaciente props={botonNotificaciones} />
-          </View>
+          </View> */}
         </View>
       </View>
 
