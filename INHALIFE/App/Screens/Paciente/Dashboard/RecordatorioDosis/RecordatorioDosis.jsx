@@ -93,7 +93,7 @@ const RecordatoriosDosis = ({ navigation }) => {
               ))
             ) : (
               <Text style={styles.noRecordatorios}>
-                {`No has registrado ni un recordatorio :( `}
+                {`Aún no tienes registrado tus recordatorios`}
               </Text>
             )}
           </View>

@@ -11,57 +11,13 @@ import * as Device from 'expo-device'
 import * as Notificaciones from 'expo-notifications'
 import { View, Text, Platform } from 'react-native';
 // Screens rol, login, Registro
-import Rol from '../Screens/Rol';
-
-// Login y Registro Paciente
-import LoginPaciente from '../Screens/Paciente/LoginRegistro/LoginPaciente';
-import RegistroPaciente from '../Screens/Paciente/LoginRegistro/RegistroPaciente';
-import OlvidoContraseñaPaciente from '../Screens/Paciente/LoginRegistro/OlvidoContraseña';
-// Screens dashboard paciente
-import BienvenidaPaciente from '../Screens/Paciente/Dashboard/BienvenidaPaciente';
-import DashboardPaciente from '../Screens/Paciente/Dashboard/DashboardPaciente';
-import RecordatorioDosis from '../Screens/Paciente/Dashboard/RecordatorioDosis/RecordatorioDosis';
-import VideoTutoriales from '../Screens/Paciente/Dashboard/VideoTutoriales';
-import NotificacionesPacientes from '../Screens/Paciente/Dashboard/notificacionesActivas'
-
-// Registro Dosis Paciente
-import BienvenidaRegistroDosis from '../Screens/Paciente/Dashboard/RegistroDosis/BienvenidaRegistroDosis';
-import Medicamento from '../Screens/Paciente/Dashboard/RegistroDosis/Medicamento';
-import CantidadPuff from '../Screens/Paciente/Dashboard/RegistroDosis/CantidadPuff'
-import FechaDosisDiaria from '../Screens/Paciente/Dashboard/RegistroDosis/FechaDosisDiaria';
-import ElegirCuidador from '../Screens/Paciente/Dashboard/RegistroDosis/ElegirCuidador';
-import RegistrarDosis from '../Screens/Paciente/Dashboard/RegistroDosis/RegistrarDosis'
-import GraciasPorRegistrar from '../Screens/Paciente/Dashboard/RegistroDosis/GraciasPorRegistrar'
-
-// Recordatorios dosis pacientes
-import InforRecordatorioDosisPaciente from '../Screens/Paciente/Dashboard/RecordatorioDosis/InfoRecordatorioDosisPaciente'
-
-// CUIDADOR
-
-// Login Cuidador
-import LoginCuidador from '../Screens/Cuidador/Login/LoginCuidador';
-import OlvidoContraseñaCuidador from '../Screens/Cuidador/Login/OlvidoContraseña'
-
-// Dashboard Cuidador
-import DashboardCuidador from '../Screens/Cuidador/DashBoard/DashboardCuidador'
-import RecordatorioDosisCompartidos from '../Screens/Cuidador/DashBoard/RecordatoriosDosisCompartidos'
-import BienvenidaCuidador from '../Screens/Cuidador/DashBoard/BienvenidaCuidador'
-
-//InfoCompartido
-import InfoRecordatorioDosisCompartida from '../Screens/Cuidador/DashBoard/InfoRecordatorioDosisCompartida';
-
-//ADMINS
-import LoginAdmin from '../Screens/Admin/LoginAdmin';
-import DashboardAdmin from '../Screens/Admin/DashboardAdmin';
-import RegistroCuidadores from '../Screens/Admin/RegistroCuidadores';
-import BienvenidaAdmin from '../Screens/Admin/BienvenidaAdmin';
-import OlvidoContraseñaAdmin from '../Screens/Admin/OlvidoContraseñaAdmin'
 
 
 //Navigators
 import CuidadorNavigator from './CuidadorNavigator';
 import PacienteNavigator from './PacienteNavigator'
 import AdminNavigator from './AdminNavigator';
+import GeneralNavigator from './GeneralNavigator';
 
 
 const Stack = createNativeStackNavigator();
@@ -184,51 +140,8 @@ const AppNavigator = () => {
                 ) : userRole == 'Admin' ? (
                     <Stack.Screen name='Admin' component={AdminNavigator} options={{ headerShown: false }} />
                 ) :
-                    (<Stack.Screen name='Rol' component={Rol} options={{ headerShown: false }} />)}
+                    (<Stack.Screen name='General' component={GeneralNavigator} options={{ headerShown: false }} />)}
 
-                {/* Login y Registro Paciente */}
-                <Stack.Screen name='LoginPaciente' component={LoginPaciente} options={{ headerShown: false }} />
-                <Stack.Screen name='RegistroPaciente' component={RegistroPaciente} options={{ headerShown: false }} />
-                <Stack.Screen name='OlvidoContraseñaPaciente' component={OlvidoContraseñaPaciente} options={{ headerShown: false }} />
-
-                {/* Dashoard Paciente */}
-                <Stack.Screen name='BienvenidaPaciente' component={BienvenidaPaciente} options={{ headerShown: false }} />
-                <Stack.Screen name='DashboardPaciente' component={DashboardPaciente} options={{ headerShown: false }} />
-                <Stack.Screen name='RecordatorioDosis' component={RecordatorioDosis} options={{ headerShown: false }} />
-                <Stack.Screen name='VideoTutoriales' component={VideoTutoriales} options={{ headerShown: false }} />
-                <Stack.Screen name='notificacionesPacientes' component={NotificacionesPacientes} options={{ headerShown: false }} />
-
-                {/* Registro dosis paciente */}
-                <Stack.Screen name='BienvenidaRegistroDosis' component={BienvenidaRegistroDosis} options={{ headerShown: false }} />
-                <Stack.Screen name='Medicamento' component={Medicamento} options={{ headerShown: false }} />
-                <Stack.Screen name='CantidadPuff' component={CantidadPuff} options={{ headerShown: false }} />
-                <Stack.Screen name='FechaDosisDiaria' component={FechaDosisDiaria} options={{ headerShown: false }} />
-                <Stack.Screen name='ElegirCuidador' component={ElegirCuidador} options={{ headerShown: false }} />
-                <Stack.Screen name='RegistrarDosis' component={RegistrarDosis} options={{ headerShown: false }} />
-                <Stack.Screen name={'GraciasPorRegistrar'} component={GraciasPorRegistrar} options={{ headerShown: false }} />
-
-                {/* info recordatorio dosis */}
-                <Stack.Screen name='InfoRecordatorioDosisPaciente' component={InforRecordatorioDosisPaciente} options={{ headerShown: false }} />
-
-                {/* CUIDADOR */}
-
-                <Stack.Screen name='LoginCuidador' component={LoginCuidador} options={{ headerShown: false }} />
-                <Stack.Screen name='OlvidoContraseñaCuidador' component={OlvidoContraseñaCuidador} options={{ headerShown: false }} />
-
-                {/* Dashboard Cuidador */}
-                <Stack.Screen name='DashboardCuidador' component={DashboardCuidador} options={{ headerShown: false }} />
-                <Stack.Screen name='RecordatorioDosisCompartidos' component={RecordatorioDosisCompartidos} options={{ headerShown: false }} />
-                <Stack.Screen name='BienvenidaCuidador' component={BienvenidaCuidador} options={{ headerShown: false }} />
-
-                {/* Info recordatorio dosis compartida */}
-                <Stack.Screen name='InfoRecordatorioDosisCompartida' component={InfoRecordatorioDosisCompartida} options={{ headerShown: false }} />
-
-                {/* ADMIN */}
-                <Stack.Screen name='LoginAdmin' component={LoginAdmin} options={{ headerShown: false }} />
-                <Stack.Screen name={'BienvenidaAdmin'} component={BienvenidaAdmin} options={{ headerShown: false }} />
-                <Stack.Screen name='OlvidoContraseñaAdmin' component={OlvidoContraseñaAdmin} options={{ headerShown: false }} />
-                <Stack.Screen name='DashboardAdmin' component={DashboardAdmin} options={{ headerShown: false }} />
-                <Stack.Screen name='RegistroCuidadores' component={RegistroCuidadores} options={{ headerShown: false }} />
 
             </Stack.Navigator>
         </NavigationContainer>

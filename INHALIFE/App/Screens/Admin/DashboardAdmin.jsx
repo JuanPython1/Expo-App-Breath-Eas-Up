@@ -12,7 +12,7 @@ const DashboardAdmin = ({ navigation }) => {
     const handleSignOut = async () => {
         try {
             await FIREBASE_AUTH.signOut();
-            navigation.navigate('Rol'); // Redirige a la pantalla de inicio de sesión del cuidador
+            navigation.navigate('General'); // Redirige a la pantalla de inicio de sesión del cuidador
         } catch (error) {
             console.error('Error al cerrar sesión:', error);
         }
@@ -51,7 +51,15 @@ const DashboardAdmin = ({ navigation }) => {
                         <Text style={styles.textTitulo}>REGISTRO CUIDADORES</Text>
                         <Image style={styles.Imagen} source={require('../../../assets/Image/medicaRegistro.png')} />
                     </Pressable>
+
+                    <Pressable style={styles.boton} onPress={() => navigation.navigate('ListaCuidadores')}>
+                        <Text style={styles.textTitulo}>LISTA DE CUIDADORES</Text>
+                        <Image style={styles.Imagen} source={require('../../../assets/Image/Lista.png')} />
+                    </Pressable>
                 </View>
+
+
+
             </View>
 
             {/* ------------------------MODAL---------------------- */}
@@ -99,9 +107,8 @@ const styles = StyleSheet.create({
     },
     ContenedorTitulo: {
         top: hp('1%'),
-        height: hp('9%'),
+        height: hp('5%'),
         width: wp('100%'),
-        marginBottom: hp('3%'),
         alignSelf: 'center',
         borderRadius: 20,
         alignItems: 'center',
@@ -124,7 +131,7 @@ const styles = StyleSheet.create({
         marginHorizontal: wp('4%')
     },
     fila2: {
-        marginTop: hp('13%'),
+        marginTop: hp('6%'),
         alignItems: 'center'
     },
     boton: {
@@ -133,7 +140,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#52B4FA'
+        backgroundColor: '#52B4FA',
+        marginVertical: hp('1%')
     },
     Imagen: {
         width: wp('40%'),

@@ -54,7 +54,7 @@ const RegistroCuidadores = ({ navigation }) => {
             } else {
                 setModalVisible(false)
                 signUp();
-                alert('El Cuidador se registro Exitosammente.')
+                alert('El Cuidador se registro Exitosamente.')
                 navigation.navigate('DashboardAdmin');
             }
         }

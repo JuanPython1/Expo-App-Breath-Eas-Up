@@ -19,7 +19,7 @@ const BienvenidaRegistroDosis = ({ navigation }) => {
   return (
     <View style={styles.contenedor}>
       <View style={styles.ContenedorBienvenida}>
-        <Text style={styles.tituloNombre}>{`Bienvenid@ Al Registro\n Llena el registro de la Dosis recomendada por tu cuidador`}</Text>
+        <Text style={styles.tituloNombre}>{`Bienvenid@ \n Realiza el registro de la Dosis`}</Text>
         <Image source={require('../../../../../assets/Image/inhalador.png')} style={styles.imagenInhalador} />
       </View>
     </View>

@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, SafeAreaView, StyleSheet, TextInput, ActivityIndicator, Pressable, KeyboardAvoidingView, Modal } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import { MaterialIcons } from '@expo/vector-icons';
+import { EmailAuthCredential } from 'firebase/auth/cordova';
 
 const RegistroPaciente = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -68,6 +69,7 @@ const RegistroPaciente = ({ navigation }) => {
     return usernames.includes(username);
   };
 
+
   const signUp = async () => {
     setLoading(true);
     try {
@@ -93,8 +95,6 @@ const RegistroPaciente = ({ navigation }) => {
         case 'auth/weak-password':
           alert('La contraseña no es lo suficientemente segura.');
           break;
-        default:
-          alert('Registro fallido');
       }
       setLoading(false);
     }

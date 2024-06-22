@@ -32,7 +32,6 @@ const LoginPaciente = ({ navigation }) => {
 
       // Verifica el rol del usuario
       if (userDoc.exists() && userDoc.data().rol === 'Paciente') {
-        gotoDashboardPaciente();
         setEmail('');
         setContraseña('');
       } else {
@@ -47,10 +46,7 @@ const LoginPaciente = ({ navigation }) => {
     }
   };
 
-  //mientras tanto que no este el backend
-  const gotoDashboardPaciente = () => {
-    navigation.navigate('BienvenidaPaciente');
-  }
+
 
   const goToRecuperarConstraseña = () => {
     navigation.navigate('OlvidoContraseñaPaciente');

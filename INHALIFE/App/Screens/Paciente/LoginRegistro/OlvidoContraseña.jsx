@@ -73,7 +73,7 @@ const OlvidoContraseñaPaciente = ({ navigation }) => {
           onChangeText={(text) => setEmail(text)}
         />
 
-        <Text style={styles.textoEnvia}>{`Envia y te enviaremos un correo \n para restablecer tu contraseña.`}</Text>
+        <Text style={styles.textoEnvia}>{`Te enviaremos un correo \n para restablecer tu contraseña.`}</Text>
 
 
         <Pressable style={styles.BotonEntrar} onPress={recuperar} >
@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
     marginVertical: hp('4%'),
     alignSelf: 'center',
     fontSize: wp('4%'),
+    textAlign: 'center',
   },
   BotonEntrar: {
     marginVertical: hp('1%'),

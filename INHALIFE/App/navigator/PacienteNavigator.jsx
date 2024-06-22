@@ -4,7 +4,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const StackPaciente = createNativeStackNavigator();
 
-
 // Login y Registro Paciente
 import LoginPaciente from '../Screens/LoadingScreen';
 import RegistroPaciente from '../Screens/Paciente/LoginRegistro/RegistroPaciente';

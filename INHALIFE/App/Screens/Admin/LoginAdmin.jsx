@@ -27,7 +27,6 @@ const LoginAdmin = ({ navigation }) => {
             if (userDoc.exists() && userDoc.data().rol === 'Administrador') {
                 setEmail('');
                 setContraseña('');
-                goToDashBoardCuidador();
             }
             else {
                 await FIREBASE_AUTH.signOut();
@@ -41,13 +40,7 @@ const LoginAdmin = ({ navigation }) => {
         }
     };
 
-    const goToDashBoardCuidador = () => {
-        navigation.navigate('BienvenidaAdmin')
-    };
 
-    const goToRecuperarConstraseña = () => {
-        navigation.navigate('OlvidoContraseñaAdmin');
-    };
 
     return (
         <SafeAreaView style={styles.container} >

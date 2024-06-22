@@ -24,15 +24,6 @@ const firebaseConfig = {
 }
 
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyAxeAPzMfHxcjDZCd_VlFbveNcyPTWLXyU",
-//   authDomain: "inhalapp.firebaseapp.com",
-//   projectId: "inhalapp",
-//   storageBucket: "inhalapp.appspot.com",
-//   messagingSenderId: "590459159262",
-//   appId: "1:590459159262:web:2b1bdfe1ff6b1ea677b84f",
-//   measurementId: "G-0CT7QRM9R7"
-// };
 
 export const app = initializeApp(firebaseConfig);
 

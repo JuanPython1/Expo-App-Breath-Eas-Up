@@ -30,7 +30,6 @@ const LoginCuidador = ({ navigation }) => {
       if (userDoc.exists() && userDoc.data().rol === 'Cuidador') {
         setEmail('');
         setContraseña('');
-        goToDashBoardCuidador();
       }
       else {
         await FIREBASE_AUTH.signOut();
@@ -44,9 +43,6 @@ const LoginCuidador = ({ navigation }) => {
     }
   };
 
-  const goToDashBoardCuidador = () => {
-    navigation.navigate('BienvenidaCuidador')
-  };
 
   const goToRecuperarConstraseña = () => {
     navigation.navigate('OlvidoContraseñaCuidador');

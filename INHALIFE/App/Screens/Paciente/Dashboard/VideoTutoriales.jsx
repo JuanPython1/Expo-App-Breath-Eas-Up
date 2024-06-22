@@ -21,7 +21,7 @@ const VideoTutoriales = ({ navigation }) => {
 
       <View style={styles.body}>
         <View style={styles.videoContainer}>
-          <Text style={styles.videoTitle}>El siguiente tutorial demuestra el correcto uso del medicamento en el inhalador</Text>
+          <Text style={styles.videoTitle}>El siguiente tutorial te enseñará el correcto uso del inhalador</Text>
 
           <Video
             ref={video}
