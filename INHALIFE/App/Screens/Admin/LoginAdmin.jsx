@@ -99,7 +99,7 @@ const LoginAdmin = ({ navigation }) => {
                         ) : (
                             <>
                                 <Pressable style={styles.BotonEntrar} onPress={SignIn}>
-                                    <Text style={styles.TextoEntrar}>ENTRAR</Text>
+                                    <Text style={styles.TextoEntrar}>INICIAR SESIÓN</Text>
                                 </Pressable>
                             </>
                         )}
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     ContenedorNiños: {
-        top: '13%',
+        top: hp('10%'),
         marginVertical: hp('6%'),
         flexDirection: 'row',
         justifyContent: 'center',

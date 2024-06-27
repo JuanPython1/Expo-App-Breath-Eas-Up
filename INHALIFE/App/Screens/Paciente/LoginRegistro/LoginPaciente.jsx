@@ -115,7 +115,7 @@ const LoginPaciente = ({ navigation }) => {
           </View>
         ) : (
           <Pressable style={styles.BotonEntrar} onPress={SignIn}>
-            <Text style={styles.TextoEntrar}>ENTRAR</Text>
+            <Text style={styles.TextoEntrar}>INICIAR SESIÓN</Text>
           </Pressable>
         )}
 

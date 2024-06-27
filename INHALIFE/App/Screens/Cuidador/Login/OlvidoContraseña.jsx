@@ -77,7 +77,7 @@ const OlvidoContraseñaCuidador = ({ navigation }) => {
           <Text style={styles.TextoEntrar}>ENVIAR</Text>
         </Pressable>
 
-        <Text style={styles.textoCuenta}>¿No tiene una cuenta? <Text style={styles.textoRojo} onPress={gotoLogin}>Registrate</Text>.</Text>
+        <Text style={styles.textoCuenta}>¿Recordaste tu contraseña? <Text style={styles.textoRojo} onPress={gotoLogin}>Inicia Sesión</Text>.</Text>
 
 
       </View>

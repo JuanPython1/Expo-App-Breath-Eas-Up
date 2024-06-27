@@ -105,7 +105,7 @@ const LoginCuidador = ({ navigation }) => {
             ) : (
               <>
                 <Pressable style={styles.BotonEntrar} onPress={SignIn}>
-                  <Text style={styles.TextoEntrar}>ENTRAR</Text>
+                  <Text style={styles.TextoEntrar}>INICIAR SESIÓN</Text>
                 </Pressable>
               </>
             )}
@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   ContenedorNiños: {
+    top: hp('6.3%'),
     marginVertical: hp('6%'),
     flexDirection: 'row',
     justifyContent: 'center',
