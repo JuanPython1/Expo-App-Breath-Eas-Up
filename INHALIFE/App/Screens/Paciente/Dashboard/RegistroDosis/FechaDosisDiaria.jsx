@@ -9,12 +9,12 @@ const FechaDosisDiaria = ({ navigation, route }) => {
   const [horaDosisDiaria, setHoraDosisDiaria] = useState(new Date());
   console.log('Fecha inicial:', horaDosisDiaria);
   const [showTimePicker, setShowTimePicker] = useState(false);
-  const spinValue = new Animated.Value(0);
+  // const spinValue = new Animated.Value(0);
 
-  const spin = spinValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  });
+  // const spin = spinValue.interpolate({
+  //   inputRange: [0, 1],
+  //   outputRange: ['0deg', '360deg'],
+  // });
 
   const handleInputChange = (event, selectedDate) => {
     setShowTimePicker(false);
@@ -24,14 +24,14 @@ const FechaDosisDiaria = ({ navigation, route }) => {
 
   const handleShowTimePicker = () => {
     setShowTimePicker(true);
-    Animated.timing(spinValue, {
-      toValue: 1,
-      duration: 300,
-      easing: Easing.linear,
-      useNativeDriver: true,
-    }).start(() => {
-      spinValue.setValue(0); // Reinicia el valor de la animación después de completarse
-    });
+    // Animated.timing(spinValue, {
+    //   toValue: 1,
+    //   duration: 300,
+    //   easing: Easing.linear,
+    //   useNativeDriver: true,
+    // }).start(() => {
+    //   spinValue.setValue(0); // Reinicia el valor de la animación después de completarse
+    // });
   };
 
   const handleInputSiguiente = () => {
@@ -57,9 +57,9 @@ const FechaDosisDiaria = ({ navigation, route }) => {
         <View style={styles.contenedorHora}>
           <Text style={styles.textoHoraTitulo}>Hora Seleccionada:</Text>
           <Pressable style={styles.contenedorHoraSeleccionada} onPress={handleShowTimePicker}>
-            <Animated.Text style={[styles.textoHora, { transform: [{ rotate: spin }] }]}>
+            <Text style={[styles.textoHora]}>
               {horaDosisDiaria.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })} {/* Mostrar en 24 horas */}
-            </Animated.Text>
+            </Text>
             <Image style={styles.iconoCalendario} source={require('../../../../../assets/Image/calendario.png')} />
           </Pressable>
         </View>
@@ -69,7 +69,7 @@ const FechaDosisDiaria = ({ navigation, route }) => {
             mode='time'
             value={horaDosisDiaria}
             onChange={handleInputChange}
-            is24Hour={true} // Usar formato de 24 horas
+            is24Hour={true}
           />
         )}
 
