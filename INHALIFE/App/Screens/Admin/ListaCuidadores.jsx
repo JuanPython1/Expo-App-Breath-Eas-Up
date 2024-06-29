@@ -30,18 +30,18 @@ const ListaCuidadores = ({ navigation }) => {
         obtenerCuidadores();
     }, []);
 
-    const EliminarCuidador = async (uid) => {
-        try {
-            // Eliminar documento de Firestore
-            await deleteDoc(doc(FIRESTORE_DB, 'UsuariosCuidadores', uid));
+    // const EliminarCuidador = async (uid) => {
+    //     try {
+    //         // Eliminar documento de Firestore
+    //         await deleteDoc(doc(FIRESTORE_DB, 'UsuariosCuidadores', uid));
 
 
-            // Actualizar la lista de cuidadores
-            setListaCuidadores(prevState => prevState.filter(cuidador => cuidador.uid !== uid));
-        } catch (error) {
-            console.error('Error al eliminar el cuidador:', error);
-        }
-    };
+    //         // Actualizar la lista de cuidadores
+    //         setListaCuidadores(prevState => prevState.filter(cuidador => cuidador.uid !== uid));
+    //     } catch (error) {
+    //         console.error('Error al eliminar el cuidador:', error);
+    //     }
+    // };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -57,9 +57,9 @@ const ListaCuidadores = ({ navigation }) => {
                 {listaCuidadores.map(cuidador => (
                     <View key={cuidador.uid} style={styles.checkboxContainer}>
                         <Text>{cuidador.nombreCuidador}</Text>
-                        <Pressable onPress={() => EliminarCuidador(cuidador.uid)}>
+                        {/* <Pressable onPress={() => EliminarCuidador(cuidador.uid)}>
                             <Text style={styles.eliminarTexto}>Eliminar</Text>
-                        </Pressable>
+                        </Pressable> */}
                     </View>
                 ))}
             </ScrollView>
