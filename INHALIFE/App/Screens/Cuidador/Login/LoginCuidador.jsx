@@ -18,13 +18,11 @@ const LoginCuidador = ({ navigation }) => {
 
   const SignIn = async () => {
     setLoading(true);
+
     try {
       const response = await signInWithEmailAndPassword(FIREBASE_AUTH, email, contraseña);
 
       let userDoc = await getDoc(doc(FIRESTORE_DB, 'UsuariosCuidadores', response.user.uid));
-      if (!userDoc.exists()) {
-        userDoc = await getDoc(doc(FIRESTORE_DB, 'UsuariosPacientes', response.user.uid));
-      }
 
       // Verifica el rol del usuario
       if (userDoc.exists() && userDoc.data().rol === 'Cuidador') {
@@ -32,6 +30,8 @@ const LoginCuidador = ({ navigation }) => {
         setContraseña('');
       }
       else {
+        setEmail('');
+        setContraseña('');
         await FIREBASE_AUTH.signOut();
         alert('No tienes permiso para acceder al dashboard de pacientes');
       }

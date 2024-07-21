@@ -20,7 +20,7 @@ const BienvenidaRegistroDosis = ({ navigation }) => {
     <View style={styles.contenedor}>
       <View style={styles.ContenedorBienvenida}>
         <Text style={styles.tituloNombre}>{`Bienvenid@ \n Realiza el registro de la Dosis`}</Text>
-        <Image source={require('../../../../../assets/Image/inhalador.png')} style={styles.imagenInhalador} />
+        <Image source={require('../../../../../assets/Image/inhalador.png')} style={styles.imagenInhalador} resizeMode='contain' />
       </View>
     </View>
   );

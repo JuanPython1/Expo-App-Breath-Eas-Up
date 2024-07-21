@@ -30,6 +30,8 @@ const LoginAdmin = ({ navigation }) => {
             }
             else {
                 await FIREBASE_AUTH.signOut();
+                setEmail('');
+                setContraseña('');
                 alert('No tienes permiso para acceder al dashboard de administrador');
             }
         } catch (error) {
@@ -110,8 +112,8 @@ const LoginAdmin = ({ navigation }) => {
                     </View>
 
                     <View style={styles.ContenedorNiños}>
-                        <Image style={styles.niña} source={require('../../../assets/Image/Niña.png')} />
-                        <Image style={styles.niño} source={require('../../../assets/Image/Niño.png')} />
+                        <Image style={styles.niña} source={require('../../../assets/Image/Niña.png')} resizeMode='contain' />
+                        <Image style={styles.niño} source={require('../../../assets/Image/Niño.png')} resizeMode='contain' />
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>

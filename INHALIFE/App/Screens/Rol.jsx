@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, StyleSheet, Image, StatusBar } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, Image, StatusBar, ScrollView } from 'react-native'
 import React from 'react'
 
 import BotonRol from '../components/BotonRol';
@@ -15,37 +15,37 @@ const Rol = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-
-      <Image style={styles.niña} source={require('../../assets/Image/Niña.png')} />
-
-
-      <View style={styles.ContenedorTitulo} >
-        <Text style={styles.Titulo}>INHALIFE</Text>
-      </View>
+      <ScrollView>
+        <Image style={styles.niña} source={require('../../assets/Image/Niña.png')} resizeMode='contain' />
 
 
-      <View style={styles.RolContainer}>
-        <Text style={styles.TextoElijeRol}>ELIGE TU ROL</Text>
-
-        <View style={styles.contenedorPaciente}>
-          <BotonRol props={botonInfoPaciente} />
+        <View style={styles.ContenedorTitulo} >
+          <Text style={styles.Titulo}>INHALIFE</Text>
         </View>
 
-        <View style={styles.ContenedorO}>
-          <Text style={{ fontSize: 30, fontFamily: 'Play-fair-Display' }}>O</Text>
+
+        <View style={styles.RolContainer}>
+          <Text style={styles.TextoElijeRol}>ELIGE TU ROL</Text>
+
+          <View style={styles.contenedorPaciente}>
+            <BotonRol props={botonInfoPaciente} />
+          </View>
+
+          <View style={styles.ContenedorO}>
+            <Text style={{ fontSize: 30, fontFamily: 'Play-fair-Display' }}>O</Text>
+          </View>
+
+          <View style={styles.contenedorCuidador}>
+            <BotonRol props={botonInfoCuidador} />
+          </View>
+
         </View>
 
-        <View style={styles.contenedorCuidador}>
-          <BotonRol props={botonInfoCuidador} />
-        </View>
+        <Image style={styles.niño} source={require('../../assets/Image/Niño.png')} resizeMode='contain' />
 
-      </View>
-
-      <Image style={styles.niño} source={require('../../assets/Image/Niño.png')} />
-
-      {/* <Text style={styles.textoAdmin}> ¿Eres administrador? presiona<Text onPress={() => { navigation.navigate('LoginAdmin') }}> aqui </Text> </Text> */}
-      <Text style={styles.textoAdmin}> ¿Eres administrador? presiona <Text style={{ color: 'red' }} onPress={() => { navigation.navigate('LoginAdmin') }}> aqui </Text>  </Text>
-
+        {/* <Text style={styles.textoAdmin}> ¿Eres administrador? presiona<Text onPress={() => { navigation.navigate('LoginAdmin') }}> aqui </Text> </Text> */}
+        <Text style={styles.textoAdmin}> ¿Eres administrador? presiona <Text style={{ color: 'red' }} onPress={() => { navigation.navigate('LoginAdmin') }}> aqui </Text>  </Text>
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'F1F1F1',
-    justifyContent: 'flex-start',
-    paddingTop: hp('4%'),
+    justifyContent: 'center',
+
   },
 
   niña: {

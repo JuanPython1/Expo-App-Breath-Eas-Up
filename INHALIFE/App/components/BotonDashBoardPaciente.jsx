@@ -9,7 +9,7 @@ const BotonDashBoardPaciente = ({ props }) => {
   return (
     <Pressable style={styles.boton} onPress={funcion}>
       <Text style={styles.textTitulo}>{titulo}</Text>
-      <Image style={styles.Imagen} source={imagen} />
+      <Image style={styles.Imagen} source={imagen} resizeMode='contain' />
     </Pressable>
   )
 }

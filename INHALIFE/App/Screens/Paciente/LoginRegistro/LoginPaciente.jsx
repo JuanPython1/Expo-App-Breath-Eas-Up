@@ -26,9 +26,6 @@ const LoginPaciente = ({ navigation }) => {
 
       // Obtén el documento del usuario
       let userDoc = await getDoc(doc(db, 'UsuariosPacientes', response.user.uid));
-      if (!userDoc.exists()) {
-        userDoc = await getDoc(doc(db, 'UsuariosCuidadores', response.user.uid));
-      }
 
       // Verifica el rol del usuario
       if (userDoc.exists() && userDoc.data().rol === 'Paciente') {
@@ -36,6 +33,8 @@ const LoginPaciente = ({ navigation }) => {
         setContraseña('');
       } else {
         await FIREBASE_AUTH.signOut();
+        setEmail('');
+        setContraseña('');
         alert('No tienes permiso para acceder al dashboard de pacientes');
       }
     } catch (error) {
@@ -125,8 +124,8 @@ const LoginPaciente = ({ navigation }) => {
         </View>
 
         <View style={styles.ContenedorNiños}>
-          <Image style={styles.niña} source={require('../../../../assets/Image/Niña.png')} />
-          <Image style={styles.niño} source={require('../../../../assets/Image/Niño.png')} />
+          <Image style={styles.niña} source={require('../../../../assets/Image/Niña.png')} resizeMode='contain' />
+          <Image style={styles.niño} source={require('../../../../assets/Image/Niño.png')} resizeMode='contain' />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

@@ -37,7 +37,7 @@ const Medicamento = ({ navigation }) => {
       </View>
       <View style={styles.body}>
         <Text style={styles.TituloMedicamento}>ELIGE TU MEDICAMENTO</Text>
-        <Image style={styles.imgInhalador} source={require('../../../../../assets/Image/imgMedicamento-removebg-preview.png')} />
+        <Image style={styles.imgInhalador} source={require('../../../../../assets/Image/imgMedicamento-removebg-preview.png')} resizeMode="contain" />
         <View style={styles.checkboxContainer}>
           <View style={styles.checkboxItem}>
             <CheckBox

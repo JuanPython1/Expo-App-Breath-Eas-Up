@@ -102,25 +102,30 @@ const AppNavigator = () => {
 
                 if (docSnapPaciente.exists()) {
                     setUserRole('paciente');
+                    console.log('El usuario es un paciente', user, userRole);
 
                 } else if (docSnapCuidador.exists()) {
                     setUserRole('cuidador');
+                    console.log('El usuario es un cuidador', user, userRole);
                 }
                 else if (docSnapAdministrador.exists()) {
                     setUserRole('Admin')
+                    console.log('El usuario es un administrador', user, userRole);
                 }
                 else {
                     setUserRole(null);
+                    setUser(null);
+                    console.log('El usuario es', user, userRole);
                 }
 
             } else {
                 setUserRole(null);
+                setUser(null);
             }
             setLoading(false);
         });
-
         return unsubscribe;
-    }, []);
+    });
 
     if (!loaded || loading) {
         return <LoadingScreen />;
@@ -133,11 +138,11 @@ const AppNavigator = () => {
 
             <Stack.Navigator>
 
-                {userRole === 'paciente' ? (
+                {user && userRole === 'paciente' ? (
                     <Stack.Screen name='Paciente' component={PacienteNavigator} options={{ headerShown: false }} />
-                ) : userRole === 'cuidador' ? (
+                ) : user && userRole === 'cuidador' ? (
                     <Stack.Screen name='Cuidador' component={CuidadorNavigator} options={{ headerShown: false }} />
-                ) : userRole == 'Admin' ? (
+                ) : user && userRole == 'Admin' ? (
                     <Stack.Screen name='Admin' component={AdminNavigator} options={{ headerShown: false }} />
                 ) :
                     (<Stack.Screen name='General' component={GeneralNavigator} options={{ headerShown: false }} />)}

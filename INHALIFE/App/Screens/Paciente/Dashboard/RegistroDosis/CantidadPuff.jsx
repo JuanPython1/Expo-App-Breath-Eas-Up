@@ -22,93 +22,95 @@ const CantidadPuff = ({ navigation, route }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      style={styles.keyboardAvoidingView}
+
+    >
+
       <View style={styles.header}>
         <Pressable style={styles.contenedorAtras} onPress={() => { navigation.goBack() }}>
           <Image style={styles.iconAtras} source={require('../../../../../assets/Image/Flechaatras.png')} />
         </Pressable>
       </View>
 
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "padding"}
-        style={{ flex: 1 }}
-      >
-        <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps={'handled'}>
-          <View style={styles.body}>
-            <Text style={styles.Titulo}>{`DOSIS \n PARA LA INHALACIÓN`}</Text>
+      <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps='handled'>
 
-            <View style={styles.nombreMedicamentoContenedor}>
-              <View style={styles.contenedorMedicamento}>
-                <View style={styles.contenedorMedioMedicamento}>
-                  <Text style={styles.TextMedicamento}> {medicamento}</Text>
-                </View>
-              </View>
-              <View style={styles.contenedorDino}>
-                <Image style={styles.dino} source={require('../../../../../assets/Image/dino.png')} />
-              </View>
+        <Text style={styles.Titulo}>{`DOSIS \n PARA LA INHALACIÓN`}</Text>
+
+        <View style={styles.nombreMedicamentoContenedor}>
+          <View style={styles.contenedorMedicamento}>
+            <View style={styles.contenedorMedioMedicamento}>
+              <Text style={styles.TextMedicamento}> {medicamento}</Text>
             </View>
-
-            <View style={styles.ContenedorDatosDosis}>
-              <View style={styles.ContenedorHorizontal}>
-                <View style={styles.ContenedorTituloTexto}>
-                  <Text style={styles.textoTitulos}>TOTAL DOSIS (Inhalaciones)</Text>
-                </View>
-                <View style={styles.ContenedorTotalDosis}>
-                  <View style={styles.ContenedorInputDosis}>
-                    <TextInput
-                      style={styles.textoTitulos}
-                      value={TotalDosis === 0 ? '' : TotalDosis.toString()}
-                      onChangeText={handleInputChange}
-                      keyboardType="numeric"
-                      placeholder="Ingrese Cantidad De Puff"
-                      maxLength={3}
-                      shouldRasterizeIOS={true}
-                      renderToHardwareTextureAndroid={true}
-                    />
-                  </View>
-                </View>
-              </View>
-
-              <View style={styles.ContenedorHorizontal}>
-                <View style={styles.ContenedorTituloTexto}>
-                  <Text style={styles.textoTitulos}>PUFF AL 80% (Inhalaciones)</Text>
-                </View>
-                <View style={styles.ContenedorInputDosis}>
-                  <TextInput
-                    style={styles.textoTitulos}
-                    value={Dosis80Porciento === 0 ? '80% de la Dosis Total' : Dosis80Porciento.toString()}
-                    keyboardType="numeric"
-                    editable={false}
-                    placeholderTextColor={'black'}
-                    shouldRasterizeIOS={true}
-                    renderToHardwareTextureAndroid={true}
-                  />
-                </View>
-              </View>
-            </View>
-
-            <Pressable
-              style={[styles.BotonEntrar, { opacity: totalDosisOn ? 1 : 0.5 }]}
-              onPress={handleInputSiguiente}
-              disabled={!totalDosisOn}
-            >
-              <Text style={styles.TextoEntrar}>SIGUIENTE</Text>
-            </Pressable>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </View>
+          <View style={styles.contenedorDino}>
+            <Image style={styles.dino} source={require('../../../../../assets/Image/dino.png')} resizeMode='contain' />
+          </View>
+        </View>
+
+        <View style={styles.ContenedorDatosDosis}>
+          <View style={styles.ContenedorHorizontal}>
+            <View style={styles.ContenedorTituloTexto}>
+              <Text style={styles.textoTitulos}>TOTAL DOSIS (Inhalaciones)</Text>
+            </View>
+            <View style={styles.ContenedorTotalDosis}>
+              <View style={styles.ContenedorInputDosis}>
+                <TextInput
+                  style={styles.textoTitulos}
+                  value={TotalDosis === 0 ? '' : TotalDosis.toString()}
+                  onChangeText={handleInputChange}
+                  keyboardType="numeric"
+                  placeholder="Ingrese Cantidad De Puff"
+                  maxLength={3}
+                  shouldRasterizeIOS={true}
+                  renderToHardwareTextureAndroid={true}
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={styles.ContenedorHorizontal}>
+            <View style={styles.ContenedorTituloTexto}>
+              <Text style={styles.textoTitulos}>PUFF AL 80% (Inhalaciones)</Text>
+            </View>
+            <View style={styles.ContenedorInputDosis}>
+              <TextInput
+                style={styles.textoTitulos}
+                value={Dosis80Porciento === 0 ? '80% de la Dosis Total' : Dosis80Porciento.toString()}
+                keyboardType="numeric"
+                editable={false}
+                placeholderTextColor={'black'}
+                shouldRasterizeIOS={true}
+                renderToHardwareTextureAndroid={true}
+              />
+            </View>
+          </View>
+        </View>
+
+        <Pressable
+          style={[styles.BotonEntrar, { opacity: totalDosisOn ? 1 : 0.5 }]}
+          onPress={handleInputSiguiente}
+          disabled={!totalDosisOn}
+        >
+          <Text style={styles.TextoEntrar}>SIGUIENTE</Text>
+        </Pressable>
+
+      </ScrollView>
+    </KeyboardAvoidingView>
+
   );
 };
 
 export default CantidadPuff;
 
 const styles = StyleSheet.create({
-  container: {
+  keyboardAvoidingView: {
     flex: 1,
   },
   scrollContainer: {
     flexGrow: 1,
+    justifyContent: 'center',
   },
   header: {
     flexDirection: 'row',
@@ -135,6 +137,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
+
   },
   nombreMedicamentoContenedor: {
     flexDirection: 'row',
