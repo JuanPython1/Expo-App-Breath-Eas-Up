@@ -27,6 +27,8 @@ const RegistroCuidadores = ({ navigation }) => {
     const auth = FIREBASE_AUTH;
     const firestore = FIRESTORE_DB;
 
+    const APIKEY = process.env.EXPO_PUBLIC_APIKEY
+
     const ValidacionesYRegistro = async () => {
         if (!usuario || !nombres || !apellidos) {
             setModalVisible(false)
@@ -69,7 +71,7 @@ const RegistroCuidadores = ({ navigation }) => {
     const signUp = async () => {
         setLoading(true);
         try {
-            const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAxeAPzMfHxcjDZCd_VlFbveNcyPTWLXyU', {
+            const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${APIKEY}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -147,99 +149,104 @@ const RegistroCuidadores = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.keyboardAvoidingView}
+            keyboardVerticalOffset={Platform.select({ ios: 0, android: 35 })}
+        >
             <View style={styles.header}>
                 <Pressable style={styles.contenedorAtras} onPress={() => { navigation.goBack() }}>
                     <Image style={styles.iconAtras} source={require('../../../assets/Image/Flechaatras.png')} />
                 </Pressable>
             </View>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'padding'}
 
-                style={styles.keyboardAvoidingView}
-            >
-                <ScrollView contentContainerStyle={styles.scrollViewContent} keyboardShouldPersistTaps="handled">
-                    <Text style={styles.textoRegistroCuidador}>REGISTRO DE CUIDADOR</Text>
+            <ScrollView contentContainerStyle={styles.scrollViewContent} keyboardShouldPersistTaps="handled" contentInsetAdjustmentBehavior="always">
 
-                    <View style={styles.formContainer}>
-                        <Text style={styles.label}>Usuario</Text>
-                        <TextInput
-                            style={styles.input}
-                            value={usuario}
-                            onChangeText={setUsuario}
-                            placeholder="Ingrese el usuario del Cuidador"
-                            returnKeyType="next"
-                            onSubmitEditing={() => nombresRef.current.focus()}
-                            blurOnSubmit={false}
-                        />
-                        <Text style={styles.label}>Nombres</Text>
-                        <TextInput
-                            ref={nombresRef}
-                            style={styles.input}
-                            value={nombres}
-                            onChangeText={setNombres}
-                            placeholder="Ingrese los nombres"
-                            returnKeyType="next"
-                            onSubmitEditing={() => apellidosRef.current.focus()}
-                            blurOnSubmit={false}
-                        />
-                        <Text style={styles.label}>Apellidos</Text>
-                        <TextInput
-                            ref={apellidosRef}
-                            style={styles.input}
-                            value={apellidos}
-                            onChangeText={setApellidos}
-                            placeholder="Ingrese los apellidos"
-                            returnKeyType="next"
-                            onSubmitEditing={() => correoRef.current.focus()}
-                            blurOnSubmit={false}
-                        />
-                        <Text style={styles.label}>Correo</Text>
-                        <TextInput
-                            ref={correoRef}
-                            style={styles.input}
-                            value={correo}
-                            onChangeText={setCorreo}
-                            placeholder="Ingrese el correo electronico"
-                            keyboardType="email-address"
-                            returnKeyType="next"
-                            onSubmitEditing={() => contraseñaRef.current.focus()}
-                            blurOnSubmit={false}
-                        />
-                        <Text style={styles.label}>Contraseña</Text>
-                        <View style={styles.passwordContainer}>
-                            <TextInput
-                                ref={contraseñaRef}
-                                style={styles.inputContraseña}
-                                value={contraseña}
-                                onChangeText={setContraseña}
-                                placeholder="Ingrese la contraseña"
-                                secureTextEntry={!passwordVisible}
-                                returnKeyType="done"
-                                onSubmitEditing={handleModal}
-                            />
-                            <Pressable style={styles.OjoContainer} onPress={() => setPasswordVisible(!passwordVisible)}>
-                                <MaterialIcon
-                                    name={passwordVisible ? 'eye' : 'eye-with-line'}
-                                    size={24}
-                                    color="black"
-                                />
-                            </Pressable>
-                        </View>
-                        {loading ? (
-                            <ActivityIndicator size={'large'} color={'#F94242'} />
-                        ) : (
-                            <Pressable style={styles.BotonEntrar} onPress={handleModal}>
-                                <Text style={styles.TextoEntrar}>REGISTRAR</Text>
-                            </Pressable>
-                        )}
+                <View style={styles.formContainer}>
+                    <View style={styles.Titulo}>
+                        <Text style={styles.textoRegistroCuidador}>REGISTRO DE CUIDADOR</Text>
                     </View>
-                </ScrollView>
+
+
+                    <Text style={styles.label}>Usuario</Text>
+                    <TextInput
+                        style={styles.input}
+                        value={usuario}
+                        onChangeText={setUsuario}
+                        placeholder="Ingrese el usuario del Cuidador"
+                        returnKeyType="next"
+                        onSubmitEditing={() => nombresRef.current.focus()}
+                        blurOnSubmit={false}
+                    />
+                    <Text style={styles.label}>Nombres</Text>
+                    <TextInput
+                        ref={nombresRef}
+                        style={styles.input}
+                        value={nombres}
+                        onChangeText={setNombres}
+                        placeholder="Ingrese los nombres"
+                        returnKeyType="next"
+                        onSubmitEditing={() => apellidosRef.current.focus()}
+                        blurOnSubmit={false}
+                    />
+                    <Text style={styles.label}>Apellidos</Text>
+                    <TextInput
+                        ref={apellidosRef}
+                        style={styles.input}
+                        value={apellidos}
+                        onChangeText={setApellidos}
+                        placeholder="Ingrese los apellidos"
+                        returnKeyType="next"
+                        onSubmitEditing={() => correoRef.current.focus()}
+                        blurOnSubmit={false}
+                    />
+                    <Text style={styles.label}>Correo</Text>
+
+                    <TextInput
+                        ref={correoRef}
+                        style={styles.input}
+                        value={correo}
+                        onChangeText={setCorreo}
+                        placeholder="Ingrese el correo electronico"
+                        keyboardType="email-address"
+                        returnKeyType="next"
+                        onSubmitEditing={() => contraseñaRef.current.focus()}
+                        blurOnSubmit={false}
+
+                    />
+                    <Text style={styles.label}>Contraseña</Text>
+                    <View style={styles.passwordContainer}>
+                        <TextInput
+                            ref={contraseñaRef}
+                            style={styles.inputContraseña}
+                            value={contraseña}
+                            onChangeText={setContraseña}
+                            placeholder="Ingrese la contraseña"
+                            secureTextEntry={!passwordVisible}
+                            returnKeyType="done"
+                            onSubmitEditing={handleModal}
+                        />
+                        <Pressable style={styles.OjoContainer} onPress={() => setPasswordVisible(!passwordVisible)}>
+                            <MaterialIcon
+                                name={passwordVisible ? 'eye' : 'eye-with-line'}
+                                size={24}
+                                color="black"
+                            />
+                        </Pressable>
+                    </View>
+                    {loading ? (
+                        <ActivityIndicator size={'large'} color={'#F94242'} />
+                    ) : (
+                        <Pressable style={styles.BotonEntrar} onPress={handleModal}>
+                            <Text style={styles.TextoEntrar}>REGISTRAR</Text>
+                        </Pressable>
+                    )}
+                </View>
+            </ScrollView>
 
 
 
 
-            </KeyboardAvoidingView>
 
             <Modal
                 transparent={true}
@@ -269,14 +276,16 @@ const RegistroCuidadores = ({ navigation }) => {
                     </View>
                 </View>
             </Modal>
-        </SafeAreaView>
+
+        </KeyboardAvoidingView>
+
     );
 };
 
 export default RegistroCuidadores;
 
 const styles = StyleSheet.create({
-    container: {
+    Titulo: {
         flex: 1,
         backgroundColor: '#F1F1F1',
     },
@@ -299,7 +308,7 @@ const styles = StyleSheet.create({
         height: hp('2.5%'),
     },
     scrollViewContent: {
-        justifyContent: 'center',
+        flexGrow: 1,
     },
     textoRegistroCuidador: {
         fontSize: wp('7%'),

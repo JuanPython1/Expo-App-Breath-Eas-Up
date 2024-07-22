@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, SafeAreaView, StyleSheet, TextInput, ActivityIndicator, Pressable, KeyboardAvoidingView, Modal } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TextInput, ActivityIndicator, Pressable, KeyboardAvoidingView, Modal, Platform } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
@@ -116,11 +116,16 @@ const RegistroPaciente = ({ navigation }) => {
   }, [isModalClosedRegistro, navigation]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior="position">
+
+    <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={
+      Platform.select({ ios: 0, android: 35 })
+    }>
+
+      <ScrollView keyboardShouldPersistTaps='handled'>
         <View style={styles.ContenedorTitulo}>
           <Text style={styles.Titulo}>INHALIFE</Text>
         </View>
+
 
         <View style={styles.ContenedorInputs}>
           <TextInput
@@ -198,7 +203,7 @@ const RegistroPaciente = ({ navigation }) => {
               ref={confirmarContraseñaRef}
               style={styles.inputPassword}
               value={confirmarContraseña}
-              placeholder=' Confirmar Contraseña:'
+              placeholder='Confirmar Contraseña:'
               placeholderTextColor={'black'}
               autoCapitalize='none'
               secureTextEntry={secureConfirmEntry}
@@ -271,9 +276,9 @@ const RegistroPaciente = ({ navigation }) => {
             </View>
           </View>
         </Modal>
+      </ScrollView>
+    </KeyboardAvoidingView>
 
-      </KeyboardAvoidingView>
-    </SafeAreaView>
   );
 }
 
@@ -317,7 +322,7 @@ const styles = StyleSheet.create({
     height: hp('6%'),
     borderBottomWidth: 1,
     fontSize: hp('1.7%'),
-    padding: hp('1%'),
+    // padding: hp('1%'),
     fontFamily: 'Play-fair-Display',
     margin: hp('1%'),
   },

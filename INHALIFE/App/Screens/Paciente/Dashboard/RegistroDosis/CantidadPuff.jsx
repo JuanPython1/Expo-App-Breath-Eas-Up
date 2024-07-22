@@ -23,9 +23,9 @@ const CantidadPuff = ({ navigation, route }) => {
 
   return (
     <KeyboardAvoidingView
-      behavior="padding"
+      behavior="height"
       style={styles.keyboardAvoidingView}
-
+      keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })}
     >
 
       <View style={styles.header}>
@@ -34,9 +34,10 @@ const CantidadPuff = ({ navigation, route }) => {
         </Pressable>
       </View>
 
-      <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps='handled'>
+      <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps='handled' >
 
         <Text style={styles.Titulo}>{`DOSIS \n PARA LA INHALACIÓN`}</Text>
+
 
         <View style={styles.nombreMedicamentoContenedor}>
           <View style={styles.contenedorMedicamento}>
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    justifyContent: 'center',
+
   },
   header: {
     flexDirection: 'row',
