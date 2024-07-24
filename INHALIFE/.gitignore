@@ -9,7 +9,6 @@ dist/
 web-build/
 
 # Expo Application Services
-eas.json
 
 # Native
 *.orig.*
@@ -34,6 +33,7 @@ yarn-error.*
 # local env files
 .env*.local
 .env
+
 
 
 # typescript

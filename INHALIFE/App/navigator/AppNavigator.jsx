@@ -102,15 +102,15 @@ const AppNavigator = () => {
 
                 if (docSnapPaciente.exists()) {
                     setUserRole('paciente');
-                    console.log('El usuario es un paciente', user, userRole);
+                    console.log('El usuario es un paciente', user.email, userRole);
 
                 } else if (docSnapCuidador.exists()) {
                     setUserRole('cuidador');
-                    console.log('El usuario es un cuidador', user, userRole);
+                    console.log('El usuario es un cuidador', user.email, userRole);
                 }
                 else if (docSnapAdministrador.exists()) {
                     setUserRole('Admin')
-                    console.log('El usuario es un administrador', user, userRole);
+                    console.log('El usuario es un administrador', user.emailVerified, userRole);
                 }
                 else {
                     setUserRole(null);
@@ -123,7 +123,7 @@ const AppNavigator = () => {
                 setUser(null);
             }
             setLoading(false);
-        });
+        }, [user]);
         return unsubscribe;
     });
 

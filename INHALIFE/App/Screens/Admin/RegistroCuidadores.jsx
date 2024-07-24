@@ -90,9 +90,9 @@ const RegistroCuidadores = ({ navigation }) => {
 
             console.log('Usuario registrado exitosamente');
 
-            // Continúa guardando el UID del usuario en Firestore
+            //guardando el UID del usuario en Firestore
             const userData = await response.json();
-            const uid = userData.localId; // Obtener el UID del usuario creado
+            const uid = userData.localId;
             const userRef = doc(firestore, 'UsuariosCuidadores', uid);
             await setDoc(userRef, {
                 nombreUsuario: usuario,
