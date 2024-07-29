@@ -27,7 +27,7 @@ const LoginPaciente = ({ navigation }) => {
       // Obtén el documento del usuario
       let userDoc = await getDoc(doc(db, 'UsuariosPacientes', response.user.uid));
 
-      if (!response.user.emailVerified) {
+      if (userDoc.exists() && userDoc.data().rol === 'Paciente' && !response.user.emailVerified) {
         alert('Por favor, confirma tu correo electronico');
         await FIREBASE_AUTH.signOut();
       }

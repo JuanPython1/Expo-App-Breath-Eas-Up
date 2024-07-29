@@ -24,7 +24,7 @@ const LoginCuidador = ({ navigation }) => {
 
       let userDoc = await getDoc(doc(FIRESTORE_DB, 'UsuariosCuidadores', response.user.uid));
 
-      if (!response.user.emailVerified) {
+      if (userDoc.exists() && userDoc.data().rol === 'Cuidador' && !response.user.emailVerified) {
         alert('Por favor, confirma tu correo electronico');
         await FIREBASE_AUTH.signOut();
       }
