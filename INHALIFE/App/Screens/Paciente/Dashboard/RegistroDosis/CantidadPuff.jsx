@@ -25,7 +25,7 @@ const CantidadPuff = ({ navigation, route }) => {
     <KeyboardAvoidingView
       behavior="height"
       style={styles.keyboardAvoidingView}
-      keyboardVerticalOffset={Platform.select({ ios: 0, android: 25 })}
+      keyboardVerticalOffset={Platform.select({ ios: 0, android: 0 })}
     >
 
       <View style={styles.header}>

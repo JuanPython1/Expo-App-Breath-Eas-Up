@@ -74,7 +74,7 @@ const RegistroPaciente = ({ navigation }) => {
     setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, contraseña);
-      console.log(userCredential);
+      console.log('autentificacion creada: ', userCredential);
       await sendEmailVerification(auth.currentUser);
       const userUID = auth.currentUser.uid;
       const userRef = doc(firestore, 'UsuariosPacientes', userUID);
@@ -111,9 +111,10 @@ const RegistroPaciente = ({ navigation }) => {
 
   useEffect(() => {
     if (isModalClosedRegistro) {
-      navigation.navigate('BienvenidaPaciente');
+      alert('El Paciente debe verificar su correo para poder iniciar sesión');
+      navigation.navigate('LoginPaciente');
     }
-  }, [isModalClosedRegistro, navigation]);
+  }, [isModalClosedRegistro], navigation);
 
   return (
 

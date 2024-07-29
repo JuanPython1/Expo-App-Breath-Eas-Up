@@ -9,7 +9,7 @@ import { FIREBASE_AUTH, FIRESTORE_DB } from '../firebase/config';
 import { doc, getDoc } from 'firebase/firestore';
 import * as Device from 'expo-device'
 import * as Notificaciones from 'expo-notifications'
-import { View, Text, Platform } from 'react-native';
+import { View, Text, Platform, Alert } from 'react-native';
 // Screens rol, login, Registro
 
 
@@ -47,7 +47,7 @@ const AppNavigator = () => {
     useEffect(() => {
         const registerForPushNotificationAsync = async () => {
             let token = null;
-            if (user && (userRole === 'paciente' || userRole === 'cuidador')) {
+            if (user && (userRole === 'paciente' || userRole === 'cuidador' || userRole === 'admin' || userRole === 'familiar')) {
                 if (Device.isDevice) {
                     const { status: existingStatus } = await Notificaciones.getPermissionsAsync();
                     let finalStatus = existingStatus;
@@ -86,46 +86,54 @@ const AppNavigator = () => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
-            setUser(user);
 
             if (user) {
-                // Verificar si el UID del usuario pertenece a usuariosPacientes
-                const docRefPaciente = doc(FIRESTORE_DB, 'UsuariosPacientes', user.uid);
-                const docSnapPaciente = await getDoc(docRefPaciente);
+                if (user.emailVerified) {
+                    setUser(user);
+                    // Verificar si el UID del usuario pertenece a usuariosPacientes
+                    const docRefPaciente = doc(FIRESTORE_DB, 'UsuariosPacientes', user.uid);
+                    const docSnapPaciente = await getDoc(docRefPaciente);
 
-                // Verificar si el UID del usuario pertenece a usuariosCuidadores
-                const docRefCuidador = doc(FIRESTORE_DB, 'UsuariosCuidadores', user.uid);
-                const docSnapCuidador = await getDoc(docRefCuidador);
+                    // Verificar si el UID del usuario pertenece a usuariosCuidadores
+                    const docRefCuidador = doc(FIRESTORE_DB, 'UsuariosCuidadores', user.uid);
+                    const docSnapCuidador = await getDoc(docRefCuidador);
 
-                const docRefAdmin = doc(FIRESTORE_DB, 'Administradores', user.uid);
-                const docSnapAdministrador = await getDoc(docRefAdmin);
+                    const docRefAdmin = doc(FIRESTORE_DB, 'Administradores', user.uid);
+                    const docSnapAdministrador = await getDoc(docRefAdmin);
 
-                if (docSnapPaciente.exists()) {
-                    setUserRole('paciente');
-                    console.log('El usuario es un paciente', user.email, userRole);
+                    const docRefFamiliar = doc(FIRESTORE_DB, 'UsuariosFamiliar', user.uid);
+                    const docSnapFamiliar = await getDoc(docRefFamiliar);
 
-                } else if (docSnapCuidador.exists()) {
-                    setUserRole('cuidador');
-                    console.log('El usuario es un cuidador', user.email, userRole);
-                }
-                else if (docSnapAdministrador.exists()) {
-                    setUserRole('Admin')
-                    console.log('El usuario es un administrador', user.emailVerified, userRole);
-                }
-                else {
-                    setUserRole(null);
-                    setUser(null);
-                    console.log('El usuario es', user, userRole);
+                    if (docSnapPaciente.exists()) {
+                        setUserRole('paciente');
+                        console.log('El usuario es un paciente', user.email, userRole);
+
+                    } else if (docSnapCuidador.exists()) {
+                        setUserRole('cuidador');
+                        console.log('El usuario es un cuidador', user.email, userRole);
+                    }
+                    else if (docSnapAdministrador.exists()) {
+                        setUserRole('Admin')
+                        console.log('El usuario es un administrador', user.emailVerified, userRole);
+                    }
+                    else if (docSnapFamiliar.exists()) {
+                        setUserRole('familiar')
+                        console.log('El usuario es un familiar', user.emailVerified, userRole);
+                    }
+                    else {
+                        setUserRole(null);
+                        setUser(null);
+                        console.log('El usuario es', user, userRole);
+                    }
                 }
 
             } else {
                 setUserRole(null);
-                setUser(null);
             }
             setLoading(false);
-        }, [user]);
+        });
         return unsubscribe;
-    });
+    }, [user]);
 
     if (!loaded || loading) {
         return <LoadingScreen />;

@@ -13,6 +13,7 @@ import BienvenidaPaciente from '../Screens/Paciente/Dashboard/BienvenidaPaciente
 import DashboardPaciente from '../Screens/Paciente/Dashboard/DashboardPaciente';
 import RecordatorioDosis from '../Screens/Paciente/Dashboard/RecordatorioDosis/RecordatorioDosis';
 import VideoTutoriales from '../Screens/Paciente/Dashboard/VideoTutoriales';
+import RegistroCuidador from '../Screens/Paciente/Dashboard/RegistroCuidador';
 import NotificacionesPacientes from '../Screens/Paciente/Dashboard/notificacionesActivas'
 
 // Registro Dosis Paciente
@@ -45,6 +46,7 @@ const PacienteNavigator = () => {
             <StackPaciente.Screen name='DashboardPaciente' component={DashboardPaciente} options={{ headerShown: false }} />
             <StackPaciente.Screen name='RecordatorioDosis' component={RecordatorioDosis} options={{ headerShown: false }} />
             <StackPaciente.Screen name='VideoTutoriales' component={VideoTutoriales} options={{ headerShown: false }} />
+            <StackPaciente.Screen name='RegistroCuidador' component={RegistroCuidador} options={{ headerShown: false }} />
             <StackPaciente.Screen name='notificacionesPacientes' component={NotificacionesPacientes} options={{ headerShown: false }} />
 
             {/* Registro dosis paciente */}

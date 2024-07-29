@@ -34,6 +34,12 @@ const DashboardPaciente = ({ navigation }) => {
     funcion: () => { navigation.navigate('VideoTutoriales') }
   };
 
+  const botonRegistroCuidador = {
+    titulo: 'REGISTRO CUIDADOR',
+    imagen: require('../../../../assets/Image/Familiar.png'),
+    funcion: () => { navigation.navigate('RegistroCuidador') }
+  }
+
   const botonNotificaciones = {
     titulo: 'Notificaciones',
     imagen: require('../../../../assets/Image/videotutorial.png'),
@@ -116,12 +122,17 @@ const DashboardPaciente = ({ navigation }) => {
         </View>
 
         <View style={styles.fila2}>
-          <View style={styles.RegistroDosis}>
-            <BotonDashBoardPaciente props={botonVideosTutoriales} />
-          </View>
           {/* <View style={styles.RegistroDosis}>
             <BotonDashBoardPaciente props={botonNotificaciones} />
           </View> */}
+          <View style={styles.RecordatorioDosis}>
+            <BotonDashBoardPaciente props={botonVideosTutoriales} />
+          </View>
+          {/* 
+          <View style={styles.RegistroDosis}>
+            <BotonDashBoardPaciente props={botonRegistroCuidador} />
+          </View> */}
+
         </View>
       </View>
 
@@ -196,8 +207,9 @@ const styles = StyleSheet.create({
     marginHorizontal: wp('4%')
   },
   fila2: {
-    alignSelf: 'center',
-    top: hp('8%')
+    alignItems: 'center',
+    top: hp('6%'),
+    marginTop: hp('2')
   },
   modalView: {
     position: 'absolute',

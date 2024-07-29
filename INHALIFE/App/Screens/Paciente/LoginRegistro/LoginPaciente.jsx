@@ -27,6 +27,11 @@ const LoginPaciente = ({ navigation }) => {
       // Obtén el documento del usuario
       let userDoc = await getDoc(doc(db, 'UsuariosPacientes', response.user.uid));
 
+      if (!response.user.emailVerified) {
+        alert('Por favor, confirma tu correo electronico');
+        await FIREBASE_AUTH.signOut();
+      }
+
       // Verifica el rol del usuario
       if (userDoc.exists() && userDoc.data().rol === 'Paciente') {
         setEmail('');
@@ -45,8 +50,6 @@ const LoginPaciente = ({ navigation }) => {
     }
   };
 
-
-
   const goToRecuperarConstraseña = () => {
     navigation.navigate('OlvidoContraseñaPaciente');
   };
@@ -54,6 +57,9 @@ const LoginPaciente = ({ navigation }) => {
   const goToRegister = () => {
     navigation.navigate('RegistroPaciente');
   };
+
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -120,7 +126,9 @@ const LoginPaciente = ({ navigation }) => {
 
         <View style={styles.contenedorRegistroYOlvidoContraseña}>
           <Text style={styles.textoRegistrateYOlvidarContraseña}>¿No tiene una cuenta? <Text style={styles.textoRojo} onPress={goToRegister}>Registrate</Text>.</Text>
+
           <Text style={styles.textoRegistrateYOlvidarContraseña}>¿Olvidaste tu contraseña? <Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}>Recuerdame</Text>.</Text>
+
         </View>
 
         <View style={styles.ContenedorNiños}>
@@ -184,7 +192,7 @@ const styles = StyleSheet.create({
 
   ContenedorBienvenida: {
     height: hp('12%'),
-    marginBottom: hp('5%'),
+    marginBottom: hp('3%'),
   },
 
   TextBienvenida: {
@@ -196,7 +204,6 @@ const styles = StyleSheet.create({
   },
 
   ContenedorNiños: {
-
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

@@ -23,6 +23,11 @@ const LoginAdmin = ({ navigation }) => {
 
             let userDoc = await getDoc(doc(FIRESTORE_DB, 'Administradores', response.user.uid));
 
+            if (!response.user.emailVerified) {
+                alert('Por favor, confirma tu correo electronico');
+                await FIREBASE_AUTH.signOut();
+            }
+
             // Verifica el rol del usuario
             if (userDoc.exists() && userDoc.data().rol === 'Administrador') {
                 setEmail('');
@@ -36,7 +41,7 @@ const LoginAdmin = ({ navigation }) => {
             }
         } catch (error) {
             console.log(error);
-            alert('--Iniciar Sesión Fallido-- Verifica si el correo electronico o contraseña este bien escrito o ¡Registrate!');
+            alert('--Iniciar Sesión Fallido-- Verifica si el correo electronico o contraseña este bien escrito');
         } finally {
             setLoading(false);
         }

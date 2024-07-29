@@ -9,6 +9,8 @@ import LoginPaciente from '../Screens/Paciente/LoginRegistro/LoginPaciente';
 import RegistroPaciente from '../Screens/Paciente/LoginRegistro/RegistroPaciente';
 import OlvidoContraseñaPaciente from '../Screens/Paciente/LoginRegistro/OlvidoContraseña';
 
+
+
 // CUIDADOR
 
 // Login Cuidador
@@ -18,6 +20,8 @@ import OlvidoContraseñaCuidador from '../Screens/Cuidador/Login/OlvidoContrase�
 //ADMINS
 import LoginAdmin from '../Screens/Admin/LoginAdmin';
 import OlvidoContraseñaAdmin from '../Screens/Admin/OlvidoContraseñaAdmin'
+
+
 
 
 const StackGeneral = createNativeStackNavigator()
@@ -31,6 +35,7 @@ const GeneralNavigator = () => {
             <StackGeneral.Screen name='LoginPaciente' component={LoginPaciente} options={{ headerShown: false }} />
             <StackGeneral.Screen name='RegistroPaciente' component={RegistroPaciente} options={{ headerShown: false }} />
             <StackGeneral.Screen name='OlvidoContraseñaPaciente' component={OlvidoContraseñaPaciente} options={{ headerShown: false }} />
+
 
 
             {/* CUIDADOR */}
