@@ -88,7 +88,7 @@ const AppNavigator = () => {
         const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
 
             if (user) {
-                if (user.emailVerified) {
+                if (!user.emailVerified) {
                     setUser(user);
                     // Verificar si el UID del usuario pertenece a usuariosPacientes
                     const docRefPaciente = doc(FIRESTORE_DB, 'UsuariosPacientes', user.uid);
@@ -101,8 +101,6 @@ const AppNavigator = () => {
                     const docRefAdmin = doc(FIRESTORE_DB, 'Administradores', user.uid);
                     const docSnapAdministrador = await getDoc(docRefAdmin);
 
-                    const docRefFamiliar = doc(FIRESTORE_DB, 'UsuariosFamiliar', user.uid);
-                    const docSnapFamiliar = await getDoc(docRefFamiliar);
 
                     if (docSnapPaciente.exists()) {
                         setUserRole('paciente');
@@ -115,10 +113,6 @@ const AppNavigator = () => {
                     else if (docSnapAdministrador.exists()) {
                         setUserRole('Admin')
                         console.log('El usuario es un administrador', user.emailVerified, userRole);
-                    }
-                    else if (docSnapFamiliar.exists()) {
-                        setUserRole('familiar')
-                        console.log('El usuario es un familiar', user.emailVerified, userRole);
                     }
                     else {
                         setUserRole(null);

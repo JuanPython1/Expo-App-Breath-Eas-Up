@@ -23,10 +23,6 @@ const LoginAdmin = ({ navigation }) => {
 
             let userDoc = await getDoc(doc(FIRESTORE_DB, 'Administradores', response.user.uid));
 
-            if (userDoc.exists() && userDoc.data().rol === 'Administrador' && !response.user.emailVerified) {
-                alert('Por favor, confirma tu correo electronico');
-                await FIREBASE_AUTH.signOut();
-            }
 
             // Verifica el rol del usuario
             if (userDoc.exists() && userDoc.data().rol === 'Administrador') {
