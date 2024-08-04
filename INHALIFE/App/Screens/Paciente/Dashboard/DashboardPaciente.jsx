@@ -90,7 +90,7 @@ const DashboardPaciente = ({ navigation }) => {
 
         // Cerrar sesión en Firebase Authentication
         await FIREBASE_AUTH.signOut();
-        navigation.navigate('Rol'); // Redirige a la pantalla de selección de rol
+
       }
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
