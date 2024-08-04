@@ -86,51 +86,44 @@ const AppNavigator = () => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
-
             if (user) {
+                setUser(user);
 
-                // Verificar si el UID del usuario pertenece a usuariosPacientes
-                const docRefPaciente = doc(FIRESTORE_DB, 'UsuariosPacientes', user.uid);
-                const docSnapPaciente = await getDoc(docRefPaciente);
+                // Verifica si el usuario ya tiene un rol asignado
+                if (!userRole) {
+                    // Verificar si el UID del usuario pertenece a usuariosPacientes
+                    const docRefPaciente = doc(FIRESTORE_DB, 'UsuariosPacientes', user.uid);
+                    const docSnapPaciente = await getDoc(docRefPaciente);
 
-                // Verificar si el UID del usuario pertenece a usuariosCuidadores
-                const docRefCuidador = doc(FIRESTORE_DB, 'UsuariosCuidadores', user.uid);
-                const docSnapCuidador = await getDoc(docRefCuidador);
+                    // Verificar si el UID del usuario pertenece a usuariosCuidadores
+                    const docRefCuidador = doc(FIRESTORE_DB, 'UsuariosCuidadores', user.uid);
+                    const docSnapCuidador = await getDoc(docRefCuidador);
 
-                const docRefAdmin = doc(FIRESTORE_DB, 'Administradores', user.uid);
-                const docSnapAdministrador = await getDoc(docRefAdmin);
+                    const docRefAdmin = doc(FIRESTORE_DB, 'Administradores', user.uid);
+                    const docSnapAdministrador = await getDoc(docRefAdmin);
 
-
-                if (docSnapPaciente.exists() && user.emailVerified) {
-                    setUser(user);
-                    setUserRole('paciente');
-                    console.log('El usuario es un paciente', user.email, userRole);
-
-                } else if (docSnapCuidador.exists()) {
-                    setUser(user);
-                    setUserRole('cuidador');
-                    console.log('El usuario es un cuidador', user.email, userRole);
+                    if (docSnapPaciente.exists() && user.emailVerified) {
+                        setUserRole('paciente');
+                        console.log('El usuario es un paciente', user.email, userRole);
+                    } else if (docSnapCuidador.exists()) {
+                        setUserRole('cuidador');
+                        console.log('El usuario es un cuidador', user.email, userRole);
+                    } else if (docSnapAdministrador.exists()) {
+                        setUserRole('Admin');
+                        console.log('El usuario es un administrador', user.emailVerified, userRole);
+                    } else if (docSnapPaciente.exists() && !user.emailVerified) {
+                        await FIREBASE_AUTH.signOut();
+                        setUserRole(null);
+                        setUser(null);
+                        console.log('El usuario es', user, userRole);
+                    }
                 }
-                else if (docSnapAdministrador.exists()) {
-                    setUser(user);
-                    setUserRole('Admin')
-                    console.log('El usuario es un administrador', user.emailVerified, userRole);
-                }
-                else {
-                    await FIREBASE_AUTH.signOut();
-                    setUserRole(null);
-                    setUser(null);
-                    console.log('El usuario es', user, userRole);
-                }
-
             } else {
                 await FIREBASE_AUTH.signOut();
                 setUser(null);
                 setUserRole(null);
             }
-
             setLoading(false);
-
         });
         return unsubscribe;
     }, [user]);
@@ -146,7 +139,7 @@ const AppNavigator = () => {
 
             <Stack.Navigator>
 
-                {user && userRole === 'paciente' ? (
+                {user && userRole === 'paciente' && user.emailVerified ? (
                     <Stack.Screen name='Paciente' component={PacienteNavigator} options={{ headerShown: false }} />
                 ) : user && userRole === 'cuidador' ? (
                     <Stack.Screen name='Cuidador' component={CuidadorNavigator} options={{ headerShown: false }} />
