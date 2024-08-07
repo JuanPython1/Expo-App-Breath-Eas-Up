@@ -122,9 +122,9 @@ const DashboardPaciente = ({ navigation }) => {
         </View>
 
         <View style={styles.fila2}>
-          {/* <View style={styles.RegistroDosis}>
+          <View style={styles.RegistroDosis}>
             <BotonDashBoardPaciente props={botonNotificaciones} />
-          </View> */}
+          </View>
           <View style={styles.RecordatorioDosis}>
             <BotonDashBoardPaciente props={botonVideosTutoriales} />
           </View>

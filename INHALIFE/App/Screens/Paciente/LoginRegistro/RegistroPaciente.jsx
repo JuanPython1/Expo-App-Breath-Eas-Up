@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView, StyleSheet, TextInput, ActivityIndicator, Pressable, KeyboardAvoidingView, Modal, Platform } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { collection, doc, getDocs, query, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import { MaterialIcons } from '@expo/vector-icons';
-import { EmailAuthCredential } from 'firebase/auth/cordova';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const RegistroPaciente = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -27,15 +26,16 @@ const RegistroPaciente = ({ navigation }) => {
   const contraseñaRef = useRef(null);
   const confirmarContraseñaRef = useRef(null);
 
-
   const auth = FIREBASE_AUTH;
   const firestore = FIRESTORE_DB;
 
   const goToLogin = () => {
     navigation.navigate('LoginPaciente');
-  }
+  };
 
   const ValidacionesYRegistro = async () => {
+    if (loading) return; // No permitir autenticaciones múltiples mientras loading es true
+
     if (!username || !nombre || !apellido) {
       alert('Por favor, completa todos los campos requeridos.');
       return;
@@ -53,13 +53,14 @@ const RegistroPaciente = ({ navigation }) => {
 
     if (contraseña !== confirmarContraseña) {
       alert('Las contraseñas no coinciden. Por favor, ingrésalas de nuevo.');
+      return;
+    }
+
+    const usernameExists = await checkUsernameExists(username);
+    if (usernameExists) {
+      setModalVisible(true);
     } else {
-      const usernameExists = await checkUsernameExists(username);
-      if (usernameExists) {
-        setModalVisible(true);
-      } else {
-        signUp();
-      }
+      await signUp();
     }
   };
 
@@ -69,12 +70,10 @@ const RegistroPaciente = ({ navigation }) => {
     return usernames.includes(username);
   };
 
-
   const signUp = async () => {
     setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, contraseña);
-      console.log('autentificacion creada: ', userCredential);
       await sendEmailVerification(auth.currentUser);
       const userUID = auth.currentUser.uid;
       const userRef = doc(firestore, 'UsuariosPacientes', userUID);
@@ -95,8 +94,11 @@ const RegistroPaciente = ({ navigation }) => {
         case 'auth/weak-password':
           alert('La contraseña no es lo suficientemente segura.');
           break;
+        default:
+          alert('Ocurrió un error inesperado.');
       }
-      setLoading(false);
+    } finally {
+      setLoading(false); // Asegurarse de que loading se apague en todos los casos
     }
   };
 
@@ -114,20 +116,14 @@ const RegistroPaciente = ({ navigation }) => {
       alert('El Paciente debe verificar su correo para poder iniciar sesión');
       navigation.navigate('LoginPaciente');
     }
-  }, [isModalClosedRegistro], navigation);
+  }, [isModalClosedRegistro, navigation]);
 
   return (
-
-    <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={
-      Platform.select({ ios: 0, android: 35 })
-    }>
-
+    <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={Platform.select({ ios: 0, android: 35 })}>
       <ScrollView keyboardShouldPersistTaps='handled'>
         <View style={styles.ContenedorTitulo}>
           <Text style={styles.Titulo}>INHALIFE</Text>
         </View>
-
-
         <View style={styles.ContenedorInputs}>
           <TextInput
             style={styles.input}
@@ -135,12 +131,11 @@ const RegistroPaciente = ({ navigation }) => {
             placeholder='Nombre de Usuario:'
             placeholderTextColor={'black'}
             autoCapitalize='none'
-            onChangeText={(text) => setUsername(text)}
+            onChangeText={setUsername}
             returnKeyType='next'
-            onSubmitEditing={() => { nombreRef.current.focus() }}
+            onSubmitEditing={() => { nombreRef.current.focus(); }}
             blurOnSubmit={false}
           />
-
           <TextInput
             ref={nombreRef}
             style={styles.input}
@@ -148,12 +143,11 @@ const RegistroPaciente = ({ navigation }) => {
             placeholder='Nombres:'
             placeholderTextColor={'black'}
             autoCapitalize='none'
-            onChangeText={(text) => setNombre(text)}
+            onChangeText={setNombre}
             returnKeyType='next'
-            onSubmitEditing={() => { apellidoRef.current.focus() }}
+            onSubmitEditing={() => { apellidoRef.current.focus(); }}
             blurOnSubmit={false}
           />
-
           <TextInput
             ref={apellidoRef}
             style={styles.input}
@@ -161,12 +155,11 @@ const RegistroPaciente = ({ navigation }) => {
             placeholder='Apellidos:'
             placeholderTextColor={'black'}
             autoCapitalize='none'
-            onChangeText={(text) => setApellido(text)}
+            onChangeText={setApellido}
             returnKeyType='next'
-            onSubmitEditing={() => { emailRef.current.focus() }}
+            onSubmitEditing={() => { emailRef.current.focus(); }}
             blurOnSubmit={false}
           />
-
           <TextInput
             ref={emailRef}
             style={styles.input}
@@ -174,12 +167,11 @@ const RegistroPaciente = ({ navigation }) => {
             placeholder='Correo Electronico:'
             placeholderTextColor={'black'}
             autoCapitalize='none'
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={setEmail}
             returnKeyType='next'
-            onSubmitEditing={() => { contraseñaRef.current.focus() }}
+            onSubmitEditing={() => { contraseñaRef.current.focus(); }}
             blurOnSubmit={false}
           />
-
           <View style={styles.passwordContainer}>
             <TextInput
               ref={contraseñaRef}
@@ -189,16 +181,15 @@ const RegistroPaciente = ({ navigation }) => {
               placeholderTextColor={'black'}
               autoCapitalize='none'
               secureTextEntry={secureTextEntry}
-              onChangeText={(text) => setContraseña(text)}
+              onChangeText={setContraseña}
               returnKeyType='next'
-              onSubmitEditing={() => { confirmarContraseñaRef.current.focus() }}
+              onSubmitEditing={() => { confirmarContraseñaRef.current.focus(); }}
               blurOnSubmit={false}
             />
             <Pressable onPress={() => setSecureTextEntry(!secureTextEntry)}>
               <MaterialIcons name={secureTextEntry ? 'visibility-off' : 'visibility'} size={24} color="black" />
             </Pressable>
           </View>
-
           <View style={styles.passwordContainer}>
             <TextInput
               ref={confirmarContraseñaRef}
@@ -208,7 +199,7 @@ const RegistroPaciente = ({ navigation }) => {
               placeholderTextColor={'black'}
               autoCapitalize='none'
               secureTextEntry={secureConfirmEntry}
-              onChangeText={(text) => setConfirmarContraseña(text)}
+              onChangeText={setConfirmarContraseña}
               returnKeyType='done'
               onSubmitEditing={ValidacionesYRegistro}
             />
@@ -217,60 +208,44 @@ const RegistroPaciente = ({ navigation }) => {
             </Pressable>
           </View>
         </View>
-
         {loading ? (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size={'large'} color={'#00AAE4'} />
           </View>
         ) : (
-          <>
-            <Pressable style={styles.ContenedorBotonRegistro} onPress={ValidacionesYRegistro}>
-              <Text style={styles.TextoRegistrarse}>REGISTRARSE</Text>
-            </Pressable>
-          </>
+          <Pressable style={styles.ContenedorBotonRegistro} onPress={ValidacionesYRegistro}>
+            <Text style={styles.TextoRegistrarse}>REGISTRARSE</Text>
+          </Pressable>
         )}
-
         <Text style={styles.textoIngresa}>¿Ya tienes cuenta? <Text style={styles.textoRojo} onPress={goToLogin}>Ingresa</Text>.</Text>
-
         <Modal
           animationType="slide"
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
+          onRequestClose={handleModalClose}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={styles.modalContainer}>
                 <Text style={styles.modalText}>Este usuario ya está registrado. Por favor, ingresa otro nombre de usuario.</Text>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={handleModalClose}
-                >
+                <Pressable style={[styles.button, styles.buttonClose]} onPress={handleModalClose}>
                   <Text style={styles.textStyle}>Cerrar</Text>
                 </Pressable>
               </View>
             </View>
           </View>
         </Modal>
-
         <Modal
           animationType="slide"
           transparent={true}
           visible={modalVisibleRegistro}
-          onRequestClose={() => {
-            setModalVisibleRegistro(!modalVisibleRegistro);
-          }}
+          onRequestClose={handleModalCloseRegistro}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={styles.modalContainer}>
                 <Text style={styles.modalText}>¡¡¡Te registraste Correctamente!!!</Text>
-                <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={handleModalCloseRegistro}
-                >
+                <Pressable style={[styles.button, styles.buttonClose]} onPress={handleModalCloseRegistro}>
                   <Text style={styles.textStyle}>Cerrar</Text>
                 </Pressable>
               </View>
@@ -279,9 +254,8 @@ const RegistroPaciente = ({ navigation }) => {
         </Modal>
       </ScrollView>
     </KeyboardAvoidingView>
-
   );
-}
+};
 
 export default RegistroPaciente;
 
