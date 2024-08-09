@@ -74,6 +74,7 @@ const RegistroPaciente = ({ navigation }) => {
     setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, contraseña);
+      console.log('Usuario registrado:', userCredential);
       await sendEmailVerification(auth.currentUser);
       const userUID = auth.currentUser.uid;
       const userRef = doc(firestore, 'UsuariosPacientes', userUID);

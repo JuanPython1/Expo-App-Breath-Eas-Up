@@ -110,6 +110,7 @@ const AppNavigator = () => {
 
             } else if (docSnapPaciente.exists() && !user.emailVerified) {
                 FIREBASE_AUTH.signOut();
+                setUserRole(null);
                 setUser(null);
 
             }
