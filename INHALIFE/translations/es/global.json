@@ -1,0 +1,10 @@
+{
+  "Rol": {
+    "EligeRol": "ELIGE TU ROL",
+    "Paciente": "PACIENTE",
+    "O": "O",
+    "Cuidador": "CUIDADOR",
+    "Administrador": "¿Eres Administrador? Presiona",
+    "aqui": "Aqui"
+  }
+}

@@ -1,22 +1,56 @@
-import { View, Text, SafeAreaView, StyleSheet, Image, StatusBar, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, SafeAreaView, StyleSheet, Image, StatusBar, ScrollView, Pressable } from 'react-native'
+import React, { useEffect, useState } from "react";
 
 import BotonRol from '../components/BotonRol';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTranslation } from "react-i18next";
+
+import BanderaIdioma from '../components/BanderaIdioma';
+import BotonDesplegableIdioma from '../components/DesplegableIdioma'
 const Rol = ({ navigation }) => {
-  //fuentes
+
+  const { t, i18n } = useTranslation();
+  const currentLanguage = i18n.language;
+
+
+  useEffect(() => {
+    const loadLanguage = async () => {
+      const savedLanguage = await AsyncStorage.getItem("language");
+      if (savedLanguage) {
+        i18n.changeLanguage(savedLanguage);
+      }
+    };
+    loadLanguage();
+  }, [i18n]);
+
+  //botones banderas
+  const BanderaColombia = { bandera: require('../../assets/Image/español.png'), idioma: 'es-CO' }
+  const BanderaIngles = { bandera: require('../../assets/Image/ingles.png'), idioma: 'en-US' }
+
+
+  //botondesplegable
+  const botondesplegable = {
+    idiomaDefault: currentLanguage === 'es-CO'
+      ? <BanderaIdioma props={BanderaIngles} />
+      : <BanderaIdioma props={BanderaColombia} />
+  };
 
   //botones roles
-  const botonInfoPaciente = { Titulo: "PACIENTE", colorFondo: '#00AAE4', fuente: 'Play-fair-Display', navegacion: () => navigation.navigate('LoginPaciente') }
-  const botonInfoCuidador = { Titulo: "CUIDADOR", colorFondo: '#AADBFF', fuente: 'Play-fair-Display', navegacion: () => navigation.navigate('LoginCuidador') }
+  const botonInfoPaciente = { Titulo: t("Rol.Paciente"), colorFondo: '#00AAE4', fuente: 'Play-fair-Display', navegacion: () => navigation.navigate('LoginPaciente') }
+  const botonInfoCuidador = { Titulo: t("Rol.Cuidador"), colorFondo: '#AADBFF', fuente: 'Play-fair-Display', navegacion: () => navigation.navigate('LoginCuidador') }
 
 
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Image style={styles.niña} source={require('../../assets/Image/Niña.png')} resizeMode='contain' />
+        <View style={styles.ContenedorHeader}>
+          <Image style={styles.niña} source={require('../../assets/Image/Niña.png')} resizeMode='contain' />
+
+          <BotonDesplegableIdioma props={botondesplegable} />
+        </View>
 
 
         <View style={styles.ContenedorTitulo} >
@@ -25,14 +59,14 @@ const Rol = ({ navigation }) => {
 
 
         <View style={styles.RolContainer}>
-          <Text style={styles.TextoElijeRol}>ELIGE TU ROL</Text>
+          <Text style={styles.TextoElijeRol}>{t("Rol.EligeRol")}</Text>
 
           <View style={styles.contenedorPaciente}>
             <BotonRol props={botonInfoPaciente} />
           </View>
 
           <View style={styles.ContenedorO}>
-            <Text style={{ fontSize: 30, fontFamily: 'Play-fair-Display' }}>O</Text>
+            <Text style={{ fontSize: 30, fontFamily: 'Play-fair-Display' }}>{t("Rol.O")}</Text>
           </View>
 
           <View style={styles.contenedorCuidador}>
@@ -44,7 +78,7 @@ const Rol = ({ navigation }) => {
         <Image style={styles.niño} source={require('../../assets/Image/Niño.png')} resizeMode='contain' />
 
         {/* <Text style={styles.textoAdmin}> ¿Eres administrador? presiona<Text onPress={() => { navigation.navigate('LoginAdmin') }}> aqui </Text> </Text> */}
-        <Text style={styles.textoAdmin}> ¿Eres administrador? presiona <Text style={{ color: 'red' }} onPress={() => { navigation.navigate('LoginAdmin') }}> aqui </Text>  </Text>
+        <Text style={styles.textoAdmin}> {t("Rol.Administrador")} <Text style={{ color: 'red' }} onPress={() => { navigation.navigate('LoginAdmin') }}> {t("Rol.aqui")} </Text>  </Text>
       </ScrollView>
     </SafeAreaView>
   )
@@ -59,9 +93,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 
   },
+  ContenedorHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
 
   niña: {
-    left: wp('5%'),
+    // left: wp('5%'),
     width: wp('37.5%'),
     height: hp('20%'),
   },
