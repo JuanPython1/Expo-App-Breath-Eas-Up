@@ -6,5 +6,79 @@
     "Cuidador": "CAREGIVER",
     "Administrador": "Are you an Administrator? Press",
     "aqui": "Here"
+  },
+  "LoginPaciente": {
+    "Bienvenida": "WELCOME\nPATIENT",
+    "Correo": "EMAIL",
+    "Contrasena": "PASSWORD",
+    "IniciarSesion": "LOGIN",
+    "Registro": "Don't have an account? ",
+    "Registrarse": "Sign up",
+    "OlvidasteContrasena": "Forgot your password? ",
+    "Recuerdame": "Remember me"
+  },
+  "ErrorPacientesLogin": {
+    "ErrorVerificacionCorreo": "Please, confirm your email.",
+    "ErrorSinPermisos": "Sorry, you don't have permissions to access the dashboard of Caregivers.",
+    "ErrorLoginFallido": "The email or password are incorrect."
+  },
+  "RegistroPaciente": {
+    "NombreUsuario": "Username:",
+    "Nombres": "Names:",
+    "Apellidos": "Last Names:",
+    "Correo": "Email:",
+    "Contrasena": "Password:",
+    "ConfirmarContrasena": "Confirm Password:",
+    "Registrate": "REGISTER",
+    "YaTienesCuenta": "Already have an account? ",
+    "Ingresa": "Enter",
+    "VerificarCorreo": "The Patient must verify their email to start the session",
+    "ModalNombreUsuarioYaRegistrado": "This username is already registered. Please, enter another username.",
+    "ModalRegistradoCorrectamente": "!!!Congratulations, you are registered correctly!!!",
+    "ModalBotonCerrar": "Close"
+  },
+  "ErrorRegistroPacientes": {
+    "CompletarCampos": "Please, complete all required fields.",
+    "LlenarCorreo": "Please, fill in your email.",
+    "CompletarContrasenas": "Please, complete both passwords.",
+    "ContrasenasNoCoinciden": "The passwords do not match. Please, enter them again.",
+    "CorreoUsado": "The email is already in use by another user.",
+    "CorreoNoValido": "The email is not valid.",
+    "AutentificacionNoHabilitada": "Authentication by email and password is not enabled.",
+    "ContraseñaInsegura": "Password is not sufficiently secure.",
+    "ErrorInesperado": "An unexpected error occurred."
+  },
+  "LoginCuidador": {
+    "Bienvenida": "WELCOME\nCAREGIVER",
+    "Correo": "EMAIL",
+    "Contrasena": "PASSWORD",
+    "IniciarSesion": "LOGIN",
+    "OlvidasteContrasena": "Forgot your password? ",
+    "Recuerdame": "Remember me"
+  },
+  "ErrorCuidadorLogin": {
+    "ErrorPermisos": "Sorry, you don't have permissions to access the dashboard of Patients.",
+    "ErrorLoginFallido": "The email or password are incorrect."
+  },
+  "OlvidarContrasena": {
+    "ErrorAlEnviar": "Error while sending the email:",
+    "ModalVerificaTuCorreo": "Verify your email to reset your password.",
+    "Cerrar": "Close",
+    "DeseaRestableceContrasena": "Do you want to reset your password?",
+    "Correo": "EMAIL",
+    "TeEnviaremosUnCorreo": "We will send you an email \n to reset your password.",
+    "Enviar": "SEND",
+    "RecordasteContrasena": "Forgot your password? ",
+    "IniciarSesion": "Login"
+  },
+  "LoginAdministrador": {
+    "Bienvenida": "WELCOME\nADMINISTRATOR",
+    "Correo": "EMAIL",
+    "Contrasena": "PASSWORD",
+    "IniciarSesion": "LOGIN"
+  },
+  "ErrorAdministradorLogin": {
+    "ErrorPermisos": "Sorry, you don't have permissions to access the dashboard of Administrators.",
+    "ErrorLoginFallido": "The email or password are incorrect."
   }
 }

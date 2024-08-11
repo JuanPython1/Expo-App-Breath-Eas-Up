@@ -8,6 +8,7 @@ import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useTranslation } from "react-i18next";
 import DashboardPaciente from '../Dashboard/DashboardPaciente';
 
 const LoginPaciente = ({ navigation }) => {
@@ -17,7 +18,9 @@ const LoginPaciente = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const contraseñaInputRef = useRef(null);
   const auth = FIREBASE_AUTH;
-  const db = FIRESTORE_DB
+  const db = FIRESTORE_DB;
+
+  const { t } = useTranslation();
 
   const SignIn = async () => {
     setLoading(true);
@@ -28,7 +31,7 @@ const LoginPaciente = ({ navigation }) => {
       let userDoc = await getDoc(doc(db, 'UsuariosPacientes', response.user.uid));
 
       if (userDoc.exists() && userDoc.data().rol === 'Paciente' && !response.user.emailVerified) {
-        alert('Por favor, confirma tu correo electronico');
+        alert(t("ErrorPacientesLogin.ErrorVerificacionCorreo"));
         await FIREBASE_AUTH.signOut();
       }
 
@@ -40,11 +43,11 @@ const LoginPaciente = ({ navigation }) => {
         await FIREBASE_AUTH.signOut();
         setEmail('');
         setContraseña('');
-        alert('No tienes permiso para acceder al dashboard de pacientes');
+        alert(t("ErrorPacientesLogin.ErrorSinPermisos"));
       }
     } catch (error) {
       console.log(error);
-      alert('--Iniciar Sesión Fallido-- Verifica si el correo electronico o contraseña este bien escrito o ¡Registrate!');
+      alert(t("ErrorPacientesLogin.ErrorLoginFallido"));
     } finally {
       setLoading(false);
     }
@@ -76,14 +79,14 @@ const LoginPaciente = ({ navigation }) => {
         </View>
 
         <View style={styles.ContenedorBienvenida}>
-          <Text style={styles.TextBienvenida}>{`BIENVENIDO\nPACIENTE`}</Text>
+          <Text style={styles.TextBienvenida}>{t("LoginPaciente.Bienvenida")}</Text>
         </View>
 
 
         <TextInput
           style={styles.input}
           value={email}
-          placeholder='CORREO ELECTRONICO'
+          placeholder={t("LoginPaciente.Correo")}
           placeholderTextColor={'black'}
           autoCapitalize='none'
           onChangeText={(text) => setEmail(text)}
@@ -96,7 +99,7 @@ const LoginPaciente = ({ navigation }) => {
             ref={contraseñaInputRef} // Establece la referencia
             style={styles.inputContraseña}
             value={contraseña}
-            placeholder='CONTRASEÑA'
+            placeholder={t("LoginPaciente.Contrasena")}
             placeholderTextColor={'black'}
             autoCapitalize='none'
             secureTextEntry={!mostrarContraseña}
@@ -120,14 +123,14 @@ const LoginPaciente = ({ navigation }) => {
           </View>
         ) : (
           <Pressable style={styles.BotonEntrar} onPress={SignIn}>
-            <Text style={styles.TextoEntrar}>INICIAR SESIÓN</Text>
+            <Text style={styles.TextoEntrar}>{t("LoginPaciente.IniciarSesion")}</Text>
           </Pressable>
         )}
 
         <View style={styles.contenedorRegistroYOlvidoContraseña}>
-          <Text style={styles.textoRegistrateYOlvidarContraseña}>¿No tiene una cuenta? <Text style={styles.textoRojo} onPress={goToRegister}>Registrate</Text>.</Text>
+          <Text style={styles.textoRegistrateYOlvidarContraseña}>{t("LoginPaciente.Registro")}<Text style={styles.textoRojo} onPress={goToRegister}>{t("LoginPaciente.Registrarse")}</Text>.</Text>
 
-          <Text style={styles.textoRegistrateYOlvidarContraseña}>¿Olvidaste tu contraseña? <Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}>Recuerdame</Text>.</Text>
+          <Text style={styles.textoRegistrateYOlvidarContraseña}>{t("LoginPaciente.OlvidasteContrasena")}<Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}>{t("LoginPaciente.Recuerdame")}</Text>.</Text>
 
         </View>
 

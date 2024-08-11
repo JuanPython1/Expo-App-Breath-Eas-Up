@@ -6,5 +6,79 @@
     "Cuidador": "CUIDADOR",
     "Administrador": "¿Eres Administrador? Presiona",
     "aqui": "Aqui"
+  },
+  "LoginPaciente": {
+    "Bienvenida": "BIENVENIDO\nPACIENTE",
+    "Correo": "CORREO ELECTRONICO",
+    "Contrasena": "CONTRASEÑA",
+    "IniciarSesion": "INICIAR SESION",
+    "Registro": "¿No tienes cuenta? ",
+    "Registrarse": "Registrate",
+    "OlvidasteContrasena": "¿Olvidaste tu contraseña? ",
+    "Recuerdame": "Recuerdame"
+  },
+  "ErrorPacientesLogin": {
+    "ErrorVerificacionCorreo": "Por favor, confirma tu correo electronico.",
+    "ErrorSinPermisos": "No tienes permiso para acceder al dashboard de pacientes.",
+    "ErrorLoginFallido": "El correo electronico o contrasena son incorrectos."
+  },
+  "RegistroPaciente": {
+    "NombreUsuario": "Nombre de Usuario:",
+    "Nombres": "Nombres:",
+    "Apellidos": "Apellidos:",
+    "Correo": "Correo Electronico",
+    "Contrasena": "Contraseña:",
+    "ConfirmarContrasena": "Confirmar Contraseña:",
+    "Registrate": "REGISTRARSE",
+    "YaTienesCuenta": "¿Ya tienes cuenta?",
+    "Ingresa": "Ingresa",
+    "VerificarCorreo": "El Paciente debe verificar su correo para poder iniciar sesión",
+    "ModalNombreUsuarioYaRegistrado": "Este usuario ya está registrado. Por favor, ingresa otro nombre de usuario.",
+    "ModalRegistradoCorrectamente": "¡¡¡Te registraste Correctamente!!!",
+    "ModalBotonCerrar": "Cerrar"
+  },
+  "ErrorRegistroPacientes": {
+    "CompletarCampos": "Por favor, completa todos los campos requeridos.",
+    "LlenarCorreo": "Por favor, llena el correo electronico.",
+    "CompletarContrasenas": "Por favor, completa ambas contraseñas.",
+    "ContrasenasNoCoinciden": "Las contraseñas no coinciden. Por favor, ingrésalas de nuevo.",
+    "CorreoUsado": "El correo electrónico ya está en uso por otro usuario.",
+    "CorreoNoValido": "El correo electrónico no es válido.",
+    "AutentificacionNoHabilitada": "La autenticación por correo electrónico y contraseña no está habilitada.",
+    "ContraseñaInsegura": "'La contraseña no es lo suficientemente segura.",
+    "ErrorInesperado": "Ocurrió un error inesperado."
+  },
+  "LoginCuidador": {
+    "Bienvenida": "BIENVENIDO\nCUIDADOR",
+    "Correo": "CORREO ELECTRONICO",
+    "Contrasena": "CONTRASEÑA",
+    "IniciarSesion": "INICIAR SESION",
+    "OlvidasteContrasena": "¿Olvidaste tu contraseña? ",
+    "Recuerdame": "Recuerdame"
+  },
+  "ErrorCuidadorLogin": {
+    "ErrorPermisos": "No tienes permiso para acceder al dashboard de pacientes",
+    "ErrorLoginFallido": "El correo electronico o contrasena son incorrectos."
+  },
+  "OlvidarContrasena": {
+    "ErrorAlEnviar": "Error al enviar el correo de recuperación:",
+    "ModalVerificaTuCorreo": "Verifica tu correo electrónico para recuperar tu contraseña.",
+    "Cerrar": "Cerrar",
+    "DeseaRestableceContrasena": "¿Deseas restablecer tu contraseña?",
+    "Correo": "CORREO ELECTRONICO",
+    "TeEnviaremosUnCorreo": "Te enviaremos un correo \n para restablecer tu contraseña.",
+    "Enviar": "ENVIAR",
+    "RecordasteContrasena": "¿Recordaste tu contraseña? ",
+    "IniciarSesion": "Inicia Sesión"
+  },
+  "LoginAdministrador": {
+    "Bienvenida": "BIENVENIDO\nADMINISTRADOR",
+    "Correo": "CORREO ELECTRONICO",
+    "Contrasena": "CONTRASEÑA",
+    "IniciarSesion": "INICIAR SESION"
+  },
+  "ErrorAdministradorLogin": {
+    "ErrorPermisos": "No tienes permiso para acceder al dashboard de administradores",
+    "ErrorLoginFallido": "El correo electronico o contrasena son incorrectos."
   }
 }

@@ -5,6 +5,7 @@ import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import { MaterialIcons } from '@expo/vector-icons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useTranslation } from "react-i18next";
 
 const RegistroPaciente = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -29,6 +30,8 @@ const RegistroPaciente = ({ navigation }) => {
   const auth = FIREBASE_AUTH;
   const firestore = FIRESTORE_DB;
 
+  const { t } = useTranslation();
+
   const goToLogin = () => {
     navigation.navigate('LoginPaciente');
   };
@@ -37,22 +40,22 @@ const RegistroPaciente = ({ navigation }) => {
     if (loading) return; // No permitir autenticaciones múltiples mientras loading es true
 
     if (!username || !nombre || !apellido) {
-      alert('Por favor, completa todos los campos requeridos.');
+      alert(t("ErrorRegistroPacientes.CompletarCampos"));
       return;
     }
 
     if (!email) {
-      alert('Por favor, llena el correo electronico.');
+      alert(t("ErrorRegistroPacientes.LlenarCorreo"));
       return;
     }
 
     if (!contraseña || !confirmarContraseña) {
-      alert('Por favor, completa el ingreso de las contraseñas.');
+      alert(t("ErrorRegistroPacientes.CompletarContrasenas"));
       return;
     }
 
     if (contraseña !== confirmarContraseña) {
-      alert('Las contraseñas no coinciden. Por favor, ingrésalas de nuevo.');
+      alert(t("ErrorRegistroPacientes.ContrasenasNoCoinciden"));
       return;
     }
 
@@ -84,19 +87,19 @@ const RegistroPaciente = ({ navigation }) => {
       console.log(error);
       switch (error.code) {
         case 'auth/email-already-in-use':
-          alert('El correo electrónico ya está en uso por otro usuario.');
+          alert(t('ErrorRegistroPacientes.CorreoUsado'));
           break;
         case 'auth/invalid-email':
-          alert('El correo electrónico no es válido.');
+          alert(t('ErrorRegistroPacientes.CorreoNoValido'));
           break;
         case 'auth/operation-not-allowed':
-          alert('La autenticación por correo electrónico y contraseña no está habilitada.');
+          alert(t("ErrorRegistroPacientes.AutentificacionNoHabilitada"));
           break;
         case 'auth/weak-password':
-          alert('La contraseña no es lo suficientemente segura.');
+          alert(t("ErrorRegistroPacientes.ContraseñaInsegura"));
           break;
         default:
-          alert('Ocurrió un error inesperado.');
+          alert(t("ErrorRegistroPacientes.ErrorInesperado"));
       }
     } finally {
       setLoading(false); // Asegurarse de que loading se apague en todos los casos
@@ -114,7 +117,7 @@ const RegistroPaciente = ({ navigation }) => {
 
   useEffect(() => {
     if (isModalClosedRegistro) {
-      alert('El Paciente debe verificar su correo para poder iniciar sesión');
+      alert(t("RegistroPaciente.VerificarCorreo"));
       navigation.navigate('LoginPaciente');
     }
   }, [isModalClosedRegistro, navigation]);
@@ -129,7 +132,7 @@ const RegistroPaciente = ({ navigation }) => {
           <TextInput
             style={styles.input}
             value={username}
-            placeholder='Nombre de Usuario:'
+            placeholder={t("RegistroPaciente.NombreUsuario")}
             placeholderTextColor={'black'}
             autoCapitalize='none'
             onChangeText={setUsername}
@@ -141,7 +144,7 @@ const RegistroPaciente = ({ navigation }) => {
             ref={nombreRef}
             style={styles.input}
             value={nombre}
-            placeholder='Nombres:'
+            placeholder={t("RegistroPaciente.Nombres")}
             placeholderTextColor={'black'}
             autoCapitalize='none'
             onChangeText={setNombre}
@@ -153,7 +156,7 @@ const RegistroPaciente = ({ navigation }) => {
             ref={apellidoRef}
             style={styles.input}
             value={apellido}
-            placeholder='Apellidos:'
+            placeholder={t("RegistroPaciente.Apellidos")}
             placeholderTextColor={'black'}
             autoCapitalize='none'
             onChangeText={setApellido}
@@ -165,7 +168,7 @@ const RegistroPaciente = ({ navigation }) => {
             ref={emailRef}
             style={styles.input}
             value={email}
-            placeholder='Correo Electronico:'
+            placeholder={t("RegistroPaciente.Correo")}
             placeholderTextColor={'black'}
             autoCapitalize='none'
             onChangeText={setEmail}
@@ -178,7 +181,7 @@ const RegistroPaciente = ({ navigation }) => {
               ref={contraseñaRef}
               style={styles.inputPassword}
               value={contraseña}
-              placeholder='Contraseña:'
+              placeholder={t("RegistroPaciente.Contrasena")}
               placeholderTextColor={'black'}
               autoCapitalize='none'
               secureTextEntry={secureTextEntry}
@@ -196,7 +199,7 @@ const RegistroPaciente = ({ navigation }) => {
               ref={confirmarContraseñaRef}
               style={styles.inputPassword}
               value={confirmarContraseña}
-              placeholder='Confirmar Contraseña:'
+              placeholder={t("RegistroPaciente.ConfirmarContrasena")}
               placeholderTextColor={'black'}
               autoCapitalize='none'
               secureTextEntry={secureConfirmEntry}
@@ -215,10 +218,10 @@ const RegistroPaciente = ({ navigation }) => {
           </View>
         ) : (
           <Pressable style={styles.ContenedorBotonRegistro} onPress={ValidacionesYRegistro}>
-            <Text style={styles.TextoRegistrarse}>REGISTRARSE</Text>
+            <Text style={styles.TextoRegistrarse}>{t("RegistroPaciente.Registrate")}</Text>
           </Pressable>
         )}
-        <Text style={styles.textoIngresa}>¿Ya tienes cuenta? <Text style={styles.textoRojo} onPress={goToLogin}>Ingresa</Text>.</Text>
+        <Text style={styles.textoIngresa}>{t("RegistroPaciente.YaTienesCuenta")}<Text style={styles.textoRojo} onPress={goToLogin}>{t("RegistroPaciente.Ingresa")}</Text>.</Text>
         <Modal
           animationType="slide"
           transparent={true}
@@ -228,9 +231,9 @@ const RegistroPaciente = ({ navigation }) => {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={styles.modalContainer}>
-                <Text style={styles.modalText}>Este usuario ya está registrado. Por favor, ingresa otro nombre de usuario.</Text>
+                <Text style={styles.modalText}>{t("RegistroPaciente.ModalNombreUsuarioYaRegistrado")}</Text>
                 <Pressable style={[styles.button, styles.buttonClose]} onPress={handleModalClose}>
-                  <Text style={styles.textStyle}>Cerrar</Text>
+                  <Text style={styles.textStyle}>{t("RegistroPaciente.ModalCerrar")}</Text>
                 </Pressable>
               </View>
             </View>
@@ -245,9 +248,9 @@ const RegistroPaciente = ({ navigation }) => {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <View style={styles.modalContainer}>
-                <Text style={styles.modalText}>¡¡¡Te registraste Correctamente!!!</Text>
+                <Text style={styles.modalText}>{t("RegistroPaciente.ModalRegistradoCorrectamente")}</Text>
                 <Pressable style={[styles.button, styles.buttonClose]} onPress={handleModalCloseRegistro}>
-                  <Text style={styles.textStyle}>Cerrar</Text>
+                  <Text style={styles.textStyle}>{t("RegistroPaciente.ModalCerrar")}</Text>
                 </Pressable>
               </View>
             </View>
@@ -331,7 +334,7 @@ const styles = StyleSheet.create({
     fontSize: hp('2%'),
   },
   textoIngresa: {
-    top: hp('0.5'),
+    top: hp('0.1'),
     fontSize: hp('1.7%'),
     textAlign: 'center',
     fontFamily: 'Play-fair-Display',

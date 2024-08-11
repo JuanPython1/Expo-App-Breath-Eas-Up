@@ -8,6 +8,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useTranslation } from 'react-i18next'
 
 const LoginAdmin = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -15,6 +16,8 @@ const LoginAdmin = ({ navigation }) => {
     const [mostrarContraseña, setMostrarContraseña] = useState(false);
     const [loading, setLoading] = useState(false);
     const contraseñaInputRef = useRef(null);
+
+    const { t } = useTranslation();
 
     const SignIn = async () => {
         setLoading(true);
@@ -33,11 +36,11 @@ const LoginAdmin = ({ navigation }) => {
                 await FIREBASE_AUTH.signOut();
                 setEmail('');
                 setContraseña('');
-                alert('No tienes permiso para acceder al dashboard de administrador');
+                alert(t("ErrorAdministradorLogin.ErrorPermisos"));
             }
         } catch (error) {
             console.log(error);
-            alert('--Iniciar Sesión Fallido-- Verifica si el correo electronico o contraseña este bien escrito');
+            alert(t("ErrorAdministradorLogin.ErrorLoginFallido"));
         } finally {
             setLoading(false);
         }
@@ -58,14 +61,14 @@ const LoginAdmin = ({ navigation }) => {
                     </View>
 
                     <View style={styles.ContenedorBienvenida}>
-                        <Text style={styles.TextBienvenida}>{`BIENVENIDA\nADMINISTRADORA`}</Text>
+                        <Text style={styles.TextBienvenida}>{t("LoginAdministrador.Bienvenida")}</Text>
                     </View>
 
                     <View style={styles.ContenedorInputs}>
                         <TextInput
                             style={styles.input}
                             value={email}
-                            placeholder='CORREO ELECTRONICO'
+                            placeholder={t("LoginAdministrador.Correo")}
                             placeholderTextColor={'black'}
                             autoCapitalize='none'
                             onChangeText={(text) => setEmail(text)}
@@ -79,7 +82,7 @@ const LoginAdmin = ({ navigation }) => {
                                 ref={contraseñaInputRef}
                                 style={styles.inputContraseña}
                                 value={contraseña}
-                                placeholder='CONTRASEÑA'
+                                placeholder={t("LoginAdministrador.Contrasena")}
                                 placeholderTextColor={'black'}
                                 autoCapitalize='none'
                                 secureTextEntry={!mostrarContraseña}
@@ -102,7 +105,7 @@ const LoginAdmin = ({ navigation }) => {
                         ) : (
                             <>
                                 <Pressable style={styles.BotonEntrar} onPress={SignIn}>
-                                    <Text style={styles.TextoEntrar}>INICIAR SESIÓN</Text>
+                                    <Text style={styles.TextoEntrar}>{t("LoginAdministrador.IniciarSesion")}</Text>
                                 </Pressable>
                             </>
                         )}

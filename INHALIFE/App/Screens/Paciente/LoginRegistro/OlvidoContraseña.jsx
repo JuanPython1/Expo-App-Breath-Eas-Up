@@ -3,12 +3,14 @@ import React, { useState } from 'react'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import { FIREBASE_AUTH } from '../../../firebase/config'
 import { sendPasswordResetEmail } from 'firebase/auth';
+import { useTranslation } from "react-i18next";
 
 const OlvidoContraseñaPaciente = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [modalVisible, setModalVisible] = useState(false); // Estado para el modal de verificación
   const auth = FIREBASE_AUTH;
 
+  const { t } = useTranslation();
 
   //recuperar contraseña
   const recuperar = async () => {
@@ -17,7 +19,7 @@ const OlvidoContraseñaPaciente = ({ navigation }) => {
       await sendPasswordResetEmail(auth, email);
       setModalVisible(true); // Mostrar el modal de verificación
     } catch (error) {
-      alert('Error al enviar el correo de recuperación:', error.message);
+      alert(t("OlvidarContrasena.ErrorAlEnviar"), error.message);
     }
   };
 
@@ -41,14 +43,14 @@ const OlvidoContraseñaPaciente = ({ navigation }) => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Verifica tu correo electrónico para recuperar tu contraseña.</Text>
+            <Text style={styles.modalText}>{t("OlvidarContrasena.ModalVerificaTuCorreo")}</Text>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => {
                 setModalVisible(!modalVisible);
               }}
             >
-              <Text style={styles.textStyle}>Cerrar</Text>
+              <Text style={styles.textStyle}>{t("OlvidarContrasena.Cerrar")}</Text>
             </Pressable>
           </View>
         </View>
@@ -62,25 +64,25 @@ const OlvidoContraseñaPaciente = ({ navigation }) => {
 
       <View style={styles.body}>
         <View style={styles.ContenedorTextoDeseas}>
-          <Text style={styles.TextoDeseas}>¿Deseas restablecer tu contraseña?</Text>
+          <Text style={styles.TextoDeseas}>{t("OlvidarContrasena.DeseaRestableceContrasena")}</Text>
         </View>
 
         <TextInput style={styles.input}
           value={email}
-          placeholder='CORREO ELECTRONICO'
+          placeholder={t("OlvidarContrasena.Correo")}
           placeholderTextColor='black'
           autoCapitalize='none'
           onChangeText={(text) => setEmail(text)}
         />
 
-        <Text style={styles.textoEnvia}>{`Te enviaremos un correo \n para restablecer tu contraseña.`}</Text>
+        <Text style={styles.textoEnvia}>{t("OlvidarContrasena.TeEnviaremosUnCorreo")}</Text>
 
 
         <Pressable style={styles.BotonEntrar} onPress={recuperar} >
-          <Text style={styles.TextoEntrar}>ENVIAR</Text>
+          <Text style={styles.TextoEntrar}>{t("OlvidarContrasena.Enviar")}</Text>
         </Pressable>
 
-        <Text style={styles.textoCuenta}>¿Recordaste tu contraseña?  <Text style={styles.textoRojo} onPress={gotoLogin}>Inicia Sesión</Text>.</Text>
+        <Text style={styles.textoCuenta}>{t("OlvidarContrasena.RecordasteContrasena")}<Text style={styles.textoRojo} onPress={gotoLogin}>{t("OlvidarContrasena.IniciarSesion")}</Text>.</Text>
 
 
       </View>

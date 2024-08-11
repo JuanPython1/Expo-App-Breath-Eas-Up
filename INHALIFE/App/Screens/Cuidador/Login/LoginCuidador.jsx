@@ -8,6 +8,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useTranslation } from 'react-i18next'
 
 const LoginCuidador = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -15,6 +16,8 @@ const LoginCuidador = ({ navigation }) => {
   const [mostrarContraseña, setMostrarContraseña] = useState(false);
   const [loading, setLoading] = useState(false);
   const contraseñaInputRef = useRef(null);
+
+  const { t } = useTranslation();
 
   const SignIn = async () => {
     setLoading(true);
@@ -34,11 +37,11 @@ const LoginCuidador = ({ navigation }) => {
         setEmail('');
         setContraseña('');
         await FIREBASE_AUTH.signOut();
-        alert('No tienes permiso para acceder al dashboard de pacientes');
+        alert(t("ErrorCuidadorLogin.ErrorPermisos"));
       }
     } catch (error) {
       console.log(error);
-      alert('--Iniciar Sesión Fallido-- Verifica si el correo electronico o contraseña este bien escrito o pidele al admin que te registre');
+      alert(t("ErrorCuidadorLogin.ErrorLoginFallido"));
     } finally {
       setLoading(false);
     }
@@ -62,14 +65,14 @@ const LoginCuidador = ({ navigation }) => {
           </View>
 
           <View style={styles.ContenedorBienvenida}>
-            <Text style={styles.TextBienvenida}>{`BIENVENIDO\nCUIDADOR`}</Text>
+            <Text style={styles.TextBienvenida}>{t("LoginCuidador.Bienvenida")}</Text>
           </View>
 
           <View style={styles.ContenedorInputs}>
             <TextInput
               style={styles.input}
               value={email}
-              placeholder='CORREO ELECTRONICO'
+              placeholder={t("LoginCuidador.Correo")}
               placeholderTextColor={'black'}
               autoCapitalize='none'
               onChangeText={(text) => setEmail(text)}
@@ -83,7 +86,7 @@ const LoginCuidador = ({ navigation }) => {
                 ref={contraseñaInputRef}
                 style={styles.inputContraseña}
                 value={contraseña}
-                placeholder='CONTRASEÑA'
+                placeholder={t("LoginCuidador.Contrasena")}
                 placeholderTextColor={'black'}
                 autoCapitalize='none'
                 secureTextEntry={!mostrarContraseña}
@@ -106,13 +109,13 @@ const LoginCuidador = ({ navigation }) => {
             ) : (
               <>
                 <Pressable style={styles.BotonEntrar} onPress={SignIn}>
-                  <Text style={styles.TextoEntrar}>INICIAR SESIÓN</Text>
+                  <Text style={styles.TextoEntrar}>{t("LoginCuidador.IniciarSesion")}</Text>
                 </Pressable>
               </>
             )}
 
             <View style={styles.contenedorRegistroYOlvidoContraseña}>
-              <Text style={styles.textoRegistrateYOlvidarContraseña}>¿Olvidaste tu contraseña? <Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}>Recuerdame</Text>.</Text>
+              <Text style={styles.textoRegistrateYOlvidarContraseña}>{t("LoginCuidador.OlvidasteContrasena")}<Text style={styles.textoRojo} onPress={goToRecuperarConstraseña}> {t("LoginCuidador.Recuerdame")}</Text>.</Text>
             </View>
           </View>
 
