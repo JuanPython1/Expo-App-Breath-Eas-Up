@@ -4,6 +4,8 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { doc, getDoc } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
 
+import { t } from 'i18next';
+
 const BienvenidaAdmin = ({ navigation }) => {
     const [userData, setUserData] = useState('');
     const fadeAnim = useRef(new Animated.Value(0)).current; // Valor inicial de opacidad 0
@@ -49,7 +51,8 @@ const BienvenidaAdmin = ({ navigation }) => {
         <View style={styles.contenedor}>
             <View style={styles.ContenedorBienvenida}>
                 <Animated.Text style={[styles.tituloNombre, { opacity: fadeAnim }]}>
-                    {`Bienvenid@\n ${userData.nombre}`}
+                    {t('Bienvenida')}
+                    {userData.nombre}
                 </Animated.Text>
                 <Image source={require('../../../assets/Image/adminmujer.png')} style={styles.imagenDino} />
             </View>

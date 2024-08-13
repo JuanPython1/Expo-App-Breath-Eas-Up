@@ -80,5 +80,6 @@
   "ErrorAdministradorLogin": {
     "ErrorPermisos": "Sorry, you don't have permissions to access the dashboard of Administrators.",
     "ErrorLoginFallido": "The email or password are incorrect."
-  }
+  },
+  "Bienvenida": "WELCOME\n"
 }

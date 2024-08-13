@@ -37,7 +37,7 @@ const RegistroPaciente = ({ navigation }) => {
   };
 
   const ValidacionesYRegistro = async () => {
-    if (loading) return; // No permitir autenticaciones múltiples mientras loading es true
+    // if (loading) return; // No permitir autenticaciones múltiples mientras loading es true
 
     if (!username || !nombre || !apellido) {
       alert(t("ErrorRegistroPacientes.CompletarCampos"));
@@ -233,7 +233,7 @@ const RegistroPaciente = ({ navigation }) => {
               <View style={styles.modalContainer}>
                 <Text style={styles.modalText}>{t("RegistroPaciente.ModalNombreUsuarioYaRegistrado")}</Text>
                 <Pressable style={[styles.button, styles.buttonClose]} onPress={handleModalClose}>
-                  <Text style={styles.textStyle}>{t("RegistroPaciente.ModalCerrar")}</Text>
+                  <Text style={styles.textStyle}>{t("RegistroPaciente.ModalBotonCerrar")}</Text>
                 </Pressable>
               </View>
             </View>
@@ -250,7 +250,7 @@ const RegistroPaciente = ({ navigation }) => {
               <View style={styles.modalContainer}>
                 <Text style={styles.modalText}>{t("RegistroPaciente.ModalRegistradoCorrectamente")}</Text>
                 <Pressable style={[styles.button, styles.buttonClose]} onPress={handleModalCloseRegistro}>
-                  <Text style={styles.textStyle}>{t("RegistroPaciente.ModalCerrar")}</Text>
+                  <Text style={styles.textStyle}>{t("RegistroPaciente.ModalBotonCerrar")}</Text>
                 </Pressable>
               </View>
             </View>

@@ -80,5 +80,6 @@
   "ErrorAdministradorLogin": {
     "ErrorPermisos": "No tienes permiso para acceder al dashboard de administradores",
     "ErrorLoginFallido": "El correo electronico o contrasena son incorrectos."
-  }
+  },
+  "Bienvenida": "BIENVENID@\n"
 }

@@ -84,7 +84,6 @@ const AppNavigator = () => {
     }, [user, userRole]);
 
 
-
     onAuthStateChanged(FIREBASE_AUTH, async (user) => {
         if (user) {
             setUser(user);
@@ -118,6 +117,7 @@ const AppNavigator = () => {
         } else {
             FIREBASE_AUTH.signOut();
             setUser(null);
+            setUserRole(null);
         }
         setLoading(false);
     });
