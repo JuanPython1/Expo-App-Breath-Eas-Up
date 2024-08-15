@@ -155,6 +155,41 @@
       "TotalDosis": "TOTAL DOSIS",
       "HoraDosis": "HORA DIARIA DOSIS",
       "Cuidador": "CUIDADOR"
+    },
+    "TablaRecordatorios": {
+      "Titulo": "REGISTRO DE LA DOSIS DEL PACIENTE",
+      "Dia": "Día",
+      "Dosis": "Dosis",
+      "Fecha": "Fecha",
+      "MsjDosisRegistrada": "Te espero para que registres tu próxima dosis diaria o si no INHALIFE te recordará ;)",
+      "BotonSiguienteDia": "Siguiente Día"
+    },
+    "ModalTablaRecordatorio": {
+      "Titulo": "Agregar Dosis",
+      "BotonGuardar": "Guardar",
+      "BotonCancelar": "Cancelar"
+    },
+    "ErrorAgregarDosis": {
+      "SumaTotal": "La suma total de dosis no puede exceder",
+      "NoCambiarDosis": "No se puede cambiar una dosis ya agregada",
+      "DosisNoNegativa": "La dosis no puede ser negativa",
+      "ErrorSeleccionadoFila": "Error seleccionando la fila",
+      "DosisValida": "Por favor ingresa una dosis válida"
+    },
+    "ErrorTablaRecordatorio": {
+      "YaAlcanzoLimite": "La cantidad total ya alcanzó su límite, no puedes agregar más días :(",
+      "AgregarFila1Dia": "Solo puedes agregar una fila si ha pasado al menos un día desde el último registro y no se ha registrado una dosis hoy."
+    },
+    "NotificacionesInfoRecordatorio": {
+      "RecargarDosis": "¡Recarga tu dosis!",
+      "YaPasaste": "ya pasaste al 80% de tu cantidad de dosis. ¡Recargarlo lo antes posible!",
+      "Limite": "¡Llegaste a tu dosis total!",
+      "LlegasteLimite": "llegaste a tu dosis total, ¡Recarga ya mismo!"
+    },
+    "ModalLimite": {
+      "ContextoLimite": "Llegaste a tu límite de medicación. ¿Quieres reiniciar o eliminar el recordatorio?",
+      "Eliminar": "Eliminar",
+      "Reiniciar": "Reiniciar"
     }
   }
 }

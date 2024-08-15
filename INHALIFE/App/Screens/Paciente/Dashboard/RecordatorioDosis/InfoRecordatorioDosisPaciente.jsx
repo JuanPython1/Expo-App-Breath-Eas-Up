@@ -33,10 +33,10 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
 
     useEffect(() => {
         if (!notificacionEnviada80 && dosisInicial >= recordatorio.Dosis80Porciento && dosisInicial < recordatorio.TotalDosis) {
-            sendNotification('¡Recarga tu dosis!', `${recordatorio.nombreUsuario}, ya pasaste al 80% de tu cantidad de dosis. ¡Recargarlo lo antes posible!`);
+            sendNotification(t("Recordatorios.NotificacionesInfoRecordatorio.RecargarDosis"), `${recordatorio.nombreUsuario}, ${t("Recordatorios.NotificacionesInfoRecordatorio.YaPasaste")}`);
             setNotificacionEnviada80(true);
         } else if (!notificacionEnviadaTotal && dosisInicial >= recordatorio.TotalDosis) {
-            sendNotification('¡Llegaste a tu dosis total!', `${recordatorio.nombreUsuario}, llegaste a tu dosis total, ¡Recarga ya mismo!`);
+            sendNotification(t("Recordatorios.NotificacionesInfoRecordatorio.Limite"), `${recordatorio.nombreUsuario}, ${t("Recordatorios.NotificacionesInfoRecordatorio.LlegasteLimite")}`);
             setNotificacionEnviadaTotal(true);
             setNotificacionEnviada80(false); // Resetear la notificación del 80% si llega al total
         }
@@ -145,14 +145,14 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
                     <View style={styles.modalContainer}>
                         <View style={styles.modalContent}>
                             <Text style={styles.modalText}>
-                                Llegaste a tu límite de medicación. ¿Quieres reiniciar o eliminar el recordatorio?
+                                {t('Recordatorios.ModalLimite.ContextoLimite')}
                             </Text>
                             <View style={styles.modalButtons}>
                                 <TouchableOpacity style={styles.modalButtonRojo} onPress={handleEliminar}>
-                                    <Text style={styles.modalButtonText}>Eliminar</Text>
+                                    <Text style={styles.modalButtonText}>{t('Recordatorios.ModalLimite.Eliminar')}</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={styles.modalButton} onPress={handleReiniciar}>
-                                    <Text style={styles.modalButtonText}>Reiniciar</Text>
+                                    <Text style={styles.modalButtonText}>{t('Recordatorios.ModalLimite.Reiniciar')}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

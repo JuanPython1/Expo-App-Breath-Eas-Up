@@ -154,6 +154,41 @@
       "TotalDosis": "TOTAL DOSES",
       "HoraDosis": "DAILY TIME DOSE",
       "Cuidador": "CAREGIVER"
+    },
+    "TablaRecordatorios": {
+      "Titulo": "PATIENT DOSE RECORD",
+      "Dia": "Day",
+      "Dosis": "Dose",
+      "Fecha": "Date",
+      "MsjDosisRegistrada": "I'm waiting for you to register your next daily dose or else INHALIFE will remind you ;)",
+      "BotonSiguienteDia": "Next Day"
+    },
+    "ModalTablaRecordatorio": {
+      "Titulo": "Add Dose",
+      "BotonGuardar": "Save",
+      "BotonCancelar": "Cancel"
+    },
+    "ErrorAgregarDosis": {
+      "SumaTotal": "The total sum of doses cannot exceed",
+      "NoCambiarDosis": "You cannot change a dose already added",
+      "DosisNoNegativa": "The dose cannot be negative",
+      "ErrorSeleccionadoFila": "Error selecting row",
+      "DosisValida": "Please enter a valid dose"
+    },
+    "ErrorTablaRecordatorio": {
+      "YaAlcanzoLimite": "The total amount has already reached its limit, you cannot add more days :(.",
+      "AgregarFila1Dia": "You can only add a row if it has been at least one day since the last record and a dose has not been recorded today."
+    },
+    "NotificacionesInfoRecordatorio": {
+      "RecargarDosis": "Reload your dose!",
+      "YaPasaste": "it's time to take your 80% of your daily dose. Reload it as soon as possible!",
+      "Limite": "You've reached your full dose!",
+      "LlegasteLimite": "You've reached your full dose!"
+    },
+    "ModalLimite": {
+      "ContextoLimite": "You have reached your medication limit. Do you want to reset or delete the reminder?",
+      "Eliminar": "Delete",
+      "Reiniciar": "Reset"
     }
   }
 }

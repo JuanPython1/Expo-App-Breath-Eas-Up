@@ -4,6 +4,8 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../firebase/config';
 
+import { useTranslation } from 'react-i18next';
+
 const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, actualizarEstadoReset }) => {
     const [filas, setFilas] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
@@ -16,6 +18,8 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
     const [dosisRegistradaHoy, setDosisRegistradaHoy] = useState(false);
     const [puedeEditar, setPuedeEditar] = useState(false);
+
+    const { t } = useTranslation();
 
     const hora = recordatorio.horaDosisDiaria;
 
@@ -135,19 +139,19 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
                             actualizarDosisInicial(nuevaDosisTotal);
                             setnuevacantidadTotalTabla(nuevaDosisTotal);
                         } else {
-                            Alert.alert('Error', `La suma total de dosis no puede exceder ${DOSE_LIMIT}`);
+                            Alert.alert('Error', `${t("Recordatorios.ErrorAgregarDosis.SumaTotal")} ${DOSE_LIMIT}`);
                         }
                     } else {
-                        Alert.alert('Error', 'No se puede cambiar una dosis ya agregada');
+                        Alert.alert('Error', `${t("Recordatorios.ErrorAgregarDosis.NoCambiarDosis")}`);
                     }
                 } else {
-                    Alert.alert('Error', 'La dosis no puede ser negativa');
+                    Alert.alert('Error', `${t("Recordatorios.ErrorAgregarDosis.DosisNoNegativa")}`);
                 }
             } else {
-                Alert.alert('Error', 'Error seleccionando la fila');
+                Alert.alert('Error', `${t("Recordatorios.ErrorAgregarDosis.ErrorSeleccionadoFila")}`);
             }
         } else {
-            Alert.alert('Error', 'Por favor ingresa una dosis válida');
+            Alert.alert('Error', `${t("Recordatorios.ErrorAgregarDosis.DosisValida")}`);
         }
     };
 
@@ -177,10 +181,10 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
                 });
                 setDiaSeleccionado(formattedDate);
             } else {
-                Alert.alert('Error', 'La cantidad total ya alcanzó su límite, no puedes agregar más días :(');
+                Alert.alert('Error', `${t("Recordatorios.ErrorTablaRecordatorio.YaAlcanzoLimite")}`);
             }
         } else {
-            Alert.alert('Error', 'Solo puedes agregar una fila si ha pasado al menos un día desde el último registro y no se ha registrado una dosis hoy.');
+            Alert.alert('Error', `${t("Recordatorios.ErrorTablaRecordatorio.AgregarFila1Dia")}`);
         }
     };
 
@@ -227,12 +231,12 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
         <View>
             <View style={styles.tablaContainer}>
                 <View style={styles.header}>
-                    <Text style={styles.headerTitulo}>REGISTRO DE LA DOSIS DEL PACIENTE</Text>
+                    <Text style={styles.headerTitulo}>{t('Recordatorios.TablaRecordatorios.Titulo')}</Text>
                 </View>
                 <View style={styles.headerContainer}>
-                    <Text style={[styles.headerText, styles.bordeDerecho]}>Día</Text>
-                    <Text style={[styles.headerText, styles.bordeDerecho]}>Dosis</Text>
-                    <Text style={styles.headerText}>Fecha</Text>
+                    <Text style={[styles.headerText, styles.bordeDerecho]}>{t('Recordatorios.TablaRecordatorios.Dia')}</Text>
+                    <Text style={[styles.headerText, styles.bordeDerecho]}>{t('Recordatorios.TablaRecordatorios.Dosis')}</Text>
+                    <Text style={styles.headerText}>{t('Recordatorios.TablaRecordatorios.Fecha')}</Text>
                 </View>
                 {filas.map((fila, index) => (
                     <TouchableOpacity
@@ -250,7 +254,7 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
 
             <Modal visible={modalVisible} animationType="slide">
                 <View style={styles.modalContainer}>
-                    <Text style={styles.modalTitle}>Agregar Dosis</Text>
+                    <Text style={styles.modalTitle}>{t("Recordatorios.ModalTablaRecordatorio.Titulo")}</Text>
                     <TextInput
                         style={styles.modalInput}
                         keyboardType="numeric"
@@ -266,17 +270,17 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
                             onPress={handleAgregarDosis}
                             disabled={isInputEmpty}
                         >
-                            <Text style={styles.modalButtonText}>Guardar</Text>
+                            <Text style={styles.modalButtonText}>{t("Recordatorios.ModalTablaRecordatorio.BotonGuardar")}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.modalButton} onPress={cerrarModal}>
-                            <Text style={styles.modalButtonText}>Cancelar</Text>
+                            <Text style={styles.modalButtonText}>{t("Recordatorios.ModalTablaRecordatorio.BotonCancelar")}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
 
             {filas.some(fila => fila.dosis > 1) && !puedeEditar && (
-                <Text style={styles.errorText}>Te espero para que registres tu próxima dosis diaria o si no INHALIFE te recordará ;)</Text>
+                <Text style={styles.errorText}>{t("Recordatorios.TablaRecordatorios.MsjDosisRegistrada")}</Text>
             )}
 
             <TouchableOpacity
@@ -284,7 +288,7 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
                 onPress={handleAgregarFila}
                 disabled={!puedeEditar}
             >
-                <Text style={styles.textoBoton}>Siguiente Día</Text>
+                <Text style={styles.textoBoton}>{t("Recordatorios.TablaRecordatorios.BotonSiguienteDia")}</Text>
             </TouchableOpacity>
         </View>
     );
