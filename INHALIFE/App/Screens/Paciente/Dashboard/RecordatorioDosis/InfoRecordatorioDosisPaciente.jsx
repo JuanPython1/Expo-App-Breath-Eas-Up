@@ -9,6 +9,8 @@ import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import * as Notificaciones from 'expo-notifications';
 import { FIRESTORE_DB } from '../../../../firebase/config';
 
+import { useTranslation } from 'react-i18next';
+
 const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
     const { recordatorio } = route.params;
     const [dosisInicial, setDosisInicial] = useState(recordatorio.DosisInicial);
@@ -18,6 +20,8 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
     const [mostrarModal, setMostrarModal] = useState(false);
     const [estadoReset, setEstadoReset] = useState(false);
 
+    const { t } = useTranslation();
+
     const actualizarDosisInicial = (nuevaDosis) => {
         setDosisInicial(nuevaDosis);
     };
@@ -25,8 +29,6 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
     const actualizarEstadoReset = (nuevaEstado) => {
         setEstadoReset(nuevaEstado);
     };
-
-
 
 
     useEffect(() => {
@@ -167,7 +169,7 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
                 <View style={styles.body}>
 
                     <AtributoRecordatorioDosis
-                        TituloContenido={'MEDICAMENTO'}
+                        TituloContenido={t('Recordatorios.InfoRecordatorio.Medicamento')}
                         contenido={recordatorio.medicamento}
                         tamañoTitulo={7}
                         tamañoContenido={5}
@@ -177,7 +179,7 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
                     <View style={styles.dosisRow}>
                         <View style={styles.dosisItem}>
                             <AtributoPuffDosis
-                                TituloContenido={'DOSIS ACTUAL'}
+                                TituloContenido={t('Recordatorios.InfoRecordatorio.DosisActual')}
                                 contenido={dosisInicial} // Utilizando el estado dosisInicial
                                 tamañoTitulo={4}
                                 tamañoContenido={3}
@@ -187,7 +189,7 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
 
                         <View style={styles.dosisItem}>
                             <AtributoPuffDosis
-                                TituloContenido={'80%'}
+                                TituloContenido={t('Recordatorios.InfoRecordatorio.80%')}
                                 contenido={`${recordatorio.Dosis80Porciento} PUFF`}
                                 tamañoTitulo={4}
                                 tamañoContenido={3}
@@ -197,7 +199,7 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
 
                         <View style={styles.dosisItem}>
                             <AtributoPuffDosis
-                                TituloContenido={'TOTAL DOSIS'}
+                                TituloContenido={t('Recordatorios.InfoRecordatorio.TotalDosis')}
                                 contenido={`${recordatorio.TotalDosis} PUFF`}
                                 tamañoTitulo={4}
                                 tamañoContenido={3}
@@ -207,7 +209,7 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
                     </View>
 
                     <AtributoRecordatorioDosis
-                        TituloContenido={'HORA DIARIA DOSIS'}
+                        TituloContenido={t('Recordatorios.InfoRecordatorio.HoraDosis')}
                         contenido={recordatorio.horaDosisDiaria}
                         tamañoTitulo={6}
                         tamañoContenido={4.5}
@@ -215,7 +217,7 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
                     />
 
                     <AtributoRecordatorioDosis
-                        TituloContenido={'CUIDADOR'}
+                        TituloContenido={t('Recordatorios.InfoRecordatorio.Cuidador')}
                         contenido={recordatorio.cuidadorNombre}
                         tamañoTitulo={6}
                         tamañoContenido={4.5}

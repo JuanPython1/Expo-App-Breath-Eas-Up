@@ -5,10 +5,14 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { FIRESTORE_DB } from '../../../../firebase/config';
 import { collection, getDocs } from 'firebase/firestore';
 
+import { useTranslation } from "react-i18next";
+
 const ElegirCuidador = ({ navigation, route }) => {
   const { medicamento, TotalDosis, Dosis80Porciento, horaDosisDiaria } = route.params;
   const [cuidadores, setCuidadores] = useState([]);
   const [cuidadorSeleccionado, setCuidadorSeleccionado] = useState(null);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const obtenerCuidadores = async () => {
@@ -53,7 +57,7 @@ const ElegirCuidador = ({ navigation, route }) => {
         </Pressable>
       </View>
 
-      <Text style={styles.titulo}>ELIGE TU CUIDADOR</Text>
+      <Text style={styles.titulo}>{t("RegistroDosis.EligeCuidador.Titulo")}</Text>
       <ScrollView style={styles.body}>
         {cuidadores.map(cuidador => (
           <View key={cuidador.uid} style={styles.checkboxContainer}>
@@ -76,7 +80,7 @@ const ElegirCuidador = ({ navigation, route }) => {
         disabled={!cuidadorSeleccionado}
         accessibilityLabel="Siguiente"
       >
-        <Text style={styles.TextoEntrar}>Siguiente</Text>
+        <Text style={styles.TextoEntrar}>{t("RegistroDosis.EligeCuidador.BotonSiguiente")}</Text>
       </Pressable>
     </View>
   );

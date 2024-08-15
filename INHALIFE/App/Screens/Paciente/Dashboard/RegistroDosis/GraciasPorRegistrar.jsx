@@ -2,7 +2,12 @@ import { View, Text, StyleSheet, Image } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import React, { useEffect } from 'react'
 
+import { useTranslation } from 'react-i18next';
+
 const RegistroExitoso = ({ navigation }) => {
+
+    const { t } = useTranslation();
+
     useEffect(() => {
         const delayTime = 5000; // Tiempo de retraso en milisegundos (2 segundos en este caso)
 
@@ -18,7 +23,7 @@ const RegistroExitoso = ({ navigation }) => {
     return (
         <View style={styles.contenedor}>
             <View style={styles.ContenedorBienvenida}>
-                <Text style={styles.tituloNombre}>{`GRACIAS POR REGISTRAR TU DOSIS`}</Text>
+                <Text style={styles.tituloNombre}>{t('RegistroDosis.GraciasRegistro.Titulo')}</Text>
                 <Image source={require('../../../../../assets/Image/medicaRegistro.png')} style={styles.imagenInhalador} />
             </View>
         </View>

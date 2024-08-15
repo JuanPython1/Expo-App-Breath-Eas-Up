@@ -1,4 +1,5 @@
 {
+  "loadingGlobal": "INITIALIZING INHALIFE...",
   "Rol": {
     "EligeRol": "SELECT YOUR ROLE",
     "Paciente": "PATIENT",
@@ -81,5 +82,78 @@
     "ErrorPermisos": "Sorry, you don't have permissions to access the dashboard of Administrators.",
     "ErrorLoginFallido": "The email or password are incorrect."
   },
-  "Bienvenida": "WELCOME\n"
+  "Bienvenida": "WELCOME\n",
+  "DashboardPaciente": {
+    "RegistroDosis": "REGISTRATION OF DOSES",
+    "RecordatorioDosis": "REMINDER OF DOSES",
+    "VideoTutorial": "VIDEO TUTORIAL"
+  },
+  "CerrarSesion": "LOG OUT",
+
+  "RegistroDosis": {
+    "BienvenidaRegistro": "WELCOME\nREGISTER YOUR DOSE",
+    "EligeTuMedicamento": {
+      "Titulo": "CHOOSE YOUR MEDICINE",
+      "Bromuro": "Ipratropium bromide",
+      "Beclometasona": "Beclomethasone",
+      "Otro": "OTHER",
+      "EscribeMedicamento": "Write the name of the medicine",
+      "BotonSiguiente": "NEXT"
+    },
+    "CantidadPuff": {
+      "Titulo": "INHALATION DOSE",
+      "TotalDosis": "TOTAL DOSES (Inhalations)",
+      "IngreseCantidadPuff": "Enter the amount of puff",
+      "80%Puff": "PUFF AT 80% (Inhalations)",
+      "80%DosisTotal": "80% of the Total Dose",
+      "BotonSiguiente": "NEXT"
+    },
+    "FechaDosis": {
+      "Titulo": "TIME TO TAKE THE DAILY DOSE",
+      "HoraSeleccionada": "Time Selected:",
+      "BotonSiguiente": "NEXT"
+    },
+    "EligeCuidador": {
+      "Titulo": "CHOOSE YOUR CAREGIVER",
+      "BotonSiguiente": "NEXT"
+    },
+    "Registro": {
+      "Titulo": "RECORDED DATA OF YOUR DOSE",
+      "Medicamento": "Medicine:",
+      "DosisInicial": "Initial Dose:",
+      "Dosis80%": "Dose at 80%:",
+      "TotalDosis": "Total of Doses:",
+      "HoraDosis": "Hour of the Daily Dose:",
+      "Paciente": "Patient:",
+      "CuidadorSeleccionado": "Caregiver Selected:",
+      "BotonRegistrar": "REGISTER",
+      "BotonCancelar": "CANCEL REGISTRATION"
+    },
+    "NotificacionRegistro": {
+      "Titulo": "Dose Reminder",
+      "body": "it's time to take your dose of"
+    },
+    "GraciasRegistro": {
+      "Titulo": "THANK YOU FOR REGISTERING YOUR DOSE"
+    }
+  },
+  "Recordatorios": {
+    "TusRecordatorios": {
+      "Titulo": "YOUR REMINDERS",
+      "NoTienesRecordatorios": "You don't have any registered reminders"
+    },
+    "EliminarRecordatorio": {
+      "Contexto": "Are you sure you want to delete the reminder of the medicine",
+      "Si": "Yes",
+      "No": "No"
+    },
+    "InfoRecordatorio": {
+      "Medicamento": "MEDICINE",
+      "DosisActual": "CURRENT DOSE",
+      "80%": "80%",
+      "TotalDosis": "TOTAL DOSES",
+      "HoraDosis": "DAILY TIME DOSE",
+      "Cuidador": "CAREGIVER"
+    }
+  }
 }

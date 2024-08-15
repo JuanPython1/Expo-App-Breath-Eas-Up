@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Pressable, Image, Animated, Easing } from 'reac
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
+import { useTranslation } from 'react-i18next';
+
 const FechaDosisDiaria = ({ navigation, route }) => {
   const { medicamento, TotalDosis, Dosis80Porciento } = route.params;
 
@@ -43,6 +45,9 @@ const FechaDosisDiaria = ({ navigation, route }) => {
     });
   };
 
+  const { t } = useTranslation();
+
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -52,10 +57,10 @@ const FechaDosisDiaria = ({ navigation, route }) => {
       </View>
 
       <View style={styles.body}>
-        <Text style={styles.titulo}>HORA DE TOMAR LA DOSIS DIARIA</Text>
+        <Text style={styles.titulo}>{t('RegistroDosis.FechaDosis.Titulo')}</Text>
 
         <View style={styles.contenedorHora}>
-          <Text style={styles.textoHoraTitulo}>Hora Seleccionada:</Text>
+          <Text style={styles.textoHoraTitulo}>{t('RegistroDosis.FechaDosis.HoraSeleccionada')}</Text>
           <Pressable style={styles.contenedorHoraSeleccionada} onPress={handleShowTimePicker}>
             <Text style={[styles.textoHora]}>
               {horaDosisDiaria.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })} {/* Mostrar en 24 horas */}
@@ -74,7 +79,7 @@ const FechaDosisDiaria = ({ navigation, route }) => {
         )}
 
         <Pressable style={styles.botonSiguiente} onPress={handleInputSiguiente}>
-          <Text style={styles.textoBotonSiguiente}>SIGUIENTE</Text>
+          <Text style={styles.textoBotonSiguiente}>{t('RegistroDosis.FechaDosis.BotonSiguiente')}</Text>
         </Pressable>
       </View>
     </View>

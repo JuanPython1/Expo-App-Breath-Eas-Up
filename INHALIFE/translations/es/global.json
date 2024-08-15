@@ -1,4 +1,5 @@
 {
+  "loadingGlobal": "INICIANDO INHALIFE...",
   "Rol": {
     "EligeRol": "ELIGE TU ROL",
     "Paciente": "PACIENTE",
@@ -81,5 +82,79 @@
     "ErrorPermisos": "No tienes permiso para acceder al dashboard de administradores",
     "ErrorLoginFallido": "El correo electronico o contrasena son incorrectos."
   },
-  "Bienvenida": "BIENVENID@\n"
+  "Bienvenida": "BIENVENID@\n",
+  "DashboardPaciente": {
+    "RegistroDosis": "REGISTRO DE DOSIS",
+    "RecordatorioDosis": "RECORDATORIO DOSIS",
+    "VideoTutorial": "VIDEO TUTORIAL"
+  },
+  "CerrarSesion": "CERRAR SESION",
+
+  "RegistroDosis": {
+    "BienvenidaRegistro": "Bienvenid@\n Realiza el registro de la Dosis",
+    "EligeTuMedicamento": {
+      "Titulo": "ELIGE TU MEDICAMENTO",
+      "Bromuro": "Bromuro de ipratropio",
+      "Beclometasona": "Beclometasona",
+      "Otro": "OTRO",
+      "EscribeMedicamento": "Escribe el nombre del medicamento",
+      "BotonSiguiente": "SIGUIENTE"
+    },
+    "CantidadPuff": {
+      "Titulo": "DOSIS PARA LA INHALACIÓN",
+      "TotalDosis": "TOTAL DOSIS (Inhalaciones)",
+      "IngreseCantidadPuff": "Ingrese Cantidad De Puff",
+      "80%Puff": "PUFF AL 80% (Inhalaciones)",
+      "80%DosisTotal": "80% de la Dosis Total",
+      "BotonSiguiente": "SIGUIENTE"
+    },
+    "FechaDosis": {
+      "Titulo": "HORA DE TOMAR LA DOSIS DIARIA",
+      "HoraSeleccionada": "Hora Seleccionada:",
+      "BotonSiguiente": "SIGUIENTE"
+    },
+    "EligeCuidador": {
+      "Titulo": "ELIGE TU CUIDADOR",
+      "BotonSiguiente": "SIGUIENTE"
+    },
+    "Registro": {
+      "Titulo": "DATOS REGISTRADOS DE TU DOSIS",
+      "Medicamento": "Medicamento:",
+      "DosisInicial": "Dosis Inicial:",
+      "Dosis80%": "Dosis al 80%:",
+      "TotalDosis": "Total de Dosis:",
+      "HoraDosis": "Hora de la Dosis Diaria:",
+      "Paciente": "Paciente:",
+      "CuidadorSeleccionado": "Cuidador Seleccionado:",
+      "BotonRegistrar": "REGISTRAR",
+      "BotonCancelar": "CANCELAR REGISTRO"
+    },
+    "NotificacionRegistro": {
+      "Titulo": "Recordatorio De Dosis",
+      "body": "es hora de tomar tu dosis de"
+    },
+    "GraciasRegistro": {
+      "Titulo": "GRACIAS POR REGISTRAR TU DOSIS"
+    }
+  },
+
+  "Recordatorios": {
+    "TusRecordatorios": {
+      "Titulo": "TUS RECORDATORIOS",
+      "NoTienesRecordatorios": "Aún no tienes registrado tus recordatorios"
+    },
+    "EliminarRecordatorio": {
+      "Contexto": "¿Estás seguro de que deseas eliminar el recordatorio del medicamento",
+      "Si": "Si",
+      "No": "No"
+    },
+    "InfoRecordatorio": {
+      "Medicamento": "MEDICAMENTO",
+      "DosisActual": "DOSIS ACTUAL",
+      "80%": "80%",
+      "TotalDosis": "TOTAL DOSIS",
+      "HoraDosis": "HORA DIARIA DOSIS",
+      "Cuidador": "CUIDADOR"
+    }
+  }
 }

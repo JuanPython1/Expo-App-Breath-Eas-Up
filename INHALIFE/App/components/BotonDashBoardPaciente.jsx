@@ -26,9 +26,10 @@ const styles = StyleSheet.create({
   },
   Imagen: {
     width: 160,
-    height: 150,
+    height: 140,
   },
   textTitulo: {
+    textAlign: 'center',
     fontFamily: 'Play-fair-Display',
     fontWeight: 'bold',
     marginBottom: '5%'

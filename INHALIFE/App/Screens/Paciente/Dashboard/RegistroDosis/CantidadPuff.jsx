@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, Image, TextInput, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
+import { useTranslation } from 'react-i18next';
+
 const CantidadPuff = ({ navigation, route }) => {
   const { medicamento } = route.params;
 
   const [TotalDosis, setTotalDosis] = useState(0);
   const [Dosis80Porciento, setDosis80Porciento] = useState(0);
   const [totalDosisOn, setTotalDosisOn] = useState(false);
+
+  const { t } = useTranslation();
 
   const handleInputChange = (text) => {
     const numericValue = parseInt(text.replace(/[^0-9]/g, ''), 10);
@@ -36,7 +40,7 @@ const CantidadPuff = ({ navigation, route }) => {
 
       <ScrollView contentContainerStyle={styles.scrollContainer} keyboardShouldPersistTaps='handled' >
 
-        <Text style={styles.Titulo}>{`DOSIS \n PARA LA INHALACIÓN`}</Text>
+        <Text style={styles.Titulo}>{t('RegistroDosis.CantidadPuff.Titulo')}</Text>
 
 
         <View style={styles.nombreMedicamentoContenedor}>
@@ -53,7 +57,7 @@ const CantidadPuff = ({ navigation, route }) => {
         <View style={styles.ContenedorDatosDosis}>
           <View style={styles.ContenedorHorizontal}>
             <View style={styles.ContenedorTituloTexto}>
-              <Text style={styles.textoTitulos}>TOTAL DOSIS (Inhalaciones)</Text>
+              <Text style={styles.textoTitulos}>{t('RegistroDosis.CantidadPuff.TotalDosis')}</Text>
             </View>
             <View style={styles.ContenedorTotalDosis}>
               <View style={styles.ContenedorInputDosis}>
@@ -62,7 +66,7 @@ const CantidadPuff = ({ navigation, route }) => {
                   value={TotalDosis === 0 ? '' : TotalDosis.toString()}
                   onChangeText={handleInputChange}
                   keyboardType="numeric"
-                  placeholder="Ingrese Cantidad De Puff"
+                  placeholder={t('RegistroDosis.CantidadPuff.IngreseCantidadPuff')}
                   maxLength={3}
                   shouldRasterizeIOS={true}
                   renderToHardwareTextureAndroid={true}
@@ -73,12 +77,12 @@ const CantidadPuff = ({ navigation, route }) => {
 
           <View style={styles.ContenedorHorizontal}>
             <View style={styles.ContenedorTituloTexto}>
-              <Text style={styles.textoTitulos}>PUFF AL 80% (Inhalaciones)</Text>
+              <Text style={styles.textoTitulos}>{t('RegistroDosis.CantidadPuff.80%Puff')}</Text>
             </View>
             <View style={styles.ContenedorInputDosis}>
               <TextInput
                 style={styles.textoTitulos}
-                value={Dosis80Porciento === 0 ? '80% de la Dosis Total' : Dosis80Porciento.toString()}
+                value={Dosis80Porciento === 0 ? t('RegistroDosis.CantidadPuff.80%DosisTotal') : Dosis80Porciento.toString()}
                 keyboardType="numeric"
                 editable={false}
                 placeholderTextColor={'black'}
@@ -94,7 +98,7 @@ const CantidadPuff = ({ navigation, route }) => {
           onPress={handleInputSiguiente}
           disabled={!totalDosisOn}
         >
-          <Text style={styles.TextoEntrar}>SIGUIENTE</Text>
+          <Text style={styles.TextoEntrar}>{t('RegistroDosis.CantidadPuff.BotonSiguiente')}</Text>
         </Pressable>
 
       </ScrollView>

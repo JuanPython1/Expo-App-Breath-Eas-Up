@@ -5,12 +5,15 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { FIRESTORE_DB, FIREBASE_AUTH } from '../../../../firebase/config';
 import * as Notificaciones from 'expo-notifications';
 
+import { useTranslation } from "react-i18next";
+
 const RegistrarDosis = ({ navigation, route }) => {
   const { medicamento, TotalDosis, Dosis80Porciento, horaDosisDiaria, cuidadorNombre, cuidadorUID } = route.params;
   const [userData, setUserData] = useState('');
   const DosisInicial = 0;
   const [loading, setLoading] = useState(false);
 
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -46,8 +49,8 @@ const RegistrarDosis = ({ navigation, route }) => {
 
     const notificationId = await Notificaciones.scheduleNotificationAsync({
       content: {
-        title: "Recordatorio de dosis",
-        body: `${userData.nombreUsuario} es hora de tomar tu dosis de ${medicamento}.`,
+        title: t("RegistroDosis.NotificacionRegistro.Titulo"),
+        body: `${userData.nombreUsuario} ${t("RegistroDosis.NotificacionRegistro.body")} ${medicamento}.`,
         sound: true,
         priority: Notificaciones.AndroidNotificationPriority.HIGH,
         sticky: false,
@@ -111,39 +114,39 @@ const RegistrarDosis = ({ navigation, route }) => {
       </View>
 
       <View style={styles.body}>
-        <Text style={styles.title}>DATOS REGISTRADOS DE TU DOSIS</Text>
+        <Text style={styles.title}>{t('RegistroDosis.Registro.Titulo')}</Text>
 
-        <Text style={styles.label}>Medicamento:</Text>
+        <Text style={styles.label}>{t('RegistroDosis.Registro.Medicamento')}</Text>
         <Text style={styles.text}>{medicamento}</Text>
 
-        <Text style={styles.label}>Dosis Inicial:</Text>
+        <Text style={styles.label}>{t('RegistroDosis.Registro.DosisInicial')}</Text>
         <Text style={styles.text}>{DosisInicial}</Text>
 
-        <Text style={styles.label}>Dosis al 80%:</Text>
+        <Text style={styles.label}>{t('RegistroDosis.Registro.Dosis80%')}</Text>
         <Text style={styles.text}>{Dosis80Porciento}</Text>
 
-        <Text style={styles.label}>Total de dosis:</Text>
+        <Text style={styles.label}>{t('RegistroDosis.Registro.TotalDosis')}</Text>
         <Text style={styles.text}>{TotalDosis}</Text>
 
-        <Text style={styles.label}>Hora de dosis diaria:</Text>
+        <Text style={styles.label}>{t('RegistroDosis.Registro.HoraDosis')}</Text>
         <Text style={styles.text}>{horaDosisDiaria}</Text>
 
-        <Text style={styles.label}>Paciente:</Text>
+        <Text style={styles.label}>{t('RegistroDosis.Registro.Paciente')}</Text>
         <Text style={styles.text}>{nombreCompletoPaciente}</Text>
 
-        <Text style={styles.label}>Cuidador seleccionado:</Text>
+        <Text style={styles.label}>{t('RegistroDosis.Registro.CuidadorSeleccionado')}</Text>
         <Text style={styles.text}>{cuidadorNombre}</Text>
 
         <Pressable style={styles.registerButton} onPress={registerDose} disabled={loading}>
           {loading ? (
             <ActivityIndicator color="white" />
           ) : (
-            <Text style={styles.registerButtonText}>REGISTRAR</Text>
+            <Text style={styles.registerButtonText}>{t('RegistroDosis.Registro.BotonRegistrar')}</Text>
           )}
         </Pressable>
 
         <Pressable style={styles.cancelButton} onPress={cancelRegistration} disabled={loading}>
-          <Text style={styles.cancelButtonText}>CANCELAR REGISTRO</Text>
+          <Text style={styles.cancelButtonText}>{t('RegistroDosis.Registro.BotonCancelar')}</Text>
         </Pressable>
       </View>
     </ScrollView>

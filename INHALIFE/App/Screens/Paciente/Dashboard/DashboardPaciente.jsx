@@ -12,24 +12,28 @@ import { useFocusEffect } from '@react-navigation/native';
 import * as Notifications from 'expo-notifications';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
+import { useTranslation } from 'react-i18next';
+
 const DashboardPaciente = ({ navigation }) => {
 
   const [modalVisible, setModalVisible] = useState(false);
 
+  const { t } = useTranslation();
+
   const botonRegistrarDosis = {
-    titulo: 'REGISTRO DE DOSIS',
+    titulo: t("DashboardPaciente.RegistroDosis"),
     imagen: require('../../../../assets/Image/inhalador.png'),
     funcion: () => { navigation.navigate('BienvenidaRegistroDosis') }
   };
 
   const botonRecordatorioDosis = {
-    titulo: 'RECORDATORIO DOSIS',
+    titulo: t("DashboardPaciente.RecordatorioDosis"),
     imagen: require('../../../../assets/Image/calendario.png'),
     funcion: () => { navigation.navigate('RecordatorioDosis') }
   };
 
   const botonVideosTutoriales = {
-    titulo: 'VIDEO TUTORIAL',
+    titulo: t("DashboardPaciente.VideoTutorial"),
     imagen: require('../../../../assets/Image/videotutorial.png'),
     funcion: () => { navigation.navigate('VideoTutoriales') }
   };

@@ -6,10 +6,14 @@ import RecordatorioItem from '../../../../components/RecordatorioItem';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../../firebase/config';
 import * as Notificaciones from 'expo-notifications';
 
+import { useTranslation } from 'react-i18next';
+
 const RecordatoriosDosis = ({ navigation }) => {
   const [recordatorios, setRecordatorios] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [recordatorioAEliminar, setRecordatorioAEliminar] = useState(null);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const user = FIREBASE_AUTH.currentUser;
@@ -77,7 +81,7 @@ const RecordatoriosDosis = ({ navigation }) => {
 
       <View style={styles.body}>
         <View style={styles.fondoTitulo}>
-          <Text style={styles.TituloRecordatorios}>TUS RECORDATORIOS</Text>
+          <Text style={styles.TituloRecordatorios}>{t('Recordatorios.TusRecordatorios.Titulo')}</Text>
         </View>
 
         <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -93,7 +97,7 @@ const RecordatoriosDosis = ({ navigation }) => {
               ))
             ) : (
               <Text style={styles.noRecordatorios}>
-                {`Aún no tienes registrado tus recordatorios`}
+                {t('Recordatorios.TusRecordatorios.NoTienesRecordatorios')}
               </Text>
             )}
           </View>
@@ -109,14 +113,14 @@ const RecordatoriosDosis = ({ navigation }) => {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
-              ¿Estás seguro de que deseas eliminar el recordatorio del medicamento {recordatorioAEliminar?.medicamento}?
+              {t('Recordatorios.EliminarRecordatorio.Contexto')} {recordatorioAEliminar?.medicamento}?
             </Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity style={styles.modalButtonRojo} onPress={handleEliminarConfirmado}>
-                <Text style={styles.modalButtonText}>Sí</Text>
+                <Text style={styles.modalButtonText}>{t("Recordatorios.EliminarRecordatorio.Si")}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.modalButton} onPress={handleCancelarEliminacion}>
-                <Text style={styles.modalButtonText}>No</Text>
+                <Text style={styles.modalButtonText}>{t("Recordatorios.EliminarRecordatorio.No")}</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -4,11 +4,13 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { doc, getDoc } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const BienvenidaPaciente = ({ navigation }) => {
   const [userData, setUserData] = useState('');
   const fadeAnim = useRef(new Animated.Value(0)).current; // Valor inicial de opacidad 0
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getUserData = async () => {

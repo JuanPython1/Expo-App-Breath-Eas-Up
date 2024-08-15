@@ -2,8 +2,13 @@ import { View, Text, StyleSheet, Image } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import React, { useEffect } from 'react'
 
+import { useTranslation } from 'react-i18next';
+
 
 const BienvenidaRegistroDosis = ({ navigation }) => {
+
+  const { t } = useTranslation();
+
   useEffect(() => {
     const delayTime = 5000; // Tiempo de retraso en milisegundos (2 segundos en este caso)
 
@@ -19,7 +24,7 @@ const BienvenidaRegistroDosis = ({ navigation }) => {
   return (
     <View style={styles.contenedor}>
       <View style={styles.ContenedorBienvenida}>
-        <Text style={styles.tituloNombre}>{`Bienvenid@ \n Realiza el registro de la Dosis`}</Text>
+        <Text style={styles.tituloNombre}>{t('RegistroDosis.BienvenidaRegistro')}</Text>
         <Image source={require('../../../../../assets/Image/inhalador.png')} style={styles.imagenInhalador} resizeMode='contain' />
       </View>
     </View>

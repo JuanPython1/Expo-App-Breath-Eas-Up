@@ -5,7 +5,11 @@ import Off from 'react-native-vector-icons/AntDesign';
 import IconAtras from 'react-native-vector-icons/Ionicons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
+import { useTranslation } from 'react-i18next';
+
 const ModalCerrarCuenta = ({ modalVisible, setModalVisible, cerrarSession, color, colorFondo }) => {
+
+  const { t } = useTranslation();
 
   const styles = StyleSheet.create({
     modalView: {
@@ -59,7 +63,7 @@ const ModalCerrarCuenta = ({ modalVisible, setModalVisible, cerrarSession, color
       }}
     >
       <View style={styles.modalView}>
-        <Text style={styles.modalText}>CERRAR SESION</Text>
+        <Text style={styles.modalText}>{t("CerrarSesion")}</Text>
 
         <TouchableHighlight
           style={{ ...styles.BotonCerrarSesion, backgroundColor: `${color}` }}

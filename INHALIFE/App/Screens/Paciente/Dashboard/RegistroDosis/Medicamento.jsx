@@ -3,10 +3,15 @@ import { View, Text, StyleSheet, TextInput, Image, ScrollView, Pressable } from 
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { CheckBox } from 'react-native-btr';
 
+import { useTranslation } from 'react-i18next';
+
 const Medicamento = ({ navigation }) => {
   const [medicamento, setMedicamento] = useState('');
   const [otroMedicamento, setOtroMedicamento] = useState('');
   const [isNextEnabled, setIsNextEnabled] = useState(false); // Estado para habilitar/deshabilitar el botón "SIGUIENTE"
+
+  const { t } = useTranslation();
+
 
   const handleMedicamentoChange = (option) => {
     setMedicamento(option);
@@ -36,7 +41,7 @@ const Medicamento = ({ navigation }) => {
         </Pressable>
       </View>
       <View style={styles.body}>
-        <Text style={styles.TituloMedicamento}>ELIGE TU MEDICAMENTO</Text>
+        <Text style={styles.TituloMedicamento}>{t('RegistroDosis.EligeTuMedicamento.Titulo')}</Text>
         <Image style={styles.imgInhalador} source={require('../../../../../assets/Image/imgMedicamento-removebg-preview.png')} resizeMode="contain" />
         <View style={styles.checkboxContainer}>
           <View style={styles.checkboxItem}>
@@ -52,24 +57,24 @@ const Medicamento = ({ navigation }) => {
 
           <View style={styles.checkboxItem}>
             <CheckBox
-              checked={medicamento === 'Bromuro de ipratropio'}
+              checked={medicamento === t('RegistroDosis.EligeTuMedicamento.Bromuro')}
               borderWidth={7}
               color="#3498DB"
-              onPress={() => handleMedicamentoChange('Bromuro de ipratropio')}
+              onPress={() => handleMedicamentoChange(t('RegistroDosis.EligeTuMedicamento.Bromuro'))}
               style={styles.checkbox}
             />
-            <Text style={styles.checkboxText}>Bromuro de ipratropio</Text>
+            <Text style={styles.checkboxText}>{t('RegistroDosis.EligeTuMedicamento.Bromuro')}</Text>
           </View>
 
           <View style={styles.checkboxItem}>
             <CheckBox
-              checked={medicamento === 'Beclometasona'}
+              checked={medicamento === t('RegistroDosis.EligeTuMedicamento.Beclometasona')}
               borderWidth={7}
               color="#3498DB"
-              onPress={() => handleMedicamentoChange('Beclometasona')}
+              onPress={() => handleMedicamentoChange(t('RegistroDosis.EligeTuMedicamento.Beclometasona'))}
               style={styles.checkbox}
             />
-            <Text style={styles.checkboxText}>Beclometasona</Text>
+            <Text style={styles.checkboxText}>{t('RegistroDosis.EligeTuMedicamento.Beclometasona')}</Text>
           </View>
 
           <View style={styles.checkboxItem}>
@@ -80,13 +85,13 @@ const Medicamento = ({ navigation }) => {
               onPress={() => handleMedicamentoChange('OTRO')}
               style={styles.checkbox}
             />
-            <Text style={styles.checkboxText}>OTRO</Text>
+            <Text style={styles.checkboxText}>{t('RegistroDosis.EligeTuMedicamento.Otro')}</Text>
           </View>
 
           {medicamento === 'OTRO' && (
             <TextInput
               style={styles.input}
-              placeholder="Escribe el nombre del medicamento"
+              placeholder={t('RegistroDosis.EligeTuMedicamento.EscribeMedicamento')}
               value={otroMedicamento}
               onChangeText={handleOtroMedicamentoChange}
               maxLength={50}
@@ -98,7 +103,7 @@ const Medicamento = ({ navigation }) => {
           onPress={goToCantidadPuff}
           disabled={!isNextEnabled}
         >
-          <Text style={styles.TextoEntrar}>SIGUIENTE</Text>
+          <Text style={styles.TextoEntrar}>{t('RegistroDosis.EligeTuMedicamento.BotonSiguiente')}</Text>
         </Pressable>
       </View>
     </ScrollView>
