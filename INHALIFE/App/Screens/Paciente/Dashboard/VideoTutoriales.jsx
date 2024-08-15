@@ -6,9 +6,12 @@ import { PixelRatio, StyleSheet, View, Button, Pressable, Image, Text } from 're
 import { Video, ResizeMode } from 'expo-av';
 import Inhalife_tutoria from '../../../../assets/video/inhalife_tutoria.mp4'
 
+import { useTranslation } from 'react-i18next';
+
 const VideoTutoriales = ({ navigation }) => {
   const video = useRef(null);
   const [status, setStatus] = useState({})
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
@@ -21,7 +24,7 @@ const VideoTutoriales = ({ navigation }) => {
 
       <View style={styles.body}>
         <View style={styles.videoContainer}>
-          <Text style={styles.videoTitle}>El siguiente tutorial te enseñará el correcto uso del inhalador</Text>
+          <Text style={styles.videoTitle}>{t('VideoTutorial')}</Text>
 
           <Video
             ref={video}
