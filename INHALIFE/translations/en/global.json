@@ -191,5 +191,30 @@
       "Reiniciar": "Reset"
     }
   },
-  "VideoTutorial": "The following tutorial will teach you the correct use of the inhaler"
+  "VideoTutorial": "The following tutorial will teach you the correct use of the inhaler",
+
+  "RecordatoriosCuidador": {
+    "TituloDashboard": "SHARED DOSE REMINDERS",
+    "TituloCompartidos": "SHARED REMINDERS",
+    "NoRecordatorios": "You don't have any shared reminders yet",
+    "Paciente": "Patient:"
+  },
+  "NotificacionesRecordatoriosCuidador": {
+    "Titulo80%": "The patient must reload the dose!!!!",
+    "Paso80%": "Patient {{nombreUsuario}} has already reached 80% of his dosage amount. He must refill it as soon as possible!"
+  },
+  "InfoRecordatorioCompartido": {
+    "Medicamento": "MEDICINE",
+    "DosisActual": "CURRENT DOSE",
+    "80%": "80%",
+    "TotalDosis": "TOTAL DOSES",
+    "HoraDosis": "DAILY TIME DOSE",
+    "Paciente": "PATIENT"
+  },
+  "TablaRecordatoriosCompartidos": {
+    "Titulo": "PATIENT DOSE RECORD",
+    "Dia": "Day",
+    "Dosis": "Dose",
+    "Fecha": "Date"
+  }
 }

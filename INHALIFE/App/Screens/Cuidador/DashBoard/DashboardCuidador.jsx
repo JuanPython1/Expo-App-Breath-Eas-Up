@@ -6,8 +6,12 @@ import Menu from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalCerrarCuenta from '../../../components/ModalCerrarCuenta';
 import { FIREBASE_AUTH } from '../../../firebase/config';
 
+import { useTranslation } from 'react-i18next';
+
 const DashboardCuidador = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const { t } = useTranslation();
 
   const handleSignOut = async () => {
     try {
@@ -47,7 +51,7 @@ const DashboardCuidador = ({ navigation }) => {
 
         <View style={styles.fila2}>
           <Pressable style={styles.boton} onPress={() => navigation.navigate('RecordatorioDosisCompartidos')}>
-            <Text style={styles.textTitulo}>RECORDATORIOS DOSIS COMPARTIDOS</Text>
+            <Text style={styles.textTitulo}>{t("RecordatoriosCuidador.TituloDashboard")}</Text>
             <Image style={styles.Imagen} source={require('../../../../assets/Image/calendario.png')} />
           </Pressable>
         </View>

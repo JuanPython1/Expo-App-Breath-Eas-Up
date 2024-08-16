@@ -6,9 +6,13 @@ import RecordatorioItemCompartido from '../../../components/RecordatorioItemComp
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import * as Notifications from 'expo-notifications'
 
+import { useTranslation } from 'react-i18next';
+
 const RecordatoriosDosisCompartidos = ({ navigation }) => {
   const [recordatoriosCompartidos, setRecordatoriosCompartidos] = useState([]);
   const [notificacionEnviada, setNotificacionEnviada] = useState(false);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const user = FIREBASE_AUTH.currentUser;
@@ -36,8 +40,8 @@ const RecordatoriosDosisCompartidos = ({ navigation }) => {
   const sendNotification = async (recordatorio) => {
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: '¡¡¡¡El Paciente debe recargar la dosis!!!!',
-        body: `El paciente ${recordatorio.nombreUsuario}, ya paso al 80% de su cantidad de dosis. ¡Debe recargarlo lo antes posible!`,
+        title: t("NotificacionesRecordatoriosCuidador.Titulo80%"),
+        body: t("NotificacionesRecordatoriosCuidador.Paso80%", { nombreUsuario: recordatorio.nombreUsuario }),
       },
       trigger: null, // enviar inmediatamente
     });
@@ -55,19 +59,26 @@ const RecordatoriosDosisCompartidos = ({ navigation }) => {
       <View style={styles.body}>
 
         <View style={styles.fondoTitulo}>
-          <Text style={styles.TituloRecordatorios}>RECORDATORIOS COMPARTIDOS</Text>
+          <Text style={styles.TituloRecordatorios}>{t("RecordatoriosCuidador.TituloCompartidos")}</Text>
         </View>
 
 
 
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.RecordatorioContainer}>
-            {recordatoriosCompartidos.map((recordatoriosCompartidos) => (
-              <RecordatorioItemCompartido
-                key={recordatoriosCompartidos.id}
-                recordatorioCompartido={recordatoriosCompartidos}
-                funcionNav={() => { navigation.navigate('InfoRecordatorioDosisCompartida', { recordatorio: recordatoriosCompartidos }) }} />
-            ))}
+            {recordatoriosCompartidos.length === 0 ? (
+              <Text style={styles.noRecordatorios}>{t("RecordatoriosCuidador.NoRecordatorios")}</Text>
+            ) : (
+              recordatoriosCompartidos.map((recordatorio) => (
+                <RecordatorioItemCompartido
+                  key={recordatorio.id}
+                  recordatorioCompartido={recordatorio}
+                  funcionNav={() => {
+                    navigation.navigate('InfoRecordatorioDosisCompartida', { recordatorio });
+                  }}
+                />
+              ))
+            )}
           </View>
         </ScrollView>
 
@@ -129,6 +140,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginVertical: '5%',
   },
-
+  noRecordatorios: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: '50%',
+    textAlign: 'center',
+    fontSize: wp('4%'),
+    fontWeight: 'bold'
+  },
 
 })

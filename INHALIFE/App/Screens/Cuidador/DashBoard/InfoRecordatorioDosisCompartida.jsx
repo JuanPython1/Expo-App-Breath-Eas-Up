@@ -6,9 +6,13 @@ import TablaRecordatorioCompartido from '../../../components/TablaRecordatorioCo
 import AtributoPuffDosis from '../../../components/atributoPuffDosis';
 import * as Notifications from 'expo-notifications'
 
+import { useTranslation } from 'react-i18next';
+
 const InfoRecordatorioDosisCompartida = ({ navigation, route }) => {
     const { recordatorio } = route.params;
     const [dosisBackgroundColor, setDosisBackgroundColor] = useState('#45EB1B'); // Color por defecto
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         // Calcular el color gradualmente
@@ -60,7 +64,7 @@ const InfoRecordatorioDosisCompartida = ({ navigation, route }) => {
                 <View style={styles.body}>
 
                     <AtributoRecordatorioDosis
-                        TituloContenido={'MEDICAMENTO'}
+                        TituloContenido={t("InfoRecordatorioCompartido.Medicamento")}
                         contenido={recordatorio.medicamento}
                         tamañoTitulo={7}
                         tamañoContenido={5}
@@ -70,7 +74,7 @@ const InfoRecordatorioDosisCompartida = ({ navigation, route }) => {
                     <View style={styles.dosisRow}>
                         <View style={styles.dosisItem}>
                             <AtributoPuffDosis
-                                TituloContenido={'DOSIS ACTUAL'}
+                                TituloContenido={t("InfoRecordatorioCompartido.DosisActual")}
                                 contenido={recordatorio.DosisInicial} // Utilizando el estado dosisInicial
                                 tamañoTitulo={4}
                                 tamañoContenido={3}
@@ -80,7 +84,7 @@ const InfoRecordatorioDosisCompartida = ({ navigation, route }) => {
 
                         <View style={styles.dosisItem}>
                             <AtributoPuffDosis
-                                TituloContenido={'80%'}
+                                TituloContenido={t("InfoRecordatorioCompartido.80%")}
                                 contenido={`${recordatorio.Dosis80Porciento} PUFF`}
                                 tamañoTitulo={4}
                                 tamañoContenido={3}
@@ -90,7 +94,7 @@ const InfoRecordatorioDosisCompartida = ({ navigation, route }) => {
 
                         <View style={styles.dosisItem}>
                             <AtributoPuffDosis
-                                TituloContenido={'TOTAL DOSIS'}
+                                TituloContenido={t("InfoRecordatorioCompartido.TotalDosis")}
                                 contenido={`${recordatorio.TotalDosis} PUFF`}
                                 tamañoTitulo={4}
                                 tamañoContenido={3}
@@ -100,7 +104,7 @@ const InfoRecordatorioDosisCompartida = ({ navigation, route }) => {
                     </View>
 
                     <AtributoRecordatorioDosis
-                        TituloContenido={'HORA DIARIA DOSIS'}
+                        TituloContenido={t("InfoRecordatorioCompartido.HoraDosis")}
                         contenido={recordatorio.horaDosisDiaria}
                         tamañoTitulo={6}
                         tamañoContenido={4.5}
@@ -108,7 +112,7 @@ const InfoRecordatorioDosisCompartida = ({ navigation, route }) => {
                     />
 
                     <AtributoRecordatorioDosis
-                        TituloContenido={'PACIENTE'}
+                        TituloContenido={t("InfoRecordatorioCompartido.Paciente")}
                         contenido={recordatorio.nombreUsuario}
                         tamañoTitulo={6}
                         tamañoContenido={4.5}

@@ -192,5 +192,30 @@
       "Reiniciar": "Reiniciar"
     }
   },
-  "VideoTutorial": "El siguiente tutorial te enseñará el correcto uso del inhalador"
+  "VideoTutorial": "El siguiente tutorial te enseñará el correcto uso del inhalador",
+
+  "RecordatoriosCuidador": {
+    "TituloDashboard": "RECORDATORIOS DOSIS COMPARTIDOS",
+    "TituloCompartidos": "RECORDATORIOS COMPARTIDOS",
+    "NoRecordatorios": "Aún no tienes recordatorios compartidos",
+    "Paciente": "Paciente:"
+  },
+  "NotificacionesRecordatoriosCuidador": {
+    "Titulo80%": "¡¡¡¡El Paciente debe recargar la dosis!!!!",
+    "Paso80%": "El paciente {{nombreUsuario}}, ya paso al 80% de su cantidad de dosis. ¡Debe recargarlo lo antes posible!"
+  },
+  "InfoRecordatorioCompartido": {
+    "Medicamento": "MEDICAMENTO",
+    "DosisActual": "DOSIS ACTUAL",
+    "80%": "80%",
+    "TotalDosis": "TOTAL DOSIS",
+    "HoraDosis": "HORA DIARIA DOSIS",
+    "Paciente": "PACIENTE"
+  },
+  "TablaRecordatoriosCompartidos": {
+    "Titulo": "REGISTRO DE LA DOSIS DEL PACIENTE",
+    "Dia": "Día",
+    "Dosis": "Dosis",
+    "Fecha": "Fecha"
+  }
 }

@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Animated, Easing, Pressable } from 'react-nativ
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { useTranslation } from 'react-i18next';
+
 // Definición de estilos fuera del componente
 const styles = StyleSheet.create({
     contenedorItemRecordatorio: {
@@ -68,6 +70,8 @@ const RecordatorioItemCompartido = ({ recordatorioCompartido, funcionNav }) => {
     const [textWidth, setTextWidth] = useState(0);
     const [containerWidth, setContainerWidth] = useState(0);
 
+    const { t } = useTranslation();
+
     useEffect(() => {
         const animation = Animated.loop(
             Animated.sequence([
@@ -130,7 +134,7 @@ const RecordatorioItemCompartido = ({ recordatorioCompartido, funcionNav }) => {
                 </View>
 
                 <View style={styles.letrasMedio}>
-                    <Text style={styles.nombrePacienteTexto}>Paciente: {recordatorioCompartido.nombreUsuario}</Text>
+                    <Text style={styles.nombrePacienteTexto}>{t("RecordatoriosCuidador.Paciente")} {recordatorioCompartido.nombreUsuario}</Text>
                 </View>
 
                 <View style={styles.letrasInferior}>

@@ -4,9 +4,13 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { FIRESTORE_DB } from '../firebase/config';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 
+import { useTranslation } from 'react-i18next';
+
 const TablaRecordatorio = ({ recordatorio }) => {
     const [filas, setFilas] = useState([]);
     const [totalDosis, setTotalDosis] = useState(recordatorio.DosisInicial);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         const cargarDatosIniciales = async () => {
@@ -34,12 +38,12 @@ const TablaRecordatorio = ({ recordatorio }) => {
     return (
         <View style={styles.tabla}>
             <View style={styles.header}>
-                <Text style={styles.headerTitulo}>REGISTRO DE LA DOSIS DEL PACIENTE</Text>
+                <Text style={styles.headerTitulo}>{t("TablaRecordatoriosCompartidos.Titulo")}</Text>
             </View>
             <View style={styles.headerContainer}>
-                <Text style={[styles.headerText, styles.bordeDerecho]}>Día</Text>
-                <Text style={[styles.headerText, styles.bordeDerecho]}>Dosis</Text>
-                <Text style={styles.headerText}>Fecha</Text>
+                <Text style={[styles.headerText, styles.bordeDerecho]}>{t("TablaRecordatoriosCompartidos.Dia")}</Text>
+                <Text style={[styles.headerText, styles.bordeDerecho]}>{t("TablaRecordatoriosCompartidos.Dosis")}</Text>
+                <Text style={styles.headerText}>{t("TablaRecordatoriosCompartidos.Fecha")}</Text>
             </View>
             {filas.map((fila, index) => (
                 <View key={index} style={styles.filaContainer}>
