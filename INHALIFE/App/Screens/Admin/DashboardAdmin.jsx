@@ -6,8 +6,12 @@ import Menu from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalCerrarCuenta from '../../components/ModalCerrarCuenta';
 import { FIREBASE_AUTH } from '../../firebase/config';
 
+import { useTranslation } from 'react-i18next';
+
 const DashboardAdmin = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
+
+    const { t } = useTranslation();
 
     const handleSignOut = async () => {
         try {
@@ -47,12 +51,12 @@ const DashboardAdmin = ({ navigation }) => {
 
                 <View style={styles.fila2}>
                     <Pressable style={styles.boton} onPress={() => navigation.navigate('RegistroCuidadores')}>
-                        <Text style={styles.textTitulo}>REGISTRO CUIDADORES</Text>
+                        <Text style={styles.textTitulo}>{t("DashboardAdmin.RegistroCuidadores")}</Text>
                         <Image style={styles.Imagen} source={require('../../../assets/Image/medicaRegistro.png')} />
                     </Pressable>
 
                     <Pressable style={styles.boton} onPress={() => navigation.navigate('ListaCuidadores')}>
-                        <Text style={styles.textTitulo}>LISTA DE CUIDADORES</Text>
+                        <Text style={styles.textTitulo}>{t("DashboardAdmin.ListaCuidadores")}</Text>
                         <Image style={styles.Imagen} source={require('../../../assets/Image/Lista.png')} />
                     </Pressable>
                 </View>

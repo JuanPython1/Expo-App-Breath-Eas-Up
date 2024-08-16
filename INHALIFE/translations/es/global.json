@@ -217,5 +217,47 @@
     "Dia": "Día",
     "Dosis": "Dosis",
     "Fecha": "Fecha"
+  },
+
+  "DashboardAdmin": {
+    "RegistroCuidadores": "REGISTRO DE CUIDADORES",
+    "ListaCuidadores": "LISTA DE CUIDADORES"
+  },
+  "RegistroCuidador": {
+    "Titulo": "REGISTRO DE CUIDADOR",
+    "Usuario": "Usuario",
+    "IngreseUsuario": "Ingrese el usuario del Cuidador",
+    "Nombres": "Nombres",
+    "IngreseNombres": "Ingrese los nombres",
+    "Apellidos": "Apellidos",
+    "IngreseApellidos": "Ingrese los apellidos",
+    "Correo": "Correo Electronico",
+    "IngreseCorreo": "Ingrese el correo electronico",
+    "Contrasena": "Contraseña",
+    "IngreseContrasena": "Ingrese la contraseña",
+    "BotonRegistrar": "REGISTRAR"
+  },
+  "ModalSeguroRegistrarCuidador": {
+    "Contexto": "¿Estas seguro que quieres registrar al cuidador",
+    "Cancelar": "No",
+    "Registrar": "Si"
+  },
+  "ValidacionesRegistroCuidador": {
+    "TodosCampos": "Por favor, completa todos los campos requeridos.",
+    "LlenarCorreo": "Por favor, llena el correo electronico.",
+    "LlenarContrasena": "Por favor, completa el ingreso de las contraseñas.",
+    "UsuarioExiste": "El nombre del Cuidador ya existe, escribe otro.",
+    "UsuarioRegistrado": "El Cuidador se registro Exitosamente."
+  },
+  "ErrorRegistroCuidador": {
+    "CorreoUsado": "El correo electrónico ya está en uso por otro cuidador.",
+    "CorreoInvalido": "El correo electrónico proporcionado no es válido.",
+    "OperacionNoValida": "La operación no está permitida. Consulta la configuración de tu proyecto Firebase para asegurarte de que la autenticación con correo electrónico y contraseña esté habilitada.",
+    "ContrasenaInsegura": "La contraseña proporcionada no es lo suficientemente segura.",
+    "RegistroFallido": "Registro fallido. Por favor, inténtalo de nuevo más tarde."
+  },
+  "ListaCuidadores": {
+    "Titulo": "LISTA DE CUIDADORES",
+    "NoCuidadores": "Aún no hay cuidadores registrados"
   }
 }

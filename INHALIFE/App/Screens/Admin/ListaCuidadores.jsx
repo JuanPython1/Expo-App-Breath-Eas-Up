@@ -5,8 +5,12 @@ import { collection, doc, getDocs, deleteDoc } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
 import { getAuth, deleteUser } from 'firebase/auth';
 
+import { useTranslation } from 'react-i18next';
+
 const ListaCuidadores = ({ navigation }) => {
     const [listaCuidadores, setListaCuidadores] = useState([]);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         const obtenerCuidadores = async () => {
@@ -51,17 +55,21 @@ const ListaCuidadores = ({ navigation }) => {
                 </Pressable>
             </View>
 
-            <Text style={styles.titulo}>LISTA DE CUIDADORES</Text>
+            <Text style={styles.titulo}>{t("ListaCuidadores.Titulo")}</Text>
 
             <ScrollView style={styles.body}>
-                {listaCuidadores.map(cuidador => (
-                    <View key={cuidador.uid} style={styles.checkboxContainer}>
-                        <Text>{cuidador.nombreCuidador}</Text>
-                        {/* <Pressable onPress={() => EliminarCuidador(cuidador.uid)}>
-                            <Text style={styles.eliminarTexto}>Eliminar</Text>
-                        </Pressable> */}
-                    </View>
-                ))}
+                {listaCuidadores.length === 0 ? (
+                    <Text style={styles.noCuidadoresTexto}>{t("ListaCuidadores.NoCuidadores")}</Text>
+                ) : (
+                    listaCuidadores.map(cuidador => (
+                        <View key={cuidador.uid} style={styles.checkboxContainer}>
+                            <Text>{cuidador.nombreCuidador}</Text>
+                            {/* <Pressable onPress={() => EliminarCuidador(cuidador.uid)}>
+                                <Text style={styles.eliminarTexto}>Eliminar</Text>
+                               </Pressable> */}
+                        </View>
+                    ))
+                )}
             </ScrollView>
         </SafeAreaView>
     );
@@ -112,6 +120,14 @@ const styles = StyleSheet.create({
         color: 'red',
         fontSize: wp('4%'),
     },
+    noCuidadoresTexto: {
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginTop: '50%',
+        textAlign: 'center',
+        fontSize: wp('4%'),
+        fontWeight: 'bold'
+    }
 });
 
 export default ListaCuidadores;

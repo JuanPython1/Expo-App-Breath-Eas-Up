@@ -216,5 +216,47 @@
     "Dia": "Day",
     "Dosis": "Dose",
     "Fecha": "Date"
+  },
+
+  "DashboardAdmin": {
+    "RegistroCuidadores": "REGISTRATION OF CAREGIVERS",
+    "ListaCuidadores": "LIST OF CAREGIVERS"
+  },
+  "RegistroCuidador": {
+    "Titulo": "REGISTRATION OF CAREGIVER",
+    "Usuario": "User",
+    "IngreseUsuario": "Enter the Caregiver's Username",
+    "Nombres": "Names",
+    "IngreseNombres": "Enter the names",
+    "Apellidos": "Last Names",
+    "IngreseApellidos": "Enter the last names",
+    "Correo": "Email",
+    "IngreseCorreo": "Enter the email",
+    "Contrasena": "Password",
+    "IngreseContrasena": "Enter the password",
+    "BotonRegistrar": "REGISTER"
+  },
+  "ModalSeguroRegistrarCuidador": {
+    "Contexto": "Are you sure you want to register the Caregiver",
+    "Cancelar": "No",
+    "Registrar": "Yes"
+  },
+  "ValidacionesRegistroCuidador": {
+    "TodosCampos": "Please complete all required fields.",
+    "LlenarCorreo": "Please enter your email address.",
+    "LlenarContrasena": "Please complete the password entry.",
+    "UsuarioExiste": "The Caregiver's Username already exists, write another.",
+    "UsuarioRegistrado": "Caregiver registered successfully."
+  },
+  "ErrorRegistroCuidador": {
+    "CorreoUsado": "The email is already in use, write another.",
+    "CorreoInvalido": "The email is not valid.",
+    "OperacionNoValida": "The operation is not allowed. Consult the Firebase project configuration to ensure that the authentication with email and password is enabled.",
+    "ContrasenaInsegura": "The password is not strong enough.",
+    "RegistroFallido": "Caregiver registration failed."
+  },
+  "ListaCuidadores": {
+    "Titulo": "LIST OF CAREGIVERS",
+    "NoCuidadores": "There are no registered caregivers yet"
   }
 }

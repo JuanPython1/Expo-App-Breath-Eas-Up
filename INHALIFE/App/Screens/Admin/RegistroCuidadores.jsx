@@ -8,6 +8,8 @@ import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
 import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
 
+import { useTranslation } from "react-i18next";
+
 const RegistroCuidadores = ({ navigation }) => {
     const [usuario, setUsuario] = useState('');
     const [nombres, setNombres] = useState('');
@@ -29,22 +31,24 @@ const RegistroCuidadores = ({ navigation }) => {
 
     const APIKEY = process.env.EXPO_PUBLIC_APIKEY
 
+    const { t } = useTranslation();
+
     const ValidacionesYRegistro = async () => {
         if (!usuario || !nombres || !apellidos) {
             setModalVisible(false)
-            alert('Por favor, completa todos los campos requeridos.');
+            alert(t("ValidacionesRegistroCuidador.TodosCampos"));
             return;
         }
 
         if (!correo) {
             setModalVisible(false)
-            alert('Por favor, llena el correo electronico.');
+            alert(t("ValidacionesRegistroCuidador.LlenarCorreo"));
             return;
         }
 
         if (!contraseña) {
             setModalVisible(false)
-            alert('Por favor, completa el ingreso de las contraseñas.');
+            alert(t("ValidacionesRegistroCuidador.LlenarContrasena"));
             return;
         }
 
@@ -52,11 +56,11 @@ const RegistroCuidadores = ({ navigation }) => {
             const usuarioExists = await checkUsernameExists(usuario);
             if (usuarioExists) {
                 setModalVisible(false)
-                alert('El nombre del Cuidador ya existe, escribe otro.')
+                alert(t("ValidacionesRegistroCuidador.UsuarioExiste"));
             } else {
                 setModalVisible(false)
                 signUp();
-                alert('El Cuidador se registro Exitosamente.')
+                alert(t("ValidacionesRegistroCuidador.UsuarioRegistrado"));
                 navigation.navigate('DashboardAdmin');
             }
         }
@@ -108,20 +112,20 @@ const RegistroCuidadores = ({ navigation }) => {
             console.log(error.message);
             switch (error.message) {
                 case 'EMAIL_EXISTS':
-                    alert('El correo electrónico ya está en uso por otro cuidador.');
+                    alert(t("ErrorRegistroCuidador.CorreoUsado"));
                     break;
                 case 'INVALID_EMAIL':
-                    alert('El correo electrónico proporcionado no es válido.');
+                    alert(t("ErrorRegistroCuidador.CorreoInvalido"));
                     break;
                 case 'OPERATION_NOT_ALLOWED':
-                    alert('La operación no está permitida. Consulta la configuración de tu proyecto Firebase para asegurarte de que la autenticación con correo electrónico y contraseña esté habilitada.');
+                    alert(t("ErrorRegistroCuidador.OperacionNoValida"));
                     break;
                 case 'WEAK_PASSWORD':
-                    alert('La contraseña proporcionada no es lo suficientemente segura.');
+                    alert(t("ErrorRegistroCuidador.ContrasenaInsegura"));
                     break;
                 // Otros errores que puedan surgir
                 default:
-                    alert('Registro fallido. Por favor, inténtalo de nuevo más tarde.');
+                    alert(t("ErrorRegistroCuidador.RegistroFallido"));
             }
         } finally {
             setLoading(false);
@@ -164,38 +168,38 @@ const RegistroCuidadores = ({ navigation }) => {
 
                 <View style={styles.formContainer}>
                     <View style={styles.Titulo}>
-                        <Text style={styles.textoRegistroCuidador}>REGISTRO DE CUIDADOR</Text>
+                        <Text style={styles.textoRegistroCuidador}>{t("RegistroCuidador.Titulo")}</Text>
                     </View>
 
 
-                    <Text style={styles.label}>Usuario</Text>
+                    <Text style={styles.label}>{t("RegistroCuidador.Usuario")}</Text>
                     <TextInput
                         style={styles.input}
                         value={usuario}
                         onChangeText={setUsuario}
-                        placeholder="Ingrese el usuario del Cuidador"
+                        placeholder={t("RegistroCuidador.IngreseUsuario")}
                         returnKeyType="next"
                         onSubmitEditing={() => nombresRef.current.focus()}
                         blurOnSubmit={false}
                     />
-                    <Text style={styles.label}>Nombres</Text>
+                    <Text style={styles.label}>{t("RegistroCuidador.Nombres")}</Text>
                     <TextInput
                         ref={nombresRef}
                         style={styles.input}
                         value={nombres}
                         onChangeText={setNombres}
-                        placeholder="Ingrese los nombres"
+                        placeholder={t("RegistroCuidador.IngreseNombres")}
                         returnKeyType="next"
                         onSubmitEditing={() => apellidosRef.current.focus()}
                         blurOnSubmit={false}
                     />
-                    <Text style={styles.label}>Apellidos</Text>
+                    <Text style={styles.label}>{t("RegistroCuidador.Apellidos")}</Text>
                     <TextInput
                         ref={apellidosRef}
                         style={styles.input}
                         value={apellidos}
                         onChangeText={setApellidos}
-                        placeholder="Ingrese los apellidos"
+                        placeholder={t("RegistroCuidador.IngreseApellidos")}
                         returnKeyType="next"
                         onSubmitEditing={() => correoRef.current.focus()}
                         blurOnSubmit={false}
@@ -207,21 +211,21 @@ const RegistroCuidadores = ({ navigation }) => {
                         style={styles.input}
                         value={correo}
                         onChangeText={setCorreo}
-                        placeholder="Ingrese el correo electronico"
+                        placeholder={t("RegistroCuidador.IngreseCorreo")}
                         keyboardType="email-address"
                         returnKeyType="next"
                         onSubmitEditing={() => contraseñaRef.current.focus()}
                         blurOnSubmit={false}
 
                     />
-                    <Text style={styles.label}>Contraseña</Text>
+                    <Text style={styles.label}>{t("RegistroCuidador.Contrasena")}</Text>
                     <View style={styles.passwordContainer}>
                         <TextInput
                             ref={contraseñaRef}
                             style={styles.inputContraseña}
                             value={contraseña}
                             onChangeText={setContraseña}
-                            placeholder="Ingrese la contraseña"
+                            placeholder={t("RegistroCuidador.IngreseContrasena")}
                             secureTextEntry={!passwordVisible}
                             returnKeyType="done"
                             onSubmitEditing={handleModal}
@@ -238,7 +242,7 @@ const RegistroCuidadores = ({ navigation }) => {
                         <ActivityIndicator size={'large'} color={'#F94242'} />
                     ) : (
                         <Pressable style={styles.BotonEntrar} onPress={handleModal}>
-                            <Text style={styles.TextoEntrar}>REGISTRAR</Text>
+                            <Text style={styles.TextoEntrar}>{t("RegistroCuidador.BotonRegistrar")}</Text>
                         </Pressable>
                     )}
                 </View>
@@ -258,13 +262,13 @@ const RegistroCuidadores = ({ navigation }) => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalText}>¿Segura quieres registrar al cuidador {nombres}?</Text>
+                        <Text style={styles.modalText}>{t("ModalSeguroRegistrarCuidador.Contexto")} {nombres}?</Text>
                         <View style={styles.buttonContainer}>
                             <Pressable
                                 style={[styles.button, styles.buttonConfirm]}
                                 onPress={ValidacionesYRegistro}
                             >
-                                <Text style={styles.textStyle}>Si</Text>
+                                <Text style={styles.textStyle}>{t("ModalSeguroRegistrarCuidador.Registrar")}</Text>
                             </Pressable>
                             <Pressable
                                 style={[styles.button, styles.buttonClose]}
