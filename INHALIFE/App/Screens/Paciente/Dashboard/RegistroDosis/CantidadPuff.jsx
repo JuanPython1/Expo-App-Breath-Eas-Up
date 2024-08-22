@@ -27,7 +27,7 @@ const CantidadPuff = ({ navigation, route }) => {
 
   return (
     <KeyboardAvoidingView
-      behavior="height"
+      behavior={"height"}
       style={styles.keyboardAvoidingView}
       keyboardVerticalOffset={Platform.select({ ios: 0, android: 0 })}
     >
@@ -114,8 +114,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    flexGrow: 1,
-
+    flex: 1,
+    padding: 24,
+    justifyContent: 'space-around',
   },
   header: {
     flexDirection: 'row',
@@ -139,10 +140,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     marginVertical: hp('2%'),
-  },
-  body: {
-    flex: 1,
-
   },
   nombreMedicamentoContenedor: {
     flexDirection: 'row',
