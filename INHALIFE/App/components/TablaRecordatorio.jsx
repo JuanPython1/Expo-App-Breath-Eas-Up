@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     headerTitulo: {
-        flex: 1,
+        // flex: 1,
         textAlign: 'center',
         fontFamily: 'noticia-text',
         padding: 10,

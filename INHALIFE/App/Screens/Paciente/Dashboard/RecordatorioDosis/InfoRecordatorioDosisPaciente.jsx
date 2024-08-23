@@ -242,6 +242,7 @@ export default InfoRecordatorioDosisPaciente;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        height: hp('100%'),
         backgroundColor: '#94E4FF',
     },
     header: {
@@ -277,7 +278,7 @@ const styles = StyleSheet.create({
         fontSize: wp('4%')
     },
     contenedorTabla: {
-        marginBottom: hp('3.6%')
+        // marginBottom: hp('3.6%')
     },
     modalContainer: {
         flex: 1,
