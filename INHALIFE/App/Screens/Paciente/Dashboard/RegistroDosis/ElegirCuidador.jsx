@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable, Image, TextInput } from 'react-native';
 import CheckBox from 'react-native-check-box';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FIRESTORE_DB } from '../../../../firebase/config';
@@ -9,8 +9,18 @@ import { useTranslation } from "react-i18next";
 
 const ElegirCuidador = ({ navigation, route }) => {
   const { medicamento, TotalDosis, Dosis80Porciento, horaDosisDiaria } = route.params;
+
+  // Estado para almacenar la lista de cuidadores
   const [cuidadores, setCuidadores] = useState([]);
+
+  // Estado para almacenar el cuidador seleccionado
   const [cuidadorSeleccionado, setCuidadorSeleccionado] = useState(null);
+
+  // Estado para almacenar el texto ingresado en la barra de búsqueda
+  const [busqueda, setBusqueda] = useState('');
+
+  // Estado para almacenar la lista de cuidadores filtrados
+  const [cuidadoresFiltrados, setCuidadoresFiltrados] = useState([]);
 
   const { t } = useTranslation();
 
@@ -18,15 +28,18 @@ const ElegirCuidador = ({ navigation, route }) => {
     const obtenerCuidadores = async () => {
       try {
         const cuidadoresSnapshot = await getDocs(collection(FIRESTORE_DB, 'UsuariosCuidadores'));
-        const cuidadoresList = cuidadoresSnapshot.docs.map(doc => {
+        const listaCuidadores = cuidadoresSnapshot.docs.map(doc => {
           const data = doc.data();
           const nombreCompleto = `${data.nombre} ${data.apellido}`;
+          const nombreUsuario = data.nombreUsuario;
           return {
             uid: doc.id,
             nombreCompleto,
+            nombreUsuario
           };
         });
-        setCuidadores(cuidadoresList);
+        setCuidadores(listaCuidadores);
+        setCuidadoresFiltrados(listaCuidadores); // Mostrar todos los cuidadores inicialmente
       } catch (error) {
         console.error('Error al obtener los cuidadores: ', error);
       }
@@ -35,7 +48,17 @@ const ElegirCuidador = ({ navigation, route }) => {
     obtenerCuidadores();
   }, []);
 
-  const handleInputSiguiente = () => {
+  // Filtra la lista de cuidadores cada vez que cambia el texto de búsqueda
+  useEffect(() => {
+    const queryMinuscula = busqueda.toLowerCase();
+    const filtrados = cuidadores.filter(cuidador =>
+      cuidador.nombreCompleto.toLowerCase().includes(queryMinuscula) ||
+      cuidador.nombreUsuario.toLowerCase().includes(queryMinuscula)
+    );
+    setCuidadoresFiltrados(filtrados);
+  }, [busqueda, cuidadores]);
+
+  const manejarSiguiente = () => {
     if (cuidadorSeleccionado) {
       console.log(cuidadorSeleccionado);
       navigation.navigate('RegistrarDosis', {
@@ -50,37 +73,45 @@ const ElegirCuidador = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={styles.contenedor}>
+      <View style={styles.encabezado}>
         <Pressable style={styles.contenedorAtras} onPress={() => navigation.goBack()} accessibilityLabel="Volver">
-          <Image style={styles.iconAtras} source={require('../../../../../assets/Image/Flechaatras.png')} />
+          <Image style={styles.iconoAtras} source={require('../../../../../assets/Image/Flechaatras.png')} />
         </Pressable>
       </View>
 
       <Text style={styles.titulo}>{t("RegistroDosis.EligeCuidador.Titulo")}</Text>
-      <ScrollView style={styles.body}>
-        {cuidadores.map(cuidador => (
-          <View key={cuidador.uid} style={styles.checkboxContainer}>
+
+      <TextInput
+        style={styles.inputBusqueda}
+        placeholder={t("RegistroDosis.EligeCuidador.TextoBuscarCuidador")}
+        value={busqueda}
+        onChangeText={(texto) => setBusqueda(texto)}
+      />
+
+      <ScrollView style={styles.cuerpo}>
+        {cuidadoresFiltrados.map(cuidador => (
+          <View key={cuidador.uid} style={styles.contenedorCheckbox}>
             <CheckBox
               style={styles.checkbox}
               onClick={() => setCuidadorSeleccionado(cuidador)}
               isChecked={cuidadorSeleccionado?.uid === cuidador.uid}
               leftText={cuidador.nombreCompleto}
-              leftTextStyle={styles.checkboxText}
+              leftTextStyle={styles.textoCheckbox}
               checkBoxColor="#3498DB"
               accessibilityLabel={`Seleccionar ${cuidador.nombreCompleto}`}
             />
-            <Text style={styles.checkboxText}>{cuidador.nombreCompleto}</Text>
+            <Text style={styles.textoCheckbox}>{cuidador.nombreCompleto} - {cuidador.nombreUsuario}</Text>
           </View>
         ))}
       </ScrollView>
       <Pressable
-        style={[styles.BotonEntrar, { opacity: cuidadorSeleccionado ? 1 : 0.5 }]}
-        onPress={handleInputSiguiente}
+        style={[styles.botonEntrar, { opacity: cuidadorSeleccionado ? 1 : 0.5 }]}
+        onPress={manejarSiguiente}
         disabled={!cuidadorSeleccionado}
         accessibilityLabel="Siguiente"
       >
-        <Text style={styles.TextoEntrar}>{t("RegistroDosis.EligeCuidador.BotonSiguiente")}</Text>
+        <Text style={styles.textoEntrar}>{t("RegistroDosis.EligeCuidador.BotonSiguiente")}</Text>
       </Pressable>
     </View>
   );
@@ -89,10 +120,10 @@ const ElegirCuidador = ({ navigation, route }) => {
 export default ElegirCuidador;
 
 const styles = StyleSheet.create({
-  container: {
+  contenedor: {
     flex: 1,
   },
-  header: {
+  encabezado: {
     flexDirection: 'row',
     height: hp('10%'),
     backgroundColor: '#3498DB',
@@ -102,18 +133,9 @@ const styles = StyleSheet.create({
   contenedorAtras: {
     padding: wp('2%'),
   },
-  iconAtras: {
+  iconoAtras: {
     width: wp('10%'),
     height: hp('2.5%'),
-  },
-  headerText: {
-    color: '#FFFFFF',
-    fontSize: wp('5%'),
-    fontWeight: 'bold',
-  },
-  body: {
-    height: hp('90%'),
-    paddingHorizontal: wp('5%'),
   },
   titulo: {
     color: 'black',
@@ -122,7 +144,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginVertical: hp('2%'),
   },
-  checkboxContainer: {
+  inputBusqueda: {
+    height: hp('6%'),
+    borderColor: '#ccc',
+    borderWidth: 1,
+    paddingHorizontal: wp('4%'),
+    marginHorizontal: wp('5%'),
+    marginBottom: hp('2%'),
+    borderRadius: 4,
+  },
+  cuerpo: {
+    height: hp('90%'),
+    paddingHorizontal: wp('5%'),
+  },
+  contenedorCheckbox: {
     flexDirection: 'row',
     alignItems: 'center',
     height: hp('10%'),
@@ -132,11 +167,11 @@ const styles = StyleSheet.create({
   checkbox: {
     marginRight: wp('3%'),
   },
-  checkboxText: {
+  textoCheckbox: {
     fontSize: wp('4%'),
     color: 'black',
   },
-  BotonEntrar: {
+  botonEntrar: {
     marginTop: hp('4%'),
     marginHorizontal: wp('10%'),
     height: hp('6%'),
@@ -148,7 +183,7 @@ const styles = StyleSheet.create({
     margin: hp('1%'),
     justifyContent: 'center'
   },
-  TextoEntrar: {
+  textoEntrar: {
     textAlign: 'center',
     fontFamily: 'Play-fair-Display',
     fontWeight: 'bold',

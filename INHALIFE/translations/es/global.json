@@ -115,6 +115,7 @@
     },
     "EligeCuidador": {
       "Titulo": "ELIGE TU CUIDADOR",
+      "TextoBuscarCuidador": "Buscar Cuidador...",
       "BotonSiguiente": "SIGUIENTE"
     },
     "Registro": {
