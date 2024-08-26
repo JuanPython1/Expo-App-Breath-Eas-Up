@@ -133,38 +133,41 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
 
 
     return (
-        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-            <View style={styles.container}>
 
-                <Modal
-                    visible={mostrarModal}
-                    transparent={true}
-                    animationType="fade"
-                    onRequestClose={() => setMostrarModal(false)}
-                >
-                    <View style={styles.modalContainer}>
-                        <View style={styles.modalContent}>
-                            <Text style={styles.modalText}>
-                                {t('Recordatorios.ModalLimite.ContextoLimite')}
-                            </Text>
-                            <View style={styles.modalButtons}>
-                                <TouchableOpacity style={styles.modalButtonRojo} onPress={handleEliminar}>
-                                    <Text style={styles.modalButtonText}>{t('Recordatorios.ModalLimite.Eliminar')}</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={styles.modalButton} onPress={handleReiniciar}>
-                                    <Text style={styles.modalButtonText}>{t('Recordatorios.ModalLimite.Reiniciar')}</Text>
-                                </TouchableOpacity>
-                            </View>
+        <View style={styles.container}>
+
+            <View style={styles.header}>
+                <Pressable style={styles.backContainer} onPress={() => { navigation.navigate('RecordatorioDosis') }}>
+                    <Image style={styles.backIcon} source={require('../../../../../assets/Image/Flechaatras.png')} />
+                </Pressable>
+            </View>
+
+
+            <Modal
+                visible={mostrarModal}
+                transparent={true}
+                animationType="fade"
+                onRequestClose={() => setMostrarModal(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>
+                            {t('Recordatorios.ModalLimite.ContextoLimite')}
+                        </Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity style={styles.modalButtonRojo} onPress={handleEliminar}>
+                                <Text style={styles.modalButtonText}>{t('Recordatorios.ModalLimite.Eliminar')}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.modalButton} onPress={handleReiniciar}>
+                                <Text style={styles.modalButtonText}>{t('Recordatorios.ModalLimite.Reiniciar')}</Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
-                </Modal>
-
-
-                <View style={styles.header}>
-                    <Pressable style={styles.backContainer} onPress={() => { navigation.navigate('RecordatorioDosis') }}>
-                        <Image style={styles.backIcon} source={require('../../../../../assets/Image/Flechaatras.png')} />
-                    </Pressable>
                 </View>
+            </Modal>
+
+
+            <ScrollView contentContainerStyle={styles.scrollViewContainer}>
 
                 <View style={styles.body}>
 
@@ -232,8 +235,9 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
                         />
                     </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </View>
+
     );
 };
 
@@ -242,7 +246,6 @@ export default InfoRecordatorioDosisPaciente;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height: hp('100%'),
         backgroundColor: '#94E4FF',
     },
     header: {
