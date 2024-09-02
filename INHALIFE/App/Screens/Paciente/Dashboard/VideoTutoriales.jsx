@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     marginVertical: hp('5%'),
   },
   videoTitle: {
+    marginHorizontal: wp('1%'),
     fontFamily: 'Play-fair-Display',
     fontSize: wp('5%'),
     textAlign: 'center'
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   video: {
     marginVertical: hp('5%'),
     alignSelf: 'center',
-    height: hp('40%'),
+    height: hp('60%'),
     width: wp('70%')
   }
 })
