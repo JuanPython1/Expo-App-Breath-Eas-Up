@@ -55,7 +55,9 @@ const ElegirCuidador = ({ navigation, route }) => {
       cuidador.nombreCompleto.toLowerCase().includes(queryMinuscula) ||
       cuidador.nombreUsuario.toLowerCase().includes(queryMinuscula)
     );
+
     setCuidadoresFiltrados(filtrados);
+
   }, [busqueda, cuidadores]);
 
   const manejarSiguiente = () => {
@@ -89,21 +91,24 @@ const ElegirCuidador = ({ navigation, route }) => {
         onChangeText={(texto) => setBusqueda(texto)}
       />
 
-      <ScrollView style={styles.cuerpo}>
-        {cuidadoresFiltrados.map(cuidador => (
-          <View key={cuidador.uid} style={styles.contenedorCheckbox}>
-            <CheckBox
-              style={styles.checkbox}
-              onClick={() => setCuidadorSeleccionado(cuidador)}
-              isChecked={cuidadorSeleccionado?.uid === cuidador.uid}
-              leftText={cuidador.nombreCompleto}
-              leftTextStyle={styles.textoCheckbox}
-              checkBoxColor="#3498DB"
-              accessibilityLabel={`Seleccionar ${cuidador.nombreCompleto}`}
-            />
-            <Text style={styles.textoCheckbox}>{cuidador.nombreCompleto} - {cuidador.nombreUsuario}</Text>
-          </View>
-        ))}
+      <ScrollView style={styles.cuerpo} keyboardShouldPersistTaps="handled">
+        {
+          (cuidadoresFiltrados.length > 0) ? (cuidadoresFiltrados.map(cuidador => (
+            <View key={cuidador.uid} style={styles.contenedorCheckbox}>
+              <CheckBox
+                style={styles.checkbox}
+                onClick={() => setCuidadorSeleccionado(cuidador)}
+                isChecked={cuidadorSeleccionado?.uid === cuidador.uid}
+                leftText={cuidador.nombreCompleto}
+                leftTextStyle={styles.textoCheckbox}
+                checkBoxColor="#3498DB"
+                accessibilityLabel={`Seleccionar ${cuidador.nombreCompleto}`}
+              />
+              <Text style={styles.textoCheckbox}>{cuidador.nombreCompleto} - {cuidador.nombreUsuario}</Text>
+            </View>
+          ))
+          ) : (<Text style={styles.cuidadorNoEncontrado}>{t("RegistroDosis.EligeCuidador.NoCuidador")}</Text>)
+        }
       </ScrollView>
       <Pressable
         style={[styles.botonEntrar, { opacity: cuidadorSeleccionado ? 1 : 0.5 }]}
@@ -153,6 +158,15 @@ const styles = StyleSheet.create({
     marginBottom: hp('2%'),
     borderRadius: 4,
   },
+  cuidadorNoEncontrado: {
+    // alignSelf: 'center',
+    // justifyContent: 'center',
+    marginTop: '15%',
+    textAlign: 'center',
+    fontSize: wp('3.5%'),
+    fontWeight: 'bold'
+  },
+
   cuerpo: {
     height: hp('90%'),
     paddingHorizontal: wp('5%'),
@@ -175,7 +189,7 @@ const styles = StyleSheet.create({
     marginTop: hp('4%'),
     marginHorizontal: wp('10%'),
     height: hp('6%'),
-    bottom: hp('4%'),
+    bottom: hp('2%'),
     borderRadius: 5,
     borderWidth: 1,
     padding: hp('1%'),

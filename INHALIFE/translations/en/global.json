@@ -116,6 +116,7 @@
     "EligeCuidador": {
       "Titulo": "CHOOSE YOUR CAREGIVER",
       "TextoBuscarCuidador": "Search Caregiver...",
+      "NoCuidador": "No caregiver found",
       "BotonSiguiente": "NEXT"
     },
     "Registro": {
