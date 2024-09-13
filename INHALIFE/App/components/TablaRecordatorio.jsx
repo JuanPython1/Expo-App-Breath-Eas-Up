@@ -1,3 +1,4 @@
+//Eliminar cambios de la rama si produce fallos el codigo
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Alert } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -55,32 +56,24 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
     }, [recordatorio.id]);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            const today = new Date();
-            const formattedDate = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
+        const today = new Date();
+        const formattedDate = `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`;
 
-            const lastDateArray = diaSeleccionado ? diaSeleccionado.split('-') : [];
-            const lastDate = lastDateArray.length === 3 ? new Date(lastDateArray[2], lastDateArray[1] - 1, lastDateArray[0]) : new Date();
-            const timeDifference = today.getTime() - lastDate.getTime();
-            const dayDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
+        const lastDateArray = diaSeleccionado ? diaSeleccionado.split('-') : [];
+        const lastDate = lastDateArray.length === 3 ? new Date(lastDateArray[2], lastDateArray[1] - 1, lastDateArray[0]) : new Date();
+        const timeDifference = today.getTime() - lastDate.getTime();
+        const dayDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
 
-            if (dayDifference >= 1 && !dosisRegistradaHoy) {
-                setIsButtonEnabled(true);
-                setPuedeEditar(true);
-            } else {
-                setIsButtonEnabled(false);
-                setPuedeEditar(false);
-                const registroHoy = filas.find(item => item.fecha === formattedDate);
-                if (registroHoy) {
-                    setDosisRegistradaHoy(true);
-                } else {
-                    setDosisRegistradaHoy(false);
-                }
-            }
-        }, 1000);
+        if (dayDifference >= 1 && !dosisRegistradaHoy) {
+            setIsButtonEnabled(true);
+            setPuedeEditar(true);
+        } else {
+            setIsButtonEnabled(false);
+            setPuedeEditar(false);
+        }
 
-        return () => clearInterval(interval);
-    }, [hora, filas, diaSeleccionado, dosisRegistradaHoy]);
+    }, [filas, dosisRegistradaHoy, diaSeleccionado]);
+
 
     const resetearTabla = async () => {
         const nuevasFilas = [{ dia: 1, dosis: 0 }];
@@ -136,6 +129,8 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
                             setModalVisible(false);
                             setInputDosis('');
 
+                            setDiaSeleccionado(nuevasFilas[filaSeleccionada].fecha); // Actualizar la fecha seleccionada
+                            setDosisRegistradaHoy(true); // Actualizar el estado de dosis registrada hoy
                             actualizarDosisInicial(nuevaDosisTotal);
                             setnuevacantidadTotalTabla(nuevaDosisTotal);
                         } else {
@@ -188,26 +183,6 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
         }
     };
 
-    const handleEliminarUltimaFila = async () => {
-        if (filas.length > 1) {
-            const ultimaFila = filas[filas.length - 1];
-            const nuevasFilas = filas.slice(0, -1);
-            const nuevaDosisTotal = totalDosis - ultimaFila.dosis;
-
-            setFilas(nuevasFilas);
-            setTotalDosis(nuevaDosisTotal);
-            setnuevacantidadTotalTabla(nuevaDosisTotal);
-            actualizarDosisInicial(nuevaDosisTotal);
-
-            const RecordatorioRef = doc(FIRESTORE_DB, 'RecordatoriosDosis', recordatorio.id);
-            await updateDoc(RecordatorioRef, {
-                registroDosis: nuevasFilas,
-                DosisInicial: nuevaDosisTotal
-            });
-        } else {
-            Alert.alert('Error', 'No puedes eliminar todas las filas');
-        }
-    };
 
     const abrirModal = (index) => {
         setFilaSeleccionada(index);
