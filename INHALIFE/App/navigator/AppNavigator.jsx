@@ -84,6 +84,7 @@ const AppNavigator = () => {
     }, [user, userRole]);
 
 
+
     onAuthStateChanged(FIREBASE_AUTH, async (user) => {
         if (user) {
             setUser(user);

@@ -1,19 +1,22 @@
-import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import AnimationComponent from './AnimationComponent';
 
 const BotonDashBoardPaciente = ({ props }) => {
-
   const { titulo, imagen, funcion } = props;
 
   return (
-    <Pressable style={styles.boton} onPress={funcion}>
-      <Text style={styles.textTitulo}>{titulo}</Text>
-      <Image style={styles.Imagen} source={imagen} resizeMode='contain' />
-    </Pressable>
-  )
-}
-export default BotonDashBoardPaciente
+    <AnimationComponent>
+      <Pressable style={styles.boton} onPress={funcion}>
+        <Text style={styles.textTitulo}>{titulo}</Text>
+        <Image style={styles.Imagen} source={imagen} resizeMode='contain' />
+      </Pressable>
+    </AnimationComponent>
+  );
+};
+
+export default BotonDashBoardPaciente;
 
 const styles = StyleSheet.create({
   boton: {
@@ -22,7 +25,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#94E4FF'
+    backgroundColor: '#94E4FF',
+    borderWidth: 1,
   },
   Imagen: {
     width: 160,
@@ -32,6 +36,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'Play-fair-Display',
     fontWeight: 'bold',
-    marginBottom: '5%'
-  }
-})
+    marginBottom: '5%',
+  },
+});

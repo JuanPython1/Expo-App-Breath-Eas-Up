@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ScrollView, StyleSheet, TextInput, ActivityIndicator, Pressable, KeyboardAvoidingView, Modal, Platform } from 'react-native';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import { MaterialIcons } from '@expo/vector-icons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useTranslation } from "react-i18next";
+import { cargarImagen, obtenerImagen } from '../../../services/storage';
+import { Asset } from 'expo-asset';
+import ImagenBienvenida from '../../../components/ImagenBienvenida';
 
 const RegistroPaciente = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -81,7 +84,10 @@ const RegistroPaciente = ({ navigation }) => {
       await sendEmailVerification(auth.currentUser);
       const userUID = auth.currentUser.uid;
       const userRef = doc(firestore, 'UsuariosPacientes', userUID);
+
       await setDoc(userRef, { nombreUsuario: username, email: email, nombre: nombre, apellido: apellido, rol: 'Paciente' });
+
+
       setModalVisibleRegistro(true);
     } catch (error) {
       console.log(error);
@@ -115,10 +121,32 @@ const RegistroPaciente = ({ navigation }) => {
     setIsModalClosedRegistro(true);
   };
 
+
+  const avatarNew = async () => {
+    const querySnapshot = await getDocs(collection(firestore, 'UsuariosPacientes'));
+
+    const uid = querySnapshot.docs[querySnapshot.docs.length - 1].id;
+
+    const perroImagenLocal = require('../../../../assets/Image/perro.png');
+
+    const localImage = Asset.fromModule(perroImagenLocal);
+    await localImage.downloadAsync();
+    const perroImagen = localImage.localUri;
+
+
+    await cargarImagen(perroImagen, `Users/Paciente/${uid}/Bienvenida`);
+
+    const imagen = await obtenerImagen(`Users/Paciente/${uid}/Bienvenida`);
+
+    updateDoc(doc(FIRESTORE_DB, 'UsuariosPacientes', uid), { imagenBienvenida: imagen });
+  }
+
   useEffect(() => {
     if (isModalClosedRegistro) {
       alert(t("RegistroPaciente.VerificarCorreo"));
       navigation.navigate('LoginPaciente');
+
+      avatarNew();
     }
   }, [isModalClosedRegistro, navigation]);
 

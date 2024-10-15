@@ -3,7 +3,8 @@ import React, { useState, useCallback } from 'react';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useFocusEffect } from '@react-navigation/native';
 import Menu from 'react-native-vector-icons/MaterialCommunityIcons';
-import ModalCerrarCuenta from '../../components/ModalCerrarCuenta';
+import ModalCerrarCuentaAdmin from '../../components/ModalCerrarCuentaAdmin';
+import AnimationComponent from '../../components/AnimationComponent';
 import { FIREBASE_AUTH } from '../../firebase/config';
 
 import { useTranslation } from 'react-i18next';
@@ -50,15 +51,19 @@ const DashboardAdmin = ({ navigation }) => {
                 </View>
 
                 <View style={styles.fila2}>
-                    <Pressable style={styles.boton} onPress={() => navigation.navigate('RegistroCuidadores')}>
-                        <Text style={styles.textTitulo}>{t("DashboardAdmin.RegistroCuidadores")}</Text>
-                        <Image style={styles.Imagen} source={require('../../../assets/Image/medicaRegistro.png')} />
-                    </Pressable>
+                    <AnimationComponent>
+                        <Pressable style={styles.boton} onPress={() => navigation.navigate('RegistroCuidadores')}>
+                            <Text style={styles.textTitulo}>{t("DashboardAdmin.RegistroCuidadores")}</Text>
+                            <Image style={styles.Imagen} source={require('../../../assets/Image/medicaRegistro.png')} />
+                        </Pressable>
+                    </AnimationComponent>
 
-                    <Pressable style={styles.boton} onPress={() => navigation.navigate('ListaCuidadores')}>
-                        <Text style={styles.textTitulo}>{t("DashboardAdmin.ListaCuidadores")}</Text>
-                        <Image style={styles.Imagen} source={require('../../../assets/Image/Lista.png')} />
-                    </Pressable>
+                    <AnimationComponent>
+                        <Pressable style={styles.boton} onPress={() => navigation.navigate('ListaCuidadores')}>
+                            <Text style={styles.textTitulo}>{t("DashboardAdmin.ListaCuidadores")}</Text>
+                            <Image style={styles.Imagen} source={require('../../../assets/Image/Lista.png')} />
+                        </Pressable>
+                    </AnimationComponent>
                 </View>
 
 
@@ -66,7 +71,7 @@ const DashboardAdmin = ({ navigation }) => {
             </View>
 
             {/* ------------------------MODAL---------------------- */}
-            <ModalCerrarCuenta
+            <ModalCerrarCuentaAdmin
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
                 cerrarSession={handleSignOut}
@@ -144,7 +149,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#52B4FA',
-        marginVertical: hp('1%')
+        marginVertical: hp('1%'),
+        borderWidth: 1
     },
     Imagen: {
         width: wp('40%'),

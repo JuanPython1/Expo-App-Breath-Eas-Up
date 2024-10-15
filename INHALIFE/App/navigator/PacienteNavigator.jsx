@@ -13,8 +13,10 @@ import BienvenidaPaciente from '../Screens/Paciente/Dashboard/BienvenidaPaciente
 import DashboardPaciente from '../Screens/Paciente/Dashboard/DashboardPaciente';
 import RecordatorioDosis from '../Screens/Paciente/Dashboard/RecordatorioDosis/RecordatorioDosis';
 import VideoTutoriales from '../Screens/Paciente/Dashboard/VideoTutoriales';
-import RegistroCuidador from '../Screens/Paciente/Dashboard/RegistroCuidador';
 import NotificacionesPacientes from '../Screens/Paciente/Dashboard/notificacionesActivas'
+
+// Configuracion Paciente
+import Personalizar from '../Screens/Paciente/ConfigPaciente/Personalizar';
 
 // Registro Dosis Paciente
 import BienvenidaRegistroDosis from '../Screens/Paciente/Dashboard/RegistroDosis/BienvenidaRegistroDosis';
@@ -46,8 +48,10 @@ const PacienteNavigator = () => {
             <StackPaciente.Screen name='DashboardPaciente' component={DashboardPaciente} options={{ headerShown: false }} />
             <StackPaciente.Screen name='RecordatorioDosis' component={RecordatorioDosis} options={{ headerShown: false }} />
             <StackPaciente.Screen name='VideoTutoriales' component={VideoTutoriales} options={{ headerShown: false }} />
-            <StackPaciente.Screen name='RegistroCuidador' component={RegistroCuidador} options={{ headerShown: false }} />
             <StackPaciente.Screen name='notificacionesPacientes' component={NotificacionesPacientes} options={{ headerShown: false }} />
+
+            {/* Configuracion Paciente */}
+            <StackPaciente.Screen name='PersonalizarPaciente' component={Personalizar} options={{ headerShown: false }} />
 
             {/* Registro dosis paciente */}
             <StackPaciente.Screen name='BienvenidaRegistroDosis' component={BienvenidaRegistroDosis} options={{ headerShown: false }} />

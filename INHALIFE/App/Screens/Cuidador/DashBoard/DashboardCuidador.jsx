@@ -5,6 +5,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import Menu from 'react-native-vector-icons/MaterialCommunityIcons';
 import ModalCerrarCuenta from '../../../components/ModalCerrarCuenta';
 import { FIREBASE_AUTH } from '../../../firebase/config';
+import AnimationComponent from '../../../components/AnimationComponent';
 
 import { useTranslation } from 'react-i18next';
 
@@ -50,10 +51,12 @@ const DashboardCuidador = ({ navigation }) => {
         </View>
 
         <View style={styles.fila2}>
-          <Pressable style={styles.boton} onPress={() => navigation.navigate('RecordatorioDosisCompartidos')}>
-            <Text style={styles.textTitulo}>{t("RecordatoriosCuidador.TituloDashboard")}</Text>
-            <Image style={styles.Imagen} source={require('../../../../assets/Image/calendario.png')} />
-          </Pressable>
+          <AnimationComponent>
+            <Pressable style={styles.boton} onPress={() => navigation.navigate('RecordatorioDosisCompartidos')}>
+              <Text style={styles.textTitulo}>{t("RecordatoriosCuidador.TituloDashboard")}</Text>
+              <Image style={styles.Imagen} source={require('../../../../assets/Image/calendario.png')} />
+            </Pressable>
+          </AnimationComponent>
         </View>
       </View>
 
@@ -136,7 +139,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#52B4FA'
+    backgroundColor: '#52B4FA',
+    borderWidth: 1
   },
   Imagen: {
     width: wp('40%'),

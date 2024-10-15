@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const RegistroCuidador = () => {
+const ImagenBienvenida = () => {
     return (
         <View>
-            <Text>registroCuidador</Text>
+            <Text>ImagenBienvenida</Text>
         </View>
     )
 }
 
-export default RegistroCuidador
+export default ImagenBienvenida

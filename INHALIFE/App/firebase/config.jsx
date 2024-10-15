@@ -5,6 +5,7 @@ import {
   getReactNativePersistence,
 } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -23,8 +24,6 @@ const firebaseConfig = {
   measurementId: process.env.EXPO_PUBLIC_MEASUREMENTID
 }
 
-
-
 export const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and get a reference to the service
@@ -36,3 +35,4 @@ export const FIREBASE_AUTH = initializeAuth(app, {
 });
 
 export const FIRESTORE_DB = getFirestore(app)
+export const FIREBASE_STORAGE = getStorage(app)

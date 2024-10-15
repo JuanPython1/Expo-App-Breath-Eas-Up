@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet, Image, Animated, BackHandler } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { obtenerImagen } from '../../../services/storage';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
-
 import { useTranslation } from 'react-i18next';
 
 const BienvenidaPaciente = ({ navigation }) => {
@@ -63,6 +63,21 @@ const BienvenidaPaciente = ({ navigation }) => {
     return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
   }, [navigation]);
 
+  const [imagenBienvenida, setimagenBienvenida] = useState(null);
+
+  useEffect(() => {
+
+    const unsubscribe = onSnapshot(doc(FIRESTORE_DB, 'UsuariosPacientes', FIREBASE_AUTH.currentUser.uid), (doc) => {
+      const imagen = doc.data().imagenBienvenida;
+      setimagenBienvenida(imagen);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+
+  }, [])
+
   console.log(userData);
 
   return (
@@ -72,7 +87,8 @@ const BienvenidaPaciente = ({ navigation }) => {
           {t('Bienvenida')}
           {`${userData.nombreUsuario}`}
         </Animated.Text>
-        <Image source={require('../../../../assets/Image/perro.png')} style={styles.imagenPerro} />
+
+        <Image source={{ uri: imagenBienvenida }} style={styles.imagenPerro} />
       </View>
     </View>
   );
@@ -101,7 +117,6 @@ const styles = StyleSheet.create({
     width: wp('55%'),
     height: hp('40%'),
     top: hp('6%'),
-    left: wp('18%'),
     marginVertical: hp('3%')
   }
 });

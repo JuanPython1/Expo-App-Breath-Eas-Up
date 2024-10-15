@@ -101,6 +101,11 @@ const DashboardPaciente = ({ navigation }) => {
     }
   };
 
+  const enviarPersonalizar = () => {
+    setModalVisible(false);
+    navigation.navigate('PersonalizarPaciente');
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* ------------------------HEADER---------------------- */}
@@ -145,6 +150,7 @@ const DashboardPaciente = ({ navigation }) => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         cerrarSession={handleSignOut}
+        enviarPersonalizar={enviarPersonalizar}
         color={'#94E4FF'}
         colorFondo={'#3498DB'}
       />

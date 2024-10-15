@@ -4,10 +4,9 @@ import { Modal, View, Text, TouchableHighlight, StyleSheet } from 'react-native'
 import Off from 'react-native-vector-icons/AntDesign';
 import IconAtras from 'react-native-vector-icons/Ionicons';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import BotonPersonalizacion from './BotonPersonalizacion';
 import { useTranslation } from 'react-i18next';
 
-const ModalCerrarCuenta = ({ modalVisible, setModalVisible, cerrarSession, enviarPersonalizar, color, colorFondo }) => {
+const ModalCerrarCuenta = ({ modalVisible, setModalVisible, cerrarSession, color, colorFondo }) => {
 
   const { t } = useTranslation();
 
@@ -70,12 +69,6 @@ const ModalCerrarCuenta = ({ modalVisible, setModalVisible, cerrarSession, envia
       }}
     >
       <View style={styles.modalView}>
-
-
-        {/* Aqui ira el boton de personalizacion del muñeco de la pantalla */}
-        <BotonPersonalizacion props={{ estilo: styles.BotonEditar, funcion: enviarPersonalizar }} />
-
-
 
         <Text style={styles.modalText}>{t("CerrarSesion")}</Text>
 
