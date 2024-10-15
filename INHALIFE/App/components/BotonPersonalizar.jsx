@@ -3,8 +3,11 @@ import React from 'react'
 import FolderImage from 'react-native-vector-icons/Entypo'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import AnimationComponent from '../components/AnimationComponent';
+import { useTranslation } from 'react-i18next';
 
 const BotonPersonalizar = ({ props }) => {
+
+    const { t } = useTranslation();
 
     const { funcion } = props;
 
@@ -26,7 +29,7 @@ const BotonPersonalizar = ({ props }) => {
     return (
         <AnimationComponent>
             <Pressable style={styles.container} onPress={funcion}>
-                <Text style={styles.text}>Cambiar imagen de bienvenida</Text>
+                <Text style={styles.text}>{t("PersonalizarPaciente.BotonCambiarImagenBienvenida")}</Text>
                 <FolderImage name='folder-images' size={20} color='black' />
             </Pressable>
         </AnimationComponent>
