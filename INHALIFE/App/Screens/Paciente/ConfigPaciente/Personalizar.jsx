@@ -10,6 +10,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import { updateDoc, doc } from 'firebase/firestore';
 import AnimacionRotar from '../../../components/AnimacionRotar';
+import { useTranslation } from 'react-i18next';
 
 
 const Personalizar = ({ navigation }) => {
@@ -17,6 +18,8 @@ const Personalizar = ({ navigation }) => {
     const uidUser = FIREBASE_AUTH.currentUser.uid;
     const [imageElegida, setImageElegida] = useState(null);
     const [imagenGuardada, setImagenGuardada] = useState(null);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
 
@@ -65,10 +68,10 @@ const Personalizar = ({ navigation }) => {
             });
 
             setImageElegida(null);
-            Alert.alert('Éxito', 'Imagen cargada correctamente');
+            Alert.alert(t('PersonalizarPaciente.Exito'), t('PersonalizarPaciente.ImagenCorrecta'));
         }
         else {
-            Alert.alert('Error', 'No se ha elegido ninguna imagen');
+            Alert.alert(t('PersonalizarPaciente.Aviso'), t('PersonalizarPaciente.ImagenAviso'));
         }
     }
 
@@ -94,7 +97,7 @@ const Personalizar = ({ navigation }) => {
                 </Pressable>
 
 
-                <Text style={styles.TituloPrevisualizacion}>Previsualización</Text>
+                <Text style={styles.TituloPrevisualizacion}>{t('PersonalizarPaciente.PrevisualizarImagen')}</Text>
 
                 <PrevisualizacionBienvenida props={imageElegida ? { uri: imageElegida } : { uri: imagenGuardada }} />
 

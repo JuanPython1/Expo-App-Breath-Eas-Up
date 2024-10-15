@@ -1,15 +1,34 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next';
+import { FIRESTORE_DB, FIREBASE_AUTH } from '../firebase/config';
+import { getDoc, doc, onSnapshot } from 'firebase/firestore';
+import { use } from 'i18next';
 
 const PrevisualizacionBienvenida = ({ props }) => {
-
+    const { t } = useTranslation();
     const imagen = props;
+
+    const [userData, setUserData] = useState('');
+
+    useEffect(() => {
+
+        const getUserData = onSnapshot(doc(FIRESTORE_DB, 'UsuariosPacientes', FIREBASE_AUTH.currentUser.uid), (doc) => {
+            setUserData(doc.data());
+        });
+
+        return () => {
+            getUserData();
+        };
+
+    }, [])
+
 
     return (
         <View style={styles.container}>
 
-            <Text style={styles.tituloNombre}>{"Bienvenid@ \n *Nombre*"}</Text>
+            <Text style={styles.tituloNombre}>{`${t("PersonalizarPaciente.Bienvenid@")} \n ${userData.nombreUsuario}`}</Text>
 
             <Image source={imagen} style={styles.imagenBienvenida} />
         </View>

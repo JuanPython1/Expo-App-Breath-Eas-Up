@@ -90,6 +90,16 @@
   },
   "CerrarSesion": "LOG OUT",
 
+  "PersonalizarPaciente": {
+    "BotonCambiarImagenBienvenida" : "Change image of welcome",
+    "PrevisualizarImagen" : "Preview",
+    "Bienvenid@" : "Welcome",
+    "Aviso" : "Warning",
+    "Exito" : "Success",
+    "ImagenCorrecta" : "Image loaded correctly",
+    "ImagenAviso" : "You haven't selected any image"
+  },
+
   "RegistroDosis": {
     "BienvenidaRegistro": "WELCOME\nREGISTER YOUR DOSE",
     "EligeTuMedicamento": {
