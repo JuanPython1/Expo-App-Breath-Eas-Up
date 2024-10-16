@@ -29,7 +29,7 @@ const BotonPersonalizar = ({ props }) => {
     return (
         <AnimationComponent>
             <Pressable style={styles.container} onPress={funcion}>
-                <Text style={styles.text}>{t("PersonalizarPaciente.BotonCambiarImagenBienvenida")}</Text>
+                <Text style={styles.text}>{t("Personalizar.BotonCambiarImagenBienvenida")}</Text>
                 <FolderImage name='folder-images' size={20} color='black' />
             </Pressable>
         </AnimationComponent>

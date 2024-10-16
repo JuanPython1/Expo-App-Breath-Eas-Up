@@ -35,6 +35,11 @@ const DashboardCuidador = ({ navigation }) => {
     }, [])
   );
 
+  const enviarPersonalizar = () => {
+    setModalVisible(false);
+    navigation.navigate('PersonalizarCuidador');
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* ------------------------HEADER---------------------- */}
@@ -65,6 +70,7 @@ const DashboardCuidador = ({ navigation }) => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         cerrarSession={handleSignOut}
+        enviarPersonalizar={enviarPersonalizar}
         color={'#52B4FA'}
         colorFondo={'#AADBFF'}
       />

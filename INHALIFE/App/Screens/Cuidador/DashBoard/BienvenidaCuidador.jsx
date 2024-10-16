@@ -54,7 +54,7 @@ const BienvenidaCuidador = ({ navigation }) => {
           {t('Bienvenida')}
           {userData.nombreUsuario}
         </Animated.Text>
-        <Image source={require('../../../../assets/Image/dino.png')} style={styles.imagenDino} />
+        <Image source={{ uri: userData.imagenBienvenida }} style={styles.imagenDino} />
       </View>
     </View>
   );

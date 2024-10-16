@@ -90,7 +90,7 @@
   },
   "CerrarSesion": "LOG OUT",
 
-  "PersonalizarPaciente": {
+  "Personalizar": {
     "BotonCambiarImagenBienvenida" : "Change image of welcome",
     "PrevisualizarImagen" : "Preview",
     "Bienvenid@" : "WELCOME",

@@ -5,7 +5,9 @@ import {
 } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
+import { Asset } from 'expo-asset';
+import { cargarImagen, obtenerImagen } from '../../services/storage';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
 
 import { useTranslation } from "react-i18next";
@@ -72,6 +74,26 @@ const RegistroCuidadores = ({ navigation }) => {
         return usernames.includes(username);
     };
 
+    const avatarNew = async () => {
+        const querySnapshot = await getDocs(collection(firestore, 'UsuariosCuidadores'));
+
+        const uid = querySnapshot.docs[querySnapshot.docs.length - 1].id;
+
+        const DinoImagenLocal = require('../../../assets/Image/dino.png');
+
+        const localImage = Asset.fromModule(DinoImagenLocal);
+        await localImage.downloadAsync();
+        const dinoImagen = localImage.localUri;
+
+
+        await cargarImagen(dinoImagen, `Users/Cuidador/${uid}/Bienvenida`);
+
+        const imagen = await obtenerImagen(`Users/Cuidador/${uid}/Bienvenida`);
+
+        updateDoc(doc(FIRESTORE_DB, 'UsuariosCuidadores', uid), { imagenBienvenida: imagen });
+    }
+
+
     const signUp = async () => {
         setLoading(true);
         try {
@@ -105,6 +127,8 @@ const RegistroCuidadores = ({ navigation }) => {
                 apellido: apellidos,
                 rol: 'Cuidador'
             });
+
+            avatarNew();
 
             setLoading(false);
             // No hay redirección o inicio de sesión automático después del registro

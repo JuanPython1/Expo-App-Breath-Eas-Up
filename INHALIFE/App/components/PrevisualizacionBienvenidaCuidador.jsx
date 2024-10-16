@@ -3,9 +3,10 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next';
 import { FIRESTORE_DB, FIREBASE_AUTH } from '../firebase/config';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { getDoc, doc, onSnapshot } from 'firebase/firestore';
+import { use } from 'i18next';
 
-const PrevisualizacionBienvenida = ({ props }) => {
+const PrevisualizacionBienvenidaCuidador = ({ props }) => {
     const { t } = useTranslation();
     const imagen = props;
 
@@ -13,7 +14,7 @@ const PrevisualizacionBienvenida = ({ props }) => {
 
     useEffect(() => {
 
-        const getUserData = onSnapshot(doc(FIRESTORE_DB, 'UsuariosPacientes', FIREBASE_AUTH.currentUser.uid), (doc) => {
+        const getUserData = onSnapshot(doc(FIRESTORE_DB, 'UsuariosCuidadores', FIREBASE_AUTH.currentUser.uid), (doc) => {
             setUserData(doc.data());
         });
 
@@ -34,7 +35,7 @@ const PrevisualizacionBienvenida = ({ props }) => {
     )
 }
 
-export default PrevisualizacionBienvenida
+export default PrevisualizacionBienvenidaCuidador
 
 const styles = StyleSheet.create({
 
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: wp('72%'),
         height: hp('53%'),
-        backgroundColor: '#3498DB',
+        backgroundColor: '#AADBFF',
         alignItems: 'center',
     },
     tituloNombre: {

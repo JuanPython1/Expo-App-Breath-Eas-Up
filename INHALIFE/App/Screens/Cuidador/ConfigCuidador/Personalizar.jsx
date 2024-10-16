@@ -4,13 +4,13 @@ import React, { useEffect, useState } from 'react'
 import BotonPersonalizar from '../../../components/BotonPersonalizar';
 import Pincel from 'react-native-vector-icons/Octicons'
 import Guardar from 'react-native-vector-icons/Feather'
-import PrevisualizacionBienvenida from '../../../components/PrevisualizacionBienvenida';
 import { cargarImagen, obtenerImagen } from '../../../services/storage';
 import * as ImagePicker from 'expo-image-picker';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import { updateDoc, doc } from 'firebase/firestore';
 import AnimacionRotar from '../../../components/AnimacionRotar';
 import { useTranslation } from 'react-i18next';
+import PrevisualizacionBienvenidaCuidador from '../../../components/PrevisualizacionBienvenidaCuidador';
 
 
 const Personalizar = ({ navigation }) => {
@@ -26,7 +26,7 @@ const Personalizar = ({ navigation }) => {
         const inicializarImagen = async () => {
 
             try {
-                const imagen = await obtenerImagen(`Users/Paciente/${uidUser}/Bienvenida`);
+                const imagen = await obtenerImagen(`Users/Cuidador/${uidUser}/Bienvenida`);
                 setImagenGuardada(imagen);
                 console.log('obteniendo imagen Imagen: ', imagen);
             } catch (error) {
@@ -60,10 +60,10 @@ const Personalizar = ({ navigation }) => {
     const handleImagen = async () => {
 
         if (imageElegida) {
-            await cargarImagen(imageElegida, `Users/Paciente/${uidUser}/Bienvenida`);
-            const imagen = await obtenerImagen(`Users/Paciente/${uidUser}/Bienvenida`);
+            await cargarImagen(imageElegida, `Users/Cuidador/${uidUser}/Bienvenida`);
+            const imagen = await obtenerImagen(`Users/Cuidador/${uidUser}/Bienvenida`);
 
-            updateDoc(doc(FIRESTORE_DB, 'UsuariosPacientes', uidUser), {
+            updateDoc(doc(FIRESTORE_DB, 'UsuariosCuidadores', uidUser), {
                 imagenBienvenida: imagen
             });
 
@@ -79,7 +79,7 @@ const Personalizar = ({ navigation }) => {
         <SafeAreaView style={styles.container}>
 
             <View style={styles.header}>
-                <Pressable style={styles.contenedorAtras} onPress={() => { navigation.navigate('DashboardPaciente'); }}>
+                <Pressable style={styles.contenedorAtras} onPress={() => { navigation.navigate('DashboardCuidador'); }}>
                     <Image style={styles.iconAtras} source={require('../../../../assets/Image/Flechaatras.png')} />
                 </Pressable>
             </View>
@@ -99,7 +99,7 @@ const Personalizar = ({ navigation }) => {
 
                 <Text style={styles.TituloPrevisualizacion}>{t('Personalizar.PrevisualizarImagen')}</Text>
 
-                <PrevisualizacionBienvenida props={imageElegida ? { uri: imageElegida } : { uri: imagenGuardada }} />
+                <PrevisualizacionBienvenidaCuidador props={imageElegida ? { uri: imageElegida } : { uri: imagenGuardada }} />
 
             </View>
 
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     },
     body: {
         height: hp('90%'),
-        backgroundColor: '#94E4FF',
+        backgroundColor: '#AADBFF',
         alignItems: 'center',
     },
     PincelPortada: {

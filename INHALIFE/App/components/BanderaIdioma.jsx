@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     },
 
     bandera: {
-        width: 50,
-        height: 70,
+        width: wp('13%'),
+        height: hp('7%'),
     }
 
 }) 

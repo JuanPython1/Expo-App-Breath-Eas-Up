@@ -12,6 +12,7 @@ import OlvidoContraseÃ±aCuidador from '../Screens/Cuidador/Login/OlvidoContraseÃ
 import DashboardCuidador from '../Screens/Cuidador/DashBoard/DashboardCuidador'
 import RecordatorioDosisCompartidos from '../Screens/Cuidador/DashBoard/RecordatoriosDosisCompartidos'
 import BienvenidaCuidador from '../Screens/Cuidador/DashBoard/BienvenidaCuidador'
+import PersonalizarCuidador from '../Screens/Cuidador/ConfigCuidador/Personalizar';
 
 //InfoCompartido
 import InfoRecordatorioDosisCompartida from '../Screens/Cuidador/DashBoard/InfoRecordatorioDosisCompartida';
@@ -33,6 +34,7 @@ const CuidadorNavigator = () => {
             <StackCuidador.Screen name='DashboardCuidador' component={DashboardCuidador} options={{ headerShown: false }} />
             <StackCuidador.Screen name='RecordatorioDosisCompartidos' component={RecordatorioDosisCompartidos} options={{ headerShown: false }} />
             <StackCuidador.Screen name='BienvenidaCuidador' component={BienvenidaCuidador} options={{ headerShown: false }} />
+            <StackCuidador.Screen name='PersonalizarCuidador' component={PersonalizarCuidador} options={{ headerShown: false }} />
 
             {/* Dashboard Cuidador */}
             <StackCuidador.Screen name='InfoRecordatorioDosisCompartida' component={InfoRecordatorioDosisCompartida} options={{ headerShown: false }} />
