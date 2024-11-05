@@ -1,8 +1,8 @@
-import { View, Text, Pressable, StyleSheet, Image } from 'react-native'
-import React from 'react'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import React from 'react';
 import { useTranslation } from "react-i18next";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { Image, Pressable, StyleSheet } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 
 
@@ -32,8 +32,8 @@ const styles = StyleSheet.create({
     },
 
     bandera: {
-        width: wp('13%'),
-        height: hp('7%'),
+        width: wp('12%'),
+        height: hp('6%'),
     }
 
 }) 
