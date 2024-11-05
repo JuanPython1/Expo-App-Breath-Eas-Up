@@ -1,14 +1,14 @@
-import { View, Text, SafeAreaView, StyleSheet, Image, StatusBar, ScrollView, Pressable } from 'react-native'
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import BotonRol from '../components/BotonRol';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
 
 import BanderaIdioma from '../components/BanderaIdioma';
-import BotonDesplegableIdioma from '../components/DesplegableIdioma'
+import BotonDesplegableIdioma from '../components/DesplegableIdioma';
 const Rol = ({ navigation }) => {
 
   const { t, i18n } = useTranslation();
@@ -48,8 +48,9 @@ const Rol = ({ navigation }) => {
       <ScrollView>
         <View style={styles.ContenedorHeader}>
           <Image style={styles.niña} source={require('../../assets/Image/Niña.png')} resizeMode='contain' />
-
-          <BotonDesplegableIdioma props={botondesplegable} />
+          <View style={styles.ContenedorBandera}>
+            <BotonDesplegableIdioma props={botondesplegable} />
+          </View>
         </View>
 
 
@@ -96,13 +97,15 @@ const styles = StyleSheet.create({
   ContenedorHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
   },
 
   niña: {
-    // left: wp('5%'),
+    left: wp('5%'),
     width: wp('37.5%'),
     height: hp('20%'),
+  },
+  ContenedorBandera: {
+    left: wp('28%'),
   },
   niño: {
     width: wp('37.5%'),
