@@ -1,9 +1,12 @@
-import React, { useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, Animated, TouchableWithoutFeedback } from 'react-native';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Animated, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 const DesplegableIdioma = ({ props }) => {
     const { idiomaDefault } = props;
+
+    const { t } = useTranslation();
 
     // Creación de valores animados
     const scaleAnim = useRef(new Animated.Value(1)).current; // Para la interacción
@@ -56,7 +59,8 @@ const DesplegableIdioma = ({ props }) => {
                     { transform: [{ scale: Animated.multiply(scaleAnim, pulseAnim) }] } // Combina ambas animaciones
                 ]}
             >
-                <Text>{idiomaDefault}</Text>
+                <Text style={styles.TextIdioma}>{t("Rol.Idioma")}</Text>
+                {idiomaDefault}
             </Animated.View>
         </TouchableWithoutFeedback>
     );
@@ -65,9 +69,13 @@ const DesplegableIdioma = ({ props }) => {
 export default DesplegableIdioma;
 
 const styles = StyleSheet.create({
+    TextIdioma: {
+        fontFamily: 'Play-fair-Display',
+        textAlign: 'center',
+    },
     containerBoton: {
-        width: wp('18%'),
-        height: hp('7%'),
+        width: wp('25%'),
+        height: hp('12%'),
         zIndex: 2,
         borderRadius: 20,
         borderColor: '#94E4FF',

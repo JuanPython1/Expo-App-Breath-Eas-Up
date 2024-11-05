@@ -1,6 +1,7 @@
 {
   "loadingGlobal": "INITIALIZING INHALIFE...",
   "Rol": {
+    "Idioma" : "LANGUAGE",
     "EligeRol": "SELECT YOUR ROLE",
     "Paciente": "PATIENT",
     "O": "OR",
