@@ -1,9 +1,9 @@
-import { View, Text, StyleSheet, Pressable, TextInput, Modal } from 'react-native'
-import React, { useState } from 'react'
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
-import { FIREBASE_AUTH } from '../../../firebase/config'
 import { sendPasswordResetEmail } from 'firebase/auth';
+import React, { useState } from 'react';
 import { useTranslation } from "react-i18next";
+import { Modal, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { FIREBASE_AUTH } from '../../../firebase/config';
 
 const OlvidoContraseñaPaciente = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -58,7 +58,7 @@ const OlvidoContraseñaPaciente = ({ navigation }) => {
 
       <View style={styles.header}>
         <View style={styles.ContenedorTitulo} >
-          <Text style={styles.Titulo}>INHALIFE</Text>
+          <Text style={styles.Titulo}>{t("APP")}</Text>
         </View>
       </View>
 

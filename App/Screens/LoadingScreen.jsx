@@ -1,11 +1,9 @@
-import { View, Text, ActivityIndicator } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 
-import { t } from "i18next"
+import { t } from "i18next";
 
 
 function LoadingScreen() {
-
-
 
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

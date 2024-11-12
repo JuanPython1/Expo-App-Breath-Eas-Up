@@ -1,10 +1,10 @@
-import { View, Text, SafeAreaView, StyleSheet, Pressable, Image, BackHandler } from 'react-native';
-import React, { useState, useCallback } from 'react';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
+import { BackHandler, Image, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Menu from 'react-native-vector-icons/MaterialCommunityIcons';
-import ModalCerrarCuentaAdmin from '../../components/ModalCerrarCuentaAdmin';
 import AnimationComponent from '../../components/AnimationComponent';
+import ModalCerrarCuentaAdmin from '../../components/ModalCerrarCuentaAdmin';
 import { FIREBASE_AUTH } from '../../firebase/config';
 
 import { useTranslation } from 'react-i18next';
@@ -47,7 +47,7 @@ const DashboardAdmin = ({ navigation }) => {
             {/* ------------------------BODY---------------------- */}
             <View style={styles.body}>
                 <View style={styles.ContenedorTitulo}>
-                    <Text style={styles.Titulo}>INHALIFE</Text>
+                    <Text style={styles.Titulo}>{t("APP")}</Text>
                 </View>
 
                 <View style={styles.fila2}>

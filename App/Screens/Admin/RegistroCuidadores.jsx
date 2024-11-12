@@ -1,14 +1,23 @@
-import React, { useState, useRef } from 'react';
+import { Asset } from 'expo-asset';
+import { collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
+import React, { useRef, useState } from 'react';
 import {
-    View, Text, Pressable, Image, StyleSheet, TextInput, Button, KeyboardAvoidingView,
-    SafeAreaView, Platform, ScrollView, ActivityIndicator, Modal, Alert
+    ActivityIndicator,
+    Image,
+    KeyboardAvoidingView,
+    Modal,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    View
 } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
-import { collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
-import { Asset } from 'expo-asset';
-import { cargarImagen, obtenerImagen } from '../../services/storage';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
+import { cargarImagen, obtenerImagen } from '../../services/storage';
 
 import { useTranslation } from "react-i18next";
 
@@ -228,7 +237,7 @@ const RegistroCuidadores = ({ navigation }) => {
                         onSubmitEditing={() => correoRef.current.focus()}
                         blurOnSubmit={false}
                     />
-                    <Text style={styles.label}>Correo</Text>
+                    <Text style={styles.label}>{t("RegistroCuidador.Correo")}</Text>
 
                     <TextInput
                         ref={correoRef}

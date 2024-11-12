@@ -1,5 +1,6 @@
 {
-  "loadingGlobal": "INITIALIZING INHALIFE...",
+  "APP": "BreathEaseUp",
+  "loadingGlobal": "INITIALIZING BreathEaseUp...",
   "Rol": {
     "Idioma" : "LANGUAGE",
     "EligeRol": "SELECT YOUR ROLE",
@@ -173,7 +174,7 @@
       "Dia": "Day",
       "Dosis": "Dose",
       "Fecha": "Date",
-      "MsjDosisRegistrada": "I'm waiting for you to register your next daily dose or else INHALIFE will remind you ;)",
+      "MsjDosisRegistrada": "I'm waiting for you to register your next daily dose or else BreathEaseUp will remind you ;)",
       "BotonSiguienteDia": "Next Day"
     },
     "ModalTablaRecordatorio": {

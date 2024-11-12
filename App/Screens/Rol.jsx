@@ -55,7 +55,7 @@ const Rol = ({ navigation }) => {
 
 
         <View style={styles.ContenedorTitulo} >
-          <Text style={styles.Titulo}>INHALIFE</Text>
+          <Text style={styles.Titulo}>{t("APP")}</Text>
         </View>
 
 

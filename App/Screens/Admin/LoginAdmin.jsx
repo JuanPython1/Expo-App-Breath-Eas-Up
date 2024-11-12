@@ -1,14 +1,22 @@
-import React, { useState, useRef } from 'react';
-import {
-    View, Text, SafeAreaView, StyleSheet, StatusBar, Image, KeyboardAvoidingView, Pressable,
-    TextInput, Dimensions, TouchableOpacity, ActivityIndicator, Platform, ScrollView
-} from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
+import React, { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import {
+    ActivityIndicator,
+    Image, KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    View
+} from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { useTranslation } from 'react-i18next'
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
 
 const LoginAdmin = ({ navigation }) => {
     const [email, setEmail] = useState('');
@@ -57,7 +65,7 @@ const LoginAdmin = ({ navigation }) => {
                     </Pressable>
 
                     <View style={styles.ContenedorTitulo}>
-                        <Text style={styles.Titulo}>INHALIFE</Text>
+                        <Text style={styles.Titulo}>{t("APP")}</Text>
                     </View>
 
                     <View style={styles.ContenedorBienvenida}>

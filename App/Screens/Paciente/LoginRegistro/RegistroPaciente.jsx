@@ -1,14 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ScrollView, StyleSheet, TextInput, ActivityIndicator, Pressable, KeyboardAvoidingView, Modal, Platform } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Asset } from 'expo-asset';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
-import { MaterialIcons } from '@expo/vector-icons';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from "react-i18next";
+import { ActivityIndicator, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import { cargarImagen, obtenerImagen } from '../../../services/storage';
-import { Asset } from 'expo-asset';
-import ImagenBienvenida from '../../../components/ImagenBienvenida';
 
 const RegistroPaciente = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -154,7 +153,7 @@ const RegistroPaciente = ({ navigation }) => {
     <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={Platform.select({ ios: 0, android: 35 })}>
       <ScrollView keyboardShouldPersistTaps='handled'>
         <View style={styles.ContenedorTitulo}>
-          <Text style={styles.Titulo}>INHALIFE</Text>
+          <Text style={styles.Titulo}>{t("APP")}</Text>
         </View>
         <View style={styles.ContenedorInputs}>
           <TextInput

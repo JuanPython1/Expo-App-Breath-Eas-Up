@@ -1,16 +1,19 @@
+import { useFocusEffect } from '@react-navigation/native';
+import * as Notifications from 'expo-notifications';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import React, { useCallback, useState } from 'react';
 import {
-  View, Text, SafeAreaView, StyleSheet,
-  Pressable, Image, Modal, TouchableHighlight, BackHandler
+  BackHandler,
+  Pressable,
+  SafeAreaView, StyleSheet,
+  Text,
+  View
 } from 'react-native';
-import React, { useEffect, useState, useCallback } from 'react';
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Menu from 'react-native-vector-icons/MaterialCommunityIcons';
 import BotonDashBoardPaciente from '../../../components/BotonDashBoardPaciente';
 import ModalCerrarCuenta from '../../../components/ModalCerrarCuenta';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
-import { useFocusEffect } from '@react-navigation/native';
-import * as Notifications from 'expo-notifications';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
 
 import { useTranslation } from 'react-i18next';
 
@@ -118,7 +121,7 @@ const DashboardPaciente = ({ navigation }) => {
       {/* ------------------------BODY---------------------- */}
       <View style={styles.body}>
         <View style={styles.ContenedorTitulo}>
-          <Text style={styles.Titulo}>INHALIFE</Text>
+          <Text style={styles.Titulo}>{t("APP")}</Text>
         </View>
 
         <View style={styles.fila1}>
