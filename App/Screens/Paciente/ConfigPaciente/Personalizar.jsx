@@ -1,16 +1,16 @@
-import { View, Text, SafeAreaView, StyleSheet, Pressable, Image, Alert } from 'react-native'
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import React, { useEffect, useState } from 'react'
-import BotonPersonalizar from '../../../components/BotonPersonalizar';
-import Pincel from 'react-native-vector-icons/Octicons'
-import Guardar from 'react-native-vector-icons/Feather'
-import PrevisualizacionBienvenida from '../../../components/PrevisualizacionBienvenida';
-import { cargarImagen, obtenerImagen } from '../../../services/storage';
 import * as ImagePicker from 'expo-image-picker';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
-import { updateDoc, doc } from 'firebase/firestore';
-import AnimacionRotar from '../../../components/AnimacionRotar';
+import { doc, updateDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Alert, Image, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import Guardar from 'react-native-vector-icons/Feather';
+import Pincel from 'react-native-vector-icons/Octicons';
+import AnimacionRotar from '../../../components/AnimacionRotar';
+import BotonPersonalizar from '../../../components/BotonPersonalizar';
+import PrevisualizacionBienvenida from '../../../components/PrevisualizacionBienvenida';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
+import { cargarImagen, obtenerImagen } from '../../../services/storage';
 
 
 const Personalizar = ({ navigation }) => {
@@ -37,7 +37,7 @@ const Personalizar = ({ navigation }) => {
         inicializarImagen();
 
 
-    })
+    }, [imagenGuardada])
 
 
 
@@ -68,6 +68,7 @@ const Personalizar = ({ navigation }) => {
             });
 
             setImageElegida(null);
+            setImagenGuardada(null);
             Alert.alert(t('Personalizar.Exito'), t('Personalizar.ImagenCorrecta'));
         }
         else {
@@ -136,7 +137,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     PincelPortada: {
-        marginTop: hp('7%'),
+        marginTop: hp('6%'),
         marginBottom: hp('3%'),
     },
     GuardarPortada: {

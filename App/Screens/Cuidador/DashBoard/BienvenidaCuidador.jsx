@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Image, Animated } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { doc, getDoc } from 'firebase/firestore';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, Image, StyleSheet, View } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 
 import { t } from 'i18next';
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   imagenDino: {
     width: wp('55%'),
-    height: hp('40%'),
+    height: hp('42%'),
     top: hp('6%'),
     marginVertical: hp('3%')
   }

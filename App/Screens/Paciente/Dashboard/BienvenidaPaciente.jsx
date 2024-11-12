@@ -1,10 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet, Image, Animated, BackHandler } from 'react-native';
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
-import { obtenerImagen } from '../../../services/storage';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Animated, BackHandler, Image, StyleSheet, View } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 
 const BienvenidaPaciente = ({ navigation }) => {
   const [userData, setUserData] = useState('');
@@ -115,7 +114,7 @@ const styles = StyleSheet.create({
   },
   imagenPerro: {
     width: wp('55%'),
-    height: hp('40%'),
+    height: hp('42%'),
     top: hp('6%'),
     marginVertical: hp('3%')
   }
