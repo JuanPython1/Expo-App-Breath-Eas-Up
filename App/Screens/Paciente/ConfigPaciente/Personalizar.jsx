@@ -1,13 +1,12 @@
-import * as ImagePicker from 'expo-image-picker';
 import { doc, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Image, Pressable, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import Guardar from 'react-native-vector-icons/Feather';
 import Pincel from 'react-native-vector-icons/Octicons';
 import AnimacionRotar from '../../../components/AnimacionRotar';
-import BotonPersonalizar from '../../../components/BotonPersonalizar';
+import MatrixImagenes from '../../../components/MatrixImagenes';
 import PrevisualizacionBienvenida from '../../../components/PrevisualizacionBienvenida';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import { cargarImagen, obtenerImagen } from '../../../services/storage';
@@ -42,20 +41,7 @@ const Personalizar = ({ navigation }) => {
 
 
 
-    const elegirImagen = async () => {
-        let res = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            aspect: [2, 3],
-            allowsEditing: true,
 
-        })
-
-        console.log(res);
-
-        if (!res.canceled) {
-            setImageElegida(res.assets[0].uri);
-        }
-    }
 
     const handleImagen = async () => {
 
@@ -85,25 +71,32 @@ const Personalizar = ({ navigation }) => {
                 </Pressable>
             </View>
 
-            <View style={styles.body}>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
 
-                <AnimacionRotar>
-                    <Guardar name='save' size={wp('10%')} color='black' style={styles.GuardarPortada} onPress={handleImagen} />
-                </AnimacionRotar>
+                <View style={styles.body}>
 
-                <Pincel name='paintbrush' size={wp('15%')} color='black' style={styles.PincelPortada} />
-
-                <Pressable>
-                    <BotonPersonalizar props={{ funcion: elegirImagen }} />
-                </Pressable>
+                    <AnimacionRotar>
+                        <Guardar name='save' size={wp('10%')} color='black' style={styles.GuardarPortada} onPress={handleImagen} />
+                    </AnimacionRotar>
 
 
-                <Text style={styles.TituloPrevisualizacion}>{t('Personalizar.PrevisualizarImagen')}</Text>
 
-                <PrevisualizacionBienvenida props={imageElegida ? { uri: imageElegida } : { uri: imagenGuardada }} />
+                    <Pincel name='paintbrush' size={wp('15%')} color='black' style={styles.PincelPortada} />
 
-            </View>
 
+
+                    <Text style={styles.TituloPrevisualizacion}>{t('Personalizar.PrevisualizarImagen')}</Text>
+
+                    <PrevisualizacionBienvenida props={imageElegida ? { uri: imageElegida } : { uri: imagenGuardada }} />
+
+                    <View style={styles.matrix}>
+                        <MatrixImagenes setImagen={setImageElegida} />
+                    </View>
+
+
+                </View>
+
+            </ScrollView>
 
         </SafeAreaView>
     )
@@ -131,11 +124,7 @@ const styles = StyleSheet.create({
         width: wp('10%'),
         height: hp('2.5%'),
     },
-    body: {
-        height: hp('90%'),
-        backgroundColor: '#94E4FF',
-        alignItems: 'center',
-    },
+    scrollContainer: { flexGrow: 1, }, body: { flex: 1, backgroundColor: '#94E4FF', alignItems: 'center', paddingVertical: hp('2%'), },
     PincelPortada: {
         marginTop: hp('6%'),
         marginBottom: hp('3%'),
@@ -150,6 +139,10 @@ const styles = StyleSheet.create({
         fontSize: hp('3%'),
         marginVertical: hp('2%'),
         color: 'black',
-    }
+    },
+    matrix: {
+        marginVertical: wp('9%'),
+    },
+
 
 })
