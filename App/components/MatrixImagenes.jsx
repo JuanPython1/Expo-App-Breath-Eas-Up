@@ -13,6 +13,8 @@ const MatrixImagenes = ({ setImagen }) => {
 
         <BotonImagenPersonalizada imagen={require('../../assets/Image/perro.png')} functionImagen={setImagen} />,
 
+        <BotonImagenPersonalizada imagen={require('../../assets/Image/dino.png')} functionImagen={setImagen} />,
+
         <BotonImagenPersonalizada imagen={require('../../assets/Image/imagenesMatrix/woody.png')} functionImagen={setImagen} />,
 
         <BotonImagenPersonalizada imagen={require('../../assets/Image/imagenesMatrix/goku.jpeg')} functionImagen={setImagen} />,
