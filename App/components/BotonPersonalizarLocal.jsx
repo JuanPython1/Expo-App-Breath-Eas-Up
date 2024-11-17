@@ -10,7 +10,7 @@ const BotonPersonalizar = ({ setImageElegida }) => {
 
     const elegirImagen = async () => {
         let res = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            mediaTypes: ['images'],
             aspect: [2, 3],
             allowsEditing: true,
 

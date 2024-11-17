@@ -73,11 +73,15 @@ const Personalizar = ({ navigation }) => {
 
                 <View style={styles.body}>
 
-                    <AnimacionRotar>
-                        <Guardar name='save' size={wp('10%')} color='black' style={styles.GuardarPortada} onPress={handleImagen} />
-                    </AnimacionRotar>
+                    <View style={styles.GuardarPortada}>
 
+                        <Text style={styles.TextoGuardar}>Guardar</Text>
+                        <AnimacionRotar>
 
+                            <Guardar name='save' size={wp('9%')} color='black' onPress={handleImagen} />
+                        </AnimacionRotar>
+
+                    </View>
 
                     <Pincel name='paintbrush' size={wp('15%')} color='black' style={styles.PincelPortada} />
 
@@ -134,12 +138,18 @@ const styles = StyleSheet.create({
     },
     PincelPortada: {
         marginTop: hp('6%'),
-        marginBottom: hp('3%'),
+        marginBottom: hp('2%'),
     },
     GuardarPortada: {
         position: 'absolute',
-        left: wp('33%'),
-        marginTop: hp('2.5%'),
+        alignItems: 'center',
+        right: wp('5%'),
+        marginTop: hp('2%'),
+    },
+    TextoGuardar: {
+        fontFamily: 'Play-fair-Display',
+        fontSize: hp('2%'),
+        color: 'black',
     },
     TituloPrevisualizacion: {
         fontFamily: 'Play-fair-Display',
@@ -149,6 +159,7 @@ const styles = StyleSheet.create({
     },
     matrix: {
         marginVertical: wp('9%'),
+        marginHorizontal: wp('5%'),
     },
 
 

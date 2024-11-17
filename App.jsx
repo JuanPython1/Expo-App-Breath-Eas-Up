@@ -1,7 +1,7 @@
-import { StatusBar } from 'react-native';
 import React from 'react';
+import { StatusBar } from 'react-native';
 import AppNavigator from './App/navigator/AppNavigator';
-import "./i18n"
+import "./i18n";
 
 export default function App() {
   return (

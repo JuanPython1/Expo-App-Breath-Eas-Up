@@ -1,10 +1,12 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, StyleSheet, Text, View } from 'react-native';
-import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import BotonPersonalizarLocal from "../components/BotonPersonalizarLocal";
 import BotonImagenPersonalizada from "./botonImagenPersonalizada";
 
-const NUM_COLUMNS = 5;
+
+const { t } = useTranslation();
 
 const MatrixImagenes = ({ setImagen }) => {
 
@@ -19,9 +21,11 @@ const MatrixImagenes = ({ setImagen }) => {
 
         <BotonImagenPersonalizada imagen={require('../../assets/Image/imagenesMatrix/goku.jpeg')} functionImagen={setImagen} />,
 
+        <BotonImagenPersonalizada imagen={require('../../assets/Image/imagenesMatrix/mona.jpeg')} functionImagen={setImagen} />,
+
         <BotonImagenPersonalizada imagen={require('../../assets/Image/imagenesMatrix/paisaje.jpg')} functionImagen={setImagen} />,
 
-        <BotonImagenPersonalizada imagen={require('../../assets/Image/imagenesMatrix/mona.jpeg')} functionImagen={setImagen} />,
+        <BotonImagenPersonalizada imagen={require('../../assets/Image/imagenesMatrix/maria.jpg')} functionImagen={setImagen} />,
 
     ];
 
@@ -34,14 +38,18 @@ const MatrixImagenes = ({ setImagen }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.textTitulo}>{`Selecciona una imagen \n de bienvenida`}</Text>
+            <Text style={styles.textTitulo}>{t("Personalizar.TituloMatrix")}</Text>
             <View style={styles.matrix}>
+
                 <FlatList
                     data={componentsArray}
                     renderItem={renderItem}
-                    numColumns={NUM_COLUMNS}
+                    contentContainerStyle={{ paddingBottom: hp('1%') }}
+                    horizontal={true}
+                    persistentScrollbar={true}
                     keyExtractor={(item, index) => index.toString()}
-                    scrollEnabled={false}
+                    scrollEnabled={true}
+                    scrollEventThrottle={16}
                 />
             </View>
         </View>
