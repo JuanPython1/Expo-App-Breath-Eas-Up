@@ -41,6 +41,8 @@ const Personalizar = ({ navigation }) => {
 
 
 
+
+
     const handleImagen = async () => {
 
         if (imageElegida) {
@@ -126,16 +128,7 @@ const styles = StyleSheet.create({
         width: wp('10%'),
         height: hp('2.5%'),
     },
-    scrollContainer: {
-        flexGrow: 1
-    },
-
-    body: {
-        flex: 1,
-        backgroundColor: '#94E4FF',
-        alignItems: 'center',
-        paddingVertical: hp('2%'),
-    },
+    scrollContainer: { flexGrow: 1, }, body: { flex: 1, backgroundColor: '#94E4FF', alignItems: 'center', paddingVertical: hp('2%'), },
     PincelPortada: {
         marginTop: hp('6%'),
         marginBottom: hp('2%'),
