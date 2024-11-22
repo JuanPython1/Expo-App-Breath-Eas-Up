@@ -8,8 +8,9 @@ const BotonImagenPersonalizada = ({ imagen, functionImagen }) => {
     const handleImagen = () => {
         const imagenSeleccionada = Asset.fromModule(imagen);
         imagenSeleccionada.downloadAsync();
-        const imagenUri = imagenSeleccionada.localUri;
+        const imagenUri = imagenSeleccionada.uri;
         functionImagen(imagenUri);
+
     }
 
     return (

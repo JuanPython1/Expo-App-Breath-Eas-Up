@@ -96,6 +96,7 @@
     "BotonCambiarImagenBienvenida" : "Change image of welcome",
     "PrevisualizarImagen" : "Preview",
     "Bienvenid@" : "WELCOME",
+    "TituloMatrix" :  "Select an image \n of welcome",
     "Aviso" : "Warning",
     "Exito" : "Success",
     "ImagenCorrecta" : "Image loaded correctly",

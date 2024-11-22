@@ -1,6 +1,6 @@
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Image, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Animated, Image, StyleSheet, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 
@@ -47,6 +47,24 @@ const BienvenidaCuidador = ({ navigation }) => {
     return () => clearTimeout(timeout);
   }, [navigation]);
 
+  const [imagenBienvenida, setimagenBienvenida] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+
+    const unsubscribe = onSnapshot(doc(FIRESTORE_DB, 'UsuariosCuidadores', FIREBASE_AUTH.currentUser.uid), (doc) => {
+      const imagen = doc.data().imagenBienvenida;
+      setimagenBienvenida(imagen);
+      setIsLoading(false);
+    });
+
+    return () => {
+      unsubscribe();
+      setIsLoading(true);
+    };
+
+  }, [])
+
   return (
     <View style={styles.contenedor}>
       <View style={styles.ContenedorBienvenida}>
@@ -54,7 +72,14 @@ const BienvenidaCuidador = ({ navigation }) => {
           {t('Bienvenida')}
           {userData.nombreUsuario}
         </Animated.Text>
-        <Image source={{ uri: userData.imagenBienvenida }} style={styles.imagenDino} />
+
+        {isLoading ? (
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        ) : <Image source={{ uri: imagenBienvenida }} style={styles.imagenDino} />}
+
+
       </View>
     </View>
   );

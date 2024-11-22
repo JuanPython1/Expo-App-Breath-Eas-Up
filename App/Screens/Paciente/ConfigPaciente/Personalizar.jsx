@@ -11,96 +11,91 @@ import PrevisualizacionBienvenida from '../../../components/PrevisualizacionBien
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import { cargarImagen, obtenerImagen } from '../../../services/storage';
 
-
 const Personalizar = ({ navigation }) => {
-
     const uidUser = FIREBASE_AUTH.currentUser.uid;
     const [imageElegida, setImageElegida] = useState(null);
     const [imagenGuardada, setImagenGuardada] = useState(null);
+    const [isLoading, setIsLoading] = useState(true); // Estado para indicar si está cargando la imagen
 
     const { t } = useTranslation();
 
     useEffect(() => {
-
         const inicializarImagen = async () => {
-
             try {
                 const imagen = await obtenerImagen(`Users/Paciente/${uidUser}/Bienvenida`);
                 setImagenGuardada(imagen);
-                console.log('obteniendo imagen Imagen: ', imagen);
+                setIsLoading(false);
+                console.log('Obteniendo imagen:', imagen);
             } catch (error) {
-                console.log('Error al obtener imagen: ', error);
+                console.log('Error al obtener imagen:', error);
+            } finally {
+                setIsLoading(false); // Deja de cargar cuando termine
             }
-        }
+        };
 
         inicializarImagen();
-
-
-    }, [imagenGuardada])
-
-
-
+    }, [imagenGuardada]);
 
     const handleImagen = async () => {
-
+        setIsLoading(true);
         if (imageElegida) {
             await cargarImagen(imageElegida, `Users/Paciente/${uidUser}/Bienvenida`);
             const imagen = await obtenerImagen(`Users/Paciente/${uidUser}/Bienvenida`);
 
             updateDoc(doc(FIRESTORE_DB, 'UsuariosPacientes', uidUser), {
-                imagenBienvenida: imagen
+                imagenBienvenida: imagen,
             });
 
             setImageElegida(null);
             setImagenGuardada(null);
             Alert.alert(t('Personalizar.Exito'), t('Personalizar.ImagenCorrecta'));
-        }
-        else {
+        } else {
             Alert.alert(t('Personalizar.Aviso'), t('Personalizar.ImagenAviso'));
+            setIsLoading(false);
         }
-    }
+    };
 
     return (
         <SafeAreaView style={styles.container}>
-
             <View style={styles.header}>
-                <Pressable style={styles.contenedorAtras} onPress={() => { navigation.navigate('DashboardPaciente'); }}>
+                <Pressable style={styles.contenedorAtras} onPress={() => navigation.navigate('DashboardPaciente')}>
                     <Image style={styles.iconAtras} source={require('../../../../assets/Image/Flechaatras.png')} />
                 </Pressable>
             </View>
 
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-
                 <View style={styles.body}>
 
-                    <AnimacionRotar>
-                        <Guardar name='save' size={wp('10%')} color='black' style={styles.GuardarPortada} onPress={handleImagen} />
-                    </AnimacionRotar>
 
 
-
-                    <Pincel name='paintbrush' size={wp('15%')} color='black' style={styles.PincelPortada} />
-
-
+                    <Pincel name="paintbrush" size={wp('15%')} color="black" style={styles.PincelPortada} />
 
                     <Text style={styles.TituloPrevisualizacion}>{t('Personalizar.PrevisualizarImagen')}</Text>
 
-                    <PrevisualizacionBienvenida props={imageElegida ? { uri: imageElegida } : { uri: imagenGuardada }} />
+
+                    <PrevisualizacionBienvenida
+                        imagen={imageElegida ? { uri: imageElegida } : { uri: imagenGuardada }}
+                        condicion={isLoading}
+                    />
 
                     <View style={styles.matrix}>
                         <MatrixImagenes setImagen={setImageElegida} />
                     </View>
 
+                    <AnimacionRotar>
+                        <Pressable style={styles.GuardarPortada} onPress={handleImagen}>
+                            <Guardar name='save' size={wp('9%')} color='black' />
+                        </Pressable>
+                    </AnimacionRotar>
+
 
                 </View>
-
             </ScrollView>
-
         </SafeAreaView>
-    )
-}
+    );
+};
 
-export default Personalizar
+export default Personalizar;
 
 const styles = StyleSheet.create({
     container: {
@@ -110,7 +105,7 @@ const styles = StyleSheet.create({
     header: {
         height: hp('10%'),
         backgroundColor: '#3498DB',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     contenedorAtras: {
         left: wp('5%'),
@@ -123,9 +118,8 @@ const styles = StyleSheet.create({
         height: hp('2.5%'),
     },
     scrollContainer: {
-        flexGrow: 1
+        flexGrow: 1,
     },
-
     body: {
         flex: 1,
         backgroundColor: '#94E4FF',
@@ -133,14 +127,10 @@ const styles = StyleSheet.create({
         paddingVertical: hp('2%'),
     },
     PincelPortada: {
-        marginTop: hp('6%'),
+        marginTop: hp('3%'),
         marginBottom: hp('3%'),
     },
-    GuardarPortada: {
-        position: 'absolute',
-        left: wp('33%'),
-        marginTop: hp('2.5%'),
-    },
+
     TituloPrevisualizacion: {
         fontFamily: 'Play-fair-Display',
         fontSize: hp('3%'),
@@ -148,8 +138,20 @@ const styles = StyleSheet.create({
         color: 'black',
     },
     matrix: {
-        marginVertical: wp('9%'),
+        marginTop: wp('9%'),
+        marginBottom: hp('2%'),
+        marginHorizontal: wp('5%'),
     },
 
+    GuardarPortada: {
+        width: wp('70%'),
+        height: hp('6%'),
+        borderRadius: hp('2%'),
+        borderWidth: 1,
+        backgroundColor: 'white',
+        marginBottom: hp('2%'),
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 
-})
+});
