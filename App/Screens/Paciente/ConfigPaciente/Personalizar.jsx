@@ -39,6 +39,7 @@ const Personalizar = ({ navigation }) => {
     const handleImagen = async () => {
         setIsLoading(true);
         if (imageElegida) {
+            console.log('imagen elegida: ', imageElegida);
             await cargarImagen(imageElegida, `Users/Paciente/${uidUser}/Bienvenida`);
             const imagen = await obtenerImagen(`Users/Paciente/${uidUser}/Bienvenida`);
 

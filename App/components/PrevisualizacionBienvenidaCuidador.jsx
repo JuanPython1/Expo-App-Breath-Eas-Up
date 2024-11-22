@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
     imagenBienvenida: {
         marginTop: hp('4%'),
-        width: '45%',
+        width: '50%',
         height: '48%',
     },
     loadingContainer: {

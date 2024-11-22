@@ -5,12 +5,11 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import AnimationComponent from './AnimationComponent';
 
 const BotonImagenPersonalizada = ({ imagen, functionImagen }) => {
-    const handleImagen = () => {
+    const handleImagen = async () => {
         const imagenSeleccionada = Asset.fromModule(imagen);
-        imagenSeleccionada.downloadAsync();
-        const imagenUri = imagenSeleccionada.uri;
+        await imagenSeleccionada.downloadAsync();
+        const imagenUri = imagenSeleccionada.localUri;
         functionImagen(imagenUri);
-
     }
 
     return (
