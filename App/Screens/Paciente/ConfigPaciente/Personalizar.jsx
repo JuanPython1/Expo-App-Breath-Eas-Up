@@ -15,7 +15,7 @@ const Personalizar = ({ navigation }) => {
     const uidUser = FIREBASE_AUTH.currentUser.uid;
     const [imageElegida, setImageElegida] = useState(null);
     const [imagenGuardada, setImagenGuardada] = useState(null);
-    const [isLoading, setIsLoading] = useState(true); // Estado para indicar si está cargando la imagen
+    const [isLoading, setIsLoading] = useState(true);
 
     const { t } = useTranslation();
 
@@ -25,11 +25,10 @@ const Personalizar = ({ navigation }) => {
                 const imagen = await obtenerImagen(`Users/Paciente/${uidUser}/Bienvenida`);
                 setImagenGuardada(imagen);
                 setIsLoading(false);
-                console.log('Obteniendo imagen:', imagen);
             } catch (error) {
                 console.log('Error al obtener imagen:', error);
             } finally {
-                setIsLoading(false); // Deja de cargar cuando termine
+                setIsLoading(false);
             }
         };
 
@@ -40,8 +39,11 @@ const Personalizar = ({ navigation }) => {
         setIsLoading(true);
         if (imageElegida) {
             console.log('imagen elegida: ', imageElegida);
-            await cargarImagen(imageElegida, `Users/Paciente/${uidUser}/Bienvenida`);
+            await cargarImagen(imageElegida, `Users/Paciente/${uidUser}/Bienvenida`)
+
             const imagen = await obtenerImagen(`Users/Paciente/${uidUser}/Bienvenida`);
+
+            console.log('imagen a guardar: ', imagen);
 
             updateDoc(doc(FIRESTORE_DB, 'UsuariosPacientes', uidUser), {
                 imagenBienvenida: imagen,
@@ -49,6 +51,7 @@ const Personalizar = ({ navigation }) => {
 
             setImageElegida(null);
             setImagenGuardada(null);
+
             Alert.alert(t('Personalizar.Exito'), t('Personalizar.ImagenCorrecta'));
         } else {
             Alert.alert(t('Personalizar.Aviso'), t('Personalizar.ImagenAviso'));
