@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Pressable, Image, ScrollView, Modal, TouchableOpacity } from 'react-native';
+import * as Notificaciones from 'expo-notifications';
+import * as Notifications from 'expo-notifications';
+import { deleteDoc, doc, getDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { Image, Modal, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import AtributoRecordatorioDosis from '../../../../components/AtributoRecordatorioDosis';
 import TablaRecordatorio from '../../../../components/TablaRecordatorio';
 import AtributoPuffDosis from '../../../../components/atributoPuffDosis';
-import * as Notifications from 'expo-notifications';
-import { deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
-import * as Notificaciones from 'expo-notifications';
 import { FIRESTORE_DB } from '../../../../firebase/config';
 
 import { useTranslation } from 'react-i18next';
@@ -126,7 +126,7 @@ const InfoRecordatorioDosisPaciente = ({ navigation, route }) => {
 
 
     useEffect(() => {
-        if (dosisInicial === 200) {
+        if (dosisInicial === recordatorio.TotalDosis) {
             setMostrarModal(true);
         }
     }, [dosisInicial]);

@@ -1,21 +1,25 @@
-import { Asset } from 'expo-asset';
 import React from 'react';
 import { Image, Pressable, StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import AnimationComponent from './AnimationComponent';
 
 const BotonImagenPersonalizada = ({ imagen, functionImagen }) => {
+
+    // const handleImagen = async () => {
+    //     const imagenSeleccionada = Asset.fromModule(imagen);
+    //     await imagenSeleccionada.downloadAsync();
+    //     const imagenUri = imagenSeleccionada.localUri;
+    //     functionImagen(imagenUri);
+    // }
+
     const handleImagen = () => {
-        const imagenSeleccionada = Asset.fromModule(imagen);
-        imagenSeleccionada.downloadAsync();
-        const imagenUri = imagenSeleccionada.localUri;
-        functionImagen(imagenUri);
+        functionImagen(imagen);
     }
 
     return (
         <AnimationComponent>
             <Pressable onPress={handleImagen} style={styles.botonCaja} >
-                <Image style={{ height: '90%', width: '90%', }} resizeMode='contain' source={imagen} />
+                <Image style={{ height: '90%', width: '90%', }} resizeMode='contain' source={{ uri: imagen }} />
             </Pressable>
         </AnimationComponent>
     );

@@ -1,23 +1,22 @@
-import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useState, useEffect } from 'react';
+import * as Device from 'expo-device';
 import { useFonts } from 'expo-font';
-import LoadingScreen from '../Screens/LoadingScreen';
-import { User, onAuthStateChanged } from 'firebase/auth';
-import { FIREBASE_AUTH, FIRESTORE_DB } from '../firebase/config';
+import * as Notificaciones from 'expo-notifications';
+import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import * as Device from 'expo-device'
-import * as Notificaciones from 'expo-notifications'
-import { View, Text, Platform, Alert } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../firebase/config';
+import LoadingScreen from '../Screens/LoadingScreen';
 // Screens rol, login, Registro
 
 
 //Navigators
-import CuidadorNavigator from './CuidadorNavigator';
-import PacienteNavigator from './PacienteNavigator'
 import AdminNavigator from './AdminNavigator';
+import CuidadorNavigator from './CuidadorNavigator';
 import GeneralNavigator from './GeneralNavigator';
+import PacienteNavigator from './PacienteNavigator';
 
 
 const Stack = createNativeStackNavigator();
@@ -81,7 +80,7 @@ const AppNavigator = () => {
             }
         });
 
-    }, [user, userRole]);
+    }, [user]);
 
 
 

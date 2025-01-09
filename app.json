@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "INHALIFE",
+    "name": "BreathEaseUp",
     "slug": "INHALIFE",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,14 +17,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.juanpython1.INHALIFE"
+      "bundleIdentifier": "com.juanpython1.BreathEaseUp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.juanpython1.INHALIFE"
+      "package": "com.juanpython1.BreathEaseUp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

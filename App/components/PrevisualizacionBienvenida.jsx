@@ -1,13 +1,13 @@
-import { View, Text, StyleSheet, Image } from 'react-native'
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import React, { useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next';
-import { FIRESTORE_DB, FIREBASE_AUTH } from '../firebase/config';
 import { doc, onSnapshot } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ActivityIndicator, Image, StyleSheet, Text, View } from 'react-native';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { FIREBASE_AUTH, FIRESTORE_DB } from '../firebase/config';
 
-const PrevisualizacionBienvenida = ({ props }) => {
+const PrevisualizacionBienvenida = ({ imagen, condicion }) => {
     const { t } = useTranslation();
-    const imagen = props;
+
 
     const [userData, setUserData] = useState('');
 
@@ -29,7 +29,14 @@ const PrevisualizacionBienvenida = ({ props }) => {
 
             <Text style={styles.tituloNombre}>{`${t("Personalizar.Bienvenid@")} \n ${userData.nombreUsuario}`}</Text>
 
-            <Image source={imagen} style={styles.imagenBienvenida} />
+            {condicion ? (<View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>) :
+                (
+
+                    <Image source={imagen} style={styles.imagenBienvenida} />
+                )
+            }
         </View>
     )
 }
@@ -53,7 +60,17 @@ const styles = StyleSheet.create({
     },
     imagenBienvenida: {
         marginTop: hp('4%'),
-        width: '45%',
+        width: '50%',
         height: '48%',
-    }
+    },
+    loadingContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '30%',
+    },
+    loadingText: {
+        marginTop: hp('2%'),
+        fontSize: hp('2.5%'),
+        color: '#000',
+    },
 })

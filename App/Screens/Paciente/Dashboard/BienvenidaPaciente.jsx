@@ -1,7 +1,7 @@
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Animated, BackHandler, Image, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Animated, BackHandler, Image, StyleSheet, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 
@@ -63,16 +63,19 @@ const BienvenidaPaciente = ({ navigation }) => {
   }, [navigation]);
 
   const [imagenBienvenida, setimagenBienvenida] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
 
     const unsubscribe = onSnapshot(doc(FIRESTORE_DB, 'UsuariosPacientes', FIREBASE_AUTH.currentUser.uid), (doc) => {
       const imagen = doc.data().imagenBienvenida;
       setimagenBienvenida(imagen);
+      setIsLoading(false);
     });
 
     return () => {
       unsubscribe();
+      setIsLoading(true);
     };
 
   }, [])
@@ -87,7 +90,13 @@ const BienvenidaPaciente = ({ navigation }) => {
           {`${userData.nombreUsuario}`}
         </Animated.Text>
 
-        <Image source={{ uri: imagenBienvenida }} style={styles.imagenPerro} />
+        {isLoading ? (
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="#0000ff" />
+          </View>
+        ) : <Image source={{ uri: imagenBienvenida }} style={styles.imagenPerro} />}
+
+
       </View>
     </View>
   );

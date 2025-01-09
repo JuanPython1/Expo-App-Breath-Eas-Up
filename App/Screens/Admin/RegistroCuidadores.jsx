@@ -128,16 +128,29 @@ const RegistroCuidadores = ({ navigation }) => {
             //guardando el UID del usuario en Firestore
             const userData = await response.json();
             const uid = userData.localId;
+
+            // Subir imagen de bienvenida
+            const DinoImagenLocal = require('../../../assets/Image/dino.png');
+            const localImage = Asset.fromModule(DinoImagenLocal);
+            await localImage.downloadAsync();
+            const dinoImagen = localImage.localUri;
+
+            // Cargar la imagen a Firebase Storage
+            await cargarImagen(dinoImagen, `Users/Cuidador/${uid}/Bienvenida`);
+
+            // Obtener la URL pública de la imagen
+            const imagen = await obtenerImagen(`Users/Cuidador/${uid}/Bienvenida`);
+
+            // Guardar los datos del usuario, incluyendo la URL de la imagen, en Firestore
             const userRef = doc(firestore, 'UsuariosCuidadores', uid);
             await setDoc(userRef, {
                 nombreUsuario: usuario,
                 email: correo,
                 nombre: nombres,
                 apellido: apellidos,
-                rol: 'Cuidador'
+                rol: 'Cuidador',
+                imagenBienvenida: imagen, // Se agrega la URL de la imagen
             });
-
-            avatarNew();
 
             setLoading(false);
             // No hay redirección o inicio de sesión automático después del registro
