@@ -32,7 +32,7 @@
    ```bash
    npm install
 
-3. Configura el .env Firebase de acuerdo al [.env.example](./.env.example):
+3. Configura el .env de tu cuenta de Firebase de acuerdo al [.env.example](./.env.example):
 
 5. Ejecutar Expo
    ```bash
