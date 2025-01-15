@@ -36,7 +36,7 @@
 
 5. Ejecutar Expo
    ```bash
-   npx expo start¿
+   npx expo start
 
 ## 📄 Licencia  
 
