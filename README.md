@@ -32,14 +32,16 @@
    ```bash
    npm install
 
-3. Configura el .env Firebase:
+3. Configura el .env Firebase de acuerdo al [.env.example](./.env.example):
+
+5. Ejecutar Expo
    ```bash
    npx expo start
 
 
 ## 📄 Licencia  
 
-Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](./LICENSE.txt) para más detalles.  
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](./LICENSE.md) para más detalles.  
 
 
 
