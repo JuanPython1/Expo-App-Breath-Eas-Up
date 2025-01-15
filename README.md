@@ -34,7 +34,7 @@
 
 3. Configura el .env de tu cuenta de Firebase de acuerdo al [.env.example](./.env.example):
 
-5. Ejecutar App Local En Android Studio (Por temas de compatibilidad con la version de Expo "51.0.36" con la Apliacion de Expo Go, la app solo se puede desarrollar de manera local)
+5. Ejecutar App Local En Android Studio (Por temas de compatibilidad con la version de Expo "51.0.36" con la Aplicacion de Expo Go, la app solo se puede desarrollar de manera local)
 
     [enlace de la documetacion de expo local-app-development](https://docs.expo.dev/guides/local-app-development/)
 
