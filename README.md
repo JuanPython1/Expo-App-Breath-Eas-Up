@@ -27,3 +27,18 @@
    ```bash
    git clone https://github.com/tu-usuario/breath-eas-up.git
    cd breath-eas-up
+
+2. Instala las dependencias:
+   ```bash
+   npm install
+
+3. Configura el .env Firebase:
+  ```bash
+    npx expo start
+
+## 📄 Licencia  
+
+Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](./LICENSE) para más detalles.  
+
+
+   
