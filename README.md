@@ -1,1 +1,29 @@
-# Breath Eas Up **Breath Eas Up** es una aplicación de Android desarrollada con **Expo** y **JSX**. Esta app tiene como objetivo conectar pacientes con cuidadores de terapia respiratoria, permitiendo a los pacientes crear recordatorios de dosis mediante alarmas de notificaciones y registrar sus dosis diarias en una tabla. Los cuidadores pueden acceder en tiempo real a la información de las dosis registradas por los pacientes. ## Características - **Recordatorios de Dosis**: Los pacientes pueden configurar alarmas de notificaciones para recordar sus dosis. - **Registro de Dosis Diarias**: Una tabla permite registrar y visualizar las dosis diarias de los pacientes. - **Vinculación en Tiempo Real**: Los cuidadores pueden ver la información de las dosis registradas en tiempo real. - **Firebase Backend**: Utiliza Firebase como backend-as-a-service. - **Firebase Auth**: Autenticación segura para usuarios. - **Firestore**: Base de datos NoSQL en tiempo real. - **Storage**: Almacenamiento de imágenes personalizadas de bienvenida para mejorar la experiencia del usuario. ## Tecnologías Utilizadas - **Expo** - **JSX** - **Firebase Auth** - **Firestore** - **Firebase Storage** ## Instalación 1. Clona este repositorio. ```sh git clone https://github.com/tu_usuario/breath-eas-up.git ``` 2. Instala las dependencias. ```sh cd breath-eas-up npm install ``` 3. Configura tus credenciales de Firebase. 4. Inicia la aplicación. ```sh expo start ``` ## Contribuciones ¡Las contribuciones son bienvenidas! Por favor, abre un issue o envía un pull request. ## Licencia Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+# Breath Eas Up 🌬️📱  
+
+**Breath Eas Up** es una aplicación móvil para Android desarrollada con **Expo** y **JSX** que conecta pacientes con cuidadores de terapia respiratoria. La app permite gestionar y registrar dosis de medicamentos de forma sencilla, fomentando el seguimiento en tiempo real de la información suministrada por los pacientes.  
+
+## 🛠️ Características principales  
+
+### Para pacientes:  
+- **Recordatorios de dosis**: Configura alarmas con notificaciones personalizadas para tomar tus medicamentos a tiempo.  
+- **Registro diario de dosis**: Lleva un control detallado de las dosis registradas en una tabla interactiva.  
+- **Imágenes de bienvenida personalizadas**: Mejora tu experiencia con mensajes personalizados almacenados en Firebase Storage.  
+
+### Para cuidadores:  
+- **Vinculación con pacientes**: Visualiza en tiempo real los registros diarios de las dosis de los pacientes.  
+- **Seguimiento efectivo**: Accede a información actualizada desde cualquier lugar para un mejor cuidado del paciente.  
+
+## 🔧 Tecnologías utilizadas  
+
+- **Frontend**: Expo, JSX  
+- **Backend as a Service**: Firebase  
+  - **Firebase Authentication**: Autenticación de usuarios (pacientes y cuidadores).  
+  - **Firestore**: Base de datos en tiempo real para gestionar los registros y la vinculación entre pacientes y cuidadores.  
+  - **Firebase Storage**: Almacenamiento de imágenes personalizadas para dar un toque único a la experiencia de usuario.  
+
+## 🚀 Instalación y configuración  
+
+1. Clona este repositorio:  
+   ```bash
+   git clone https://github.com/tu-usuario/breath-eas-up.git
+   cd breath-eas-up
