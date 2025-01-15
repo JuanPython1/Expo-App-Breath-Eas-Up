@@ -1,6 +1,6 @@
 # Breath Eas Up 🌬️📱  
 
-**Breath Eas Up** es una aplicación móvil para Android desarrollada con **Expo** y **JSX** que conecta pacientes con cuidadores de terapia respiratoria. La app permite gestionar y registrar dosis de medicamentos de forma sencilla, fomentando el seguimiento en tiempo real de la información suministrada por los pacientes.  
+**Breath Eas Up** es una aplicación móvil para Android desarrollada con **Expo** y **JSX**  que conecta pacientes con cuidadores de terapia respiratoria. La app permite gestionar y registrar dosis de medicamentos de forma sencilla, fomentando el seguimiento en tiempo real de la información suministrada por los pacientes. Está disponible en inglés y español, lo que permite a los usuarios elegir el idioma de su preferencia..  
 
 ## 🛠️ Características principales  
 
