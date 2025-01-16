@@ -26,7 +26,7 @@
 1. Clona este repositorio:  
    ```bash
    git clone https://github.com/JuanPython1/Expo-App-Breath-Eas-Up.git
-   cd breath-eas-up
+   cd Expo-App-Breath-Eas-Up
 
 2. Instala las dependencias:
    ```bash
