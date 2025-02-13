@@ -1,4 +1,3 @@
-import { Asset } from 'expo-asset';
 import { collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
 import React, { useRef, useState } from 'react';
 import {
@@ -17,7 +16,7 @@ import {
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import MaterialIcon from 'react-native-vector-icons/Entypo';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../firebase/config';
-import { cargarImagen, obtenerImagen } from '../../services/storage';
+import { cargarImagenMIMEType, obtenerImagen } from '../../services/storage';
 
 import { useTranslation } from "react-i18next";
 
@@ -30,6 +29,7 @@ const RegistroCuidadores = ({ navigation }) => {
     const [loading, setLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
+    // const [uidActual, setUidActual] = useState('');
 
     // Referencias para cada TextInput
     const nombresRef = useRef(null);
@@ -70,8 +70,9 @@ const RegistroCuidadores = ({ navigation }) => {
                 alert(t("ValidacionesRegistroCuidador.UsuarioExiste"));
             } else {
                 setModalVisible(false)
-                signUp();
+                await signUp();
                 alert(t("ValidacionesRegistroCuidador.UsuarioRegistrado"));
+
                 navigation.navigate('DashboardAdmin');
             }
         }
@@ -83,24 +84,41 @@ const RegistroCuidadores = ({ navigation }) => {
         return usernames.includes(username);
     };
 
-    const avatarNew = async () => {
-        const querySnapshot = await getDocs(collection(firestore, 'UsuariosCuidadores'));
+    const avatarNew = async (uidActual) => {
+        const dinoImagen = 'https://firebasestorage.googleapis.com/v0/b/inhalapp.appspot.com/o/imagenesPredeterminadas%2Fdino.png?alt=media&token=bb24863e-1b72-4749-86ce-9485118164ef';
 
-        const uid = querySnapshot.docs[querySnapshot.docs.length - 1].id;
+        console.log('dinoimagen', dinoImagen);
 
-        const DinoImagenLocal = require('../../../assets/Image/dino.png');
+        console.log('uid user:', uidActual);
 
-        const localImage = Asset.fromModule(DinoImagenLocal);
-        await localImage.downloadAsync();
-        const dinoImagen = localImage.localUri;
+        await cargarImagenMIMEType(dinoImagen, `Users/Cuidador/${uidActual}/Bienvenida`);
 
+        console.log('Imagen subida');
 
-        await cargarImagen(dinoImagen, `Users/Cuidador/${uid}/Bienvenida`);
+        const imagen = await obtenerImagen(`Users/Cuidador/${uidActual}/Bienvenida`);
 
-        const imagen = await obtenerImagen(`Users/Cuidador/${uid}/Bienvenida`);
+        console.log('Imagen obtenida:', imagen);
 
-        updateDoc(doc(FIRESTORE_DB, 'UsuariosCuidadores', uid), { imagenBienvenida: imagen });
+        updateDoc(doc(firestore, 'UsuariosCuidadores', uidActual), { imagenBienvenida: imagen });
+
+        console.log('Imagen actualizada');
+
+        // setUidActual('');
     }
+
+    const subirDatos = async (uidActual) => {
+        console.log('uidActual:', uidActual);
+        const userRef = doc(firestore, 'UsuariosCuidadores', uidActual);
+        console.log('userRef:', userRef);
+        await setDoc(userRef, {
+            nombreUsuario: usuario,
+            email: correo,
+            nombre: nombres,
+            apellido: apellidos,
+            rol: 'Cuidador'
+        });
+    }
+
 
 
     const signUp = async () => {
@@ -128,29 +146,12 @@ const RegistroCuidadores = ({ navigation }) => {
             //guardando el UID del usuario en Firestore
             const userData = await response.json();
             const uid = userData.localId;
+            console.log('uid:', uid);
+            // setUidActual(uid);
+            // console.log('uidActualDentroDelSignUp:', uidActual);
 
-            // Subir imagen de bienvenida
-            const DinoImagenLocal = require('../../../assets/Image/dino.png');
-            const localImage = Asset.fromModule(DinoImagenLocal);
-            await localImage.downloadAsync();
-            const dinoImagen = localImage.localUri;
-
-            // Cargar la imagen a Firebase Storage
-            await cargarImagen(dinoImagen, `Users/Cuidador/${uid}/Bienvenida`);
-
-            // Obtener la URL pública de la imagen
-            const imagen = await obtenerImagen(`Users/Cuidador/${uid}/Bienvenida`);
-
-            // Guardar los datos del usuario, incluyendo la URL de la imagen, en Firestore
-            const userRef = doc(firestore, 'UsuariosCuidadores', uid);
-            await setDoc(userRef, {
-                nombreUsuario: usuario,
-                email: correo,
-                nombre: nombres,
-                apellido: apellidos,
-                rol: 'Cuidador',
-                imagenBienvenida: imagen, // Se agrega la URL de la imagen
-            });
+            await subirDatos(uid);
+            await avatarNew(uid);
 
             setLoading(false);
             // No hay redirección o inicio de sesión automático después del registro

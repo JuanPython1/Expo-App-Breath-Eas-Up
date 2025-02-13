@@ -1,5 +1,4 @@
 import { MaterialIcons } from '@expo/vector-icons';
-import { Asset } from 'expo-asset';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
 import React, { useRef, useState } from 'react';
@@ -7,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
-import { cargarImagen, obtenerImagen } from '../../../services/storage';
+import { cargarImagenMIMEType, obtenerImagen } from '../../../services/storage';
 
 const RegistroPaciente = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -143,17 +142,22 @@ const RegistroPaciente = ({ navigation }) => {
       await setDoc(userRef, { nombreUsuario: username, email: email, nombre: nombre, apellido: apellido, rol: 'Paciente' });
       console.log('Usuario registrado en Firestore');
 
-      const perroImagenLocal = require('../../../../assets/Image/perro.png');
+      // const perroImagenLocal = require('../../../../assets/Image/perro.png');
 
-      const localImage = Asset.fromModule(perroImagenLocal);
-      await localImage.downloadAsync();
-      const perroImagen = localImage.localUri;
+      // const localImage = Asset.fromModule(perroImagenLocal);
+      // await localImage.downloadAsync();
+      // const perroImagen = localImage.localUri;
+
+      // console.log('perroImagen:', perroImagen);
+
+      const perroImagen = 'https://firebasestorage.googleapis.com/v0/b/inhalapp.appspot.com/o/imagenesPredeterminadas%2Fperro.png?alt=media&token=c92ccbb3-62fc-44b2-b359-cdf747096825';
 
       console.log('perroImagen:', perroImagen);
 
+
       console.log('uid user:', uidActual);
 
-      await cargarImagen(perroImagen, `Users/Paciente/${uidActual}/Bienvenida`);
+      await cargarImagenMIMEType(perroImagen, `Users/Paciente/${uidActual}/Bienvenida`);
 
       console.log('Imagen subida');
 

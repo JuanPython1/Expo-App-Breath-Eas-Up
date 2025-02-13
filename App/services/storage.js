@@ -14,6 +14,25 @@ export const cargarImagen = async (uri, path) => {
       }
 }
 
+export const cargarImagenMIMEType = async (uri, path) => {
+  try {
+      const response = await fetch(uri);
+
+      // Extrae el tipo MIME de las cabeceras de la respuesta
+      const contentType = response.headers.get('Content-Type');
+
+      const blob = await response.blob();
+      const storageRef = ref(storage, path);
+
+      const metadata = {
+          contentType: contentType // Usa el tipo MIME extraído
+      };
+
+      await uploadBytes(storageRef, blob, metadata);
+  } catch (error) {
+      console.error('Error al subir la imagen:', error);
+  }
+}
 
 export const eliminarImagen = async (path) => {
     const storageRef = ref(storage, path);
