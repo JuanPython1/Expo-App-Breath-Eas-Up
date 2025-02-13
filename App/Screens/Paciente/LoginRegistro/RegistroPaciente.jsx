@@ -2,9 +2,9 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Asset } from 'expo-asset';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Alert, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
 import { cargarImagen, obtenerImagen } from '../../../services/storage';
@@ -22,6 +22,7 @@ const RegistroPaciente = ({ navigation }) => {
   const [isModalClosedRegistro, setIsModalClosedRegistro] = useState(false);
   const [secureTextEntry, setSecureTextEntry] = useState(true);
   const [secureConfirmEntry, setSecureConfirmEntry] = useState(true);
+  const [uidActual, setUidActual] = useState('');
 
   const nombreRef = useRef(null);
   const apellidoRef = useRef(null);
@@ -81,30 +82,37 @@ const RegistroPaciente = ({ navigation }) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, contraseña);
       console.log('Usuario registrado:', userCredential);
       await sendEmailVerification(auth.currentUser);
+      console.log('Correo de verificación enviado');
       const userUID = auth.currentUser.uid;
-      const userRef = doc(firestore, 'UsuariosPacientes', userUID);
-
-      await setDoc(userRef, { nombreUsuario: username, email: email, nombre: nombre, apellido: apellido, rol: 'Paciente' });
-
+      setUidActual(userUID);
+      console.log('UID actual:', userUID);
+      console.log('UID ACTUAL ESTADO ACTUAL:', uidActual);
 
       setModalVisibleRegistro(true);
+      setLoading(false);
     } catch (error) {
       console.log(error);
       switch (error.code) {
         case 'auth/email-already-in-use':
           alert(t('ErrorRegistroPacientes.CorreoUsado'));
+          setLoading(false);
           break;
         case 'auth/invalid-email':
           alert(t('ErrorRegistroPacientes.CorreoNoValido'));
+          setLoading(false);
           break;
         case 'auth/operation-not-allowed':
           alert(t("ErrorRegistroPacientes.AutentificacionNoHabilitada"));
+          setLoading(false);
           break;
         case 'auth/weak-password':
           alert(t("ErrorRegistroPacientes.ContraseñaInsegura"));
+          setLoading(false);
           break;
         default:
           alert(t("ErrorRegistroPacientes.ErrorInesperado"));
+          setLoading(false);
+          break;
       }
     } finally {
       setLoading(false); // Asegurarse de que loading se apague en todos los casos
@@ -115,39 +123,62 @@ const RegistroPaciente = ({ navigation }) => {
     setModalVisible(false);
   };
 
-  const handleModalCloseRegistro = () => {
+  const handleModalCloseRegistro = async () => {
     setModalVisibleRegistro(false);
-    setIsModalClosedRegistro(true);
+
+    try { await avatarNew(); } catch (error) { Alert.alert('Error storage image modal', error.message); }
+
+    alert(t("RegistroPaciente.VerificarCorreo"));
+    navigation.navigate('LoginPaciente');
   };
 
 
   const avatarNew = async () => {
-    const querySnapshot = await getDocs(collection(firestore, 'UsuariosPacientes'));
+    try {
 
-    const uid = querySnapshot.docs[querySnapshot.docs.length - 1].id;
+      const userRef = doc(firestore, 'UsuariosPacientes', uidActual);
 
-    const perroImagenLocal = require('../../../../assets/Image/perro.png');
+      console.log('userRef:', userRef);
 
-    const localImage = Asset.fromModule(perroImagenLocal);
-    await localImage.downloadAsync();
-    const perroImagen = localImage.localUri;
+      await setDoc(userRef, { nombreUsuario: username, email: email, nombre: nombre, apellido: apellido, rol: 'Paciente' });
+      console.log('Usuario registrado en Firestore');
 
+      const perroImagenLocal = require('../../../../assets/Image/perro.png');
 
-    await cargarImagen(perroImagen, `Users/Paciente/${uid}/Bienvenida`);
+      const localImage = Asset.fromModule(perroImagenLocal);
+      await localImage.downloadAsync();
+      const perroImagen = localImage.localUri;
 
-    const imagen = await obtenerImagen(`Users/Paciente/${uid}/Bienvenida`);
+      console.log('perroImagen:', perroImagen);
 
-    updateDoc(doc(FIRESTORE_DB, 'UsuariosPacientes', uid), { imagenBienvenida: imagen });
+      console.log('uid user:', uidActual);
+
+      await cargarImagen(perroImagen, `Users/Paciente/${uidActual}/Bienvenida`);
+
+      console.log('Imagen subida');
+
+      const imagen = await obtenerImagen(`Users/Paciente/${uidActual}/Bienvenida`);
+
+      console.log('Imagen obtenida:', imagen);
+
+      updateDoc(doc(firestore, 'UsuariosPacientes', uidActual), { imagenBienvenida: imagen });
+
+      console.log('Imagen actualizada');
+
+      setUidActual('');
+    } catch (error) {
+      Alert.alert('Error storage image', error.message);
+    }
   }
 
-  useEffect(() => {
-    if (isModalClosedRegistro) {
-      alert(t("RegistroPaciente.VerificarCorreo"));
-      navigation.navigate('LoginPaciente');
+  // useEffect(() => {
+  //   if (isModalClosedRegistro) {
+  //     alert(t("RegistroPaciente.VerificarCorreo"));
+  //     navigation.navigate('LoginPaciente');
 
-      avatarNew();
-    }
-  }, [isModalClosedRegistro, navigation]);
+  //     avatarNew();
+  //   }
+  // }, [isModalClosedRegistro, navigation]);
 
   return (
     <KeyboardAvoidingView behavior="height" keyboardVerticalOffset={Platform.select({ ios: 0, android: 35 })}>

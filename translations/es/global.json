@@ -84,7 +84,7 @@
     "ErrorPermisos": "No tienes permiso para acceder al dashboard de administradores",
     "ErrorLoginFallido": "El correo electronico o contrasena son incorrectos."
   },
-  "Bienvenida": "BIENVENID@\n",
+  "Bienvenida": "BIENVENIDO\n",
   "DashboardPaciente": {
     "RegistroDosis": "REGISTRO DE DOSIS",
     "RecordatorioDosis": "RECORDATORIO DOSIS",
@@ -95,7 +95,7 @@
   "Personalizar": {
     "BotonCambiarImagenBienvenida" : "Cambiar imagen de bienvenida",
     "PrevisualizarImagen" : "Previsualización",
-    "Bienvenid@" : "BIENVENID@",
+    "Bienvenid@" : "BIENVENIDO",
     "TituloMatrix" :  "Selecciona una imagen \n de bienvenida",
     "Aviso" : "Aviso",
     "Exito" : "Exito",
@@ -104,7 +104,7 @@
   },
 
   "RegistroDosis": {
-    "BienvenidaRegistro": "Bienvenid@\n Realiza el registro de la Dosis",
+    "BienvenidaRegistro": "Bienvenido\n Realiza el registro de la Dosis",
     "EligeTuMedicamento": {
       "Titulo": "ELIGE TU MEDICAMENTO",
       "Bromuro": "Bromuro de ipratropio",

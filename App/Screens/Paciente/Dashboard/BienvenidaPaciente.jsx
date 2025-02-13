@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     fontFamily: 'noticia-text'
   },
   imagenPerro: {
-    width: wp('55%'),
+    width: wp('58%'),
     height: hp('42%'),
     top: hp('6%'),
     marginVertical: hp('3%')
