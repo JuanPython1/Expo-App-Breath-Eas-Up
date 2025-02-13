@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     },
     ContenedorTitulo: {
         top: hp('1%'),
-        height: hp('5%'),
+        height: hp('6%'),
         width: wp('100%'),
         alignSelf: 'center',
         borderRadius: 20,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         marginHorizontal: wp('4%')
     },
     fila2: {
-        marginTop: hp('6%'),
+        marginTop: hp('3%'),
         alignItems: 'center'
     },
     boton: {
