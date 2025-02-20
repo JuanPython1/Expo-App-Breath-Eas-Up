@@ -1,18 +1,20 @@
-import React, { useEffect } from "react";
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
-import BotonRol from '../components/BotonRol';
+// import BotonRol from '../components/BotonRol';
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
 
 import BanderaIdioma from '../components/BanderaIdioma';
 import BotonDesplegableIdioma from '../components/DesplegableIdioma';
+import SwitchElegirRol from "../components/SwitchElegirRol";
 const Rol = ({ navigation }) => {
 
   const { t, i18n } = useTranslation();
   const currentLanguage = i18n.language;
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
 
 
   useEffect(() => {
@@ -37,9 +39,37 @@ const Rol = ({ navigation }) => {
       : <BanderaIdioma props={BanderaColombia} />
   };
 
+
+
+  const handleNav = () => {
+
+    if (isSwitchOn) {
+      return () => navigation.navigate('LoginCuidador')
+    }
+    if (!isSwitchOn) {
+      return () => navigation.navigate('LoginPaciente')
+    }
+  }
+
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const animatePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.9, // Tamaño más grande
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const animatePressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1, // Tamaño original
+      useNativeDriver: true,
+    }).start();
+  };
+
   //botones roles
-  const botonInfoPaciente = { Titulo: t("Rol.Paciente"), colorFondo: '#00AAE4', fuente: 'Play-fair-Display', navegacion: () => navigation.navigate('LoginPaciente') }
-  const botonInfoCuidador = { Titulo: t("Rol.Cuidador"), colorFondo: '#AADBFF', fuente: 'Play-fair-Display', navegacion: () => navigation.navigate('LoginCuidador') }
+  // const botonInfoPaciente = { Titulo: t("Rol.Paciente"), colorFondo: '#00AAE4', fuente: 'Play-fair-Display', navegacion: () => navigation.navigate('LoginPaciente') }
+  // const botonInfoCuidador = { Titulo: t("Rol.Cuidador"), colorFondo: '#AADBFF', fuente: 'Play-fair-Display', navegacion: () => navigation.navigate('LoginCuidador') }
 
 
 
@@ -58,11 +88,11 @@ const Rol = ({ navigation }) => {
           <Text style={styles.Titulo}>{t("APP")}</Text>
         </View>
 
+        <SwitchElegirRol navigation={navigation} />
 
-        <View style={styles.RolContainer}>
-          <Text style={styles.TextoElijeRol}>{t("Rol.EligeRol")}</Text>
+        {/* <View style={styles.RolContainer}>
 
-          <View style={styles.contenedorPaciente}>
+   <View style={styles.contenedorPaciente}>
             <BotonRol props={botonInfoPaciente} />
           </View>
 
@@ -74,7 +104,8 @@ const Rol = ({ navigation }) => {
             <BotonRol props={botonInfoCuidador} />
           </View>
 
-        </View>
+          </View> */}
+
 
         <Image style={styles.niño} source={require('../../assets/Image/Niño.png')} resizeMode='contain' />
 
@@ -135,15 +166,8 @@ const styles = StyleSheet.create({
   },
 
   RolContainer: {
-    paddingTop: hp('10.67%'),
+    marginTop: hp('9.67%'),
     alignItems: 'center',
-  },
-
-  TextoElijeRol: {
-    color: 'rgba(0, 0, 0, 0.8)',
-    fontFamily: 'Play-fair-Display',
-    fontSize: wp('5%'),
-    marginBottom: hp('0.93%')
   },
 
   contenedorPaciente: {
