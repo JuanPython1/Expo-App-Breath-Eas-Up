@@ -67,7 +67,7 @@ export default function SwitchElegirRol({ navigation }) {
                     onPressIn={animatePressIn}
                     onPressOut={animatePressOut}
                 >
-                    <Text style={styles.TextoEntrar}>VAMOS</Text>
+                    <Text style={styles.TextoEntrar}>{t("Rol.Vamos")}</Text>
                 </Pressable>
             </Animated.View>
 
