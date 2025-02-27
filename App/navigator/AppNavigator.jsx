@@ -83,44 +83,56 @@ const AppNavigator = () => {
     }, [user]);
 
 
+    useEffect(() => {
+        console.log('userActivo', user?.emailVerified);
+    }, [user])
 
-    onAuthStateChanged(FIREBASE_AUTH, async (user) => {
-        if (user) {
-            setUser(user);
-            // Verificar si el UID del usuario pertenece a usuariosPacientes
-            const docRefPaciente = doc(FIRESTORE_DB, 'UsuariosPacientes', user.uid);
-            const docSnapPaciente = await getDoc(docRefPaciente);
 
-            // Verificar si el UID del usuario pertenece a usuariosCuidadores
-            const docRefCuidador = doc(FIRESTORE_DB, 'UsuariosCuidadores', user.uid);
-            const docSnapCuidador = await getDoc(docRefCuidador);
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+            if (user) {
+                setUser(user);
+                // Verificar si el UID del usuario pertenece a usuariosPacientes
+                const docRefPaciente = doc(FIRESTORE_DB, 'UsuariosPacientes', user.uid);
+                const docSnapPaciente = await getDoc(docRefPaciente);
 
-            const docRefAdmin = doc(FIRESTORE_DB, 'Administradores', user.uid);
-            const docSnapAdministrador = await getDoc(docRefAdmin);
+                // Verificar si el UID del usuario pertenece a usuariosCuidadores
+                const docRefCuidador = doc(FIRESTORE_DB, 'UsuariosCuidadores', user.uid);
+                const docSnapCuidador = await getDoc(docRefCuidador);
 
-            if (docSnapPaciente.exists() && user.emailVerified) {
-                setUserRole('paciente');
+                const docRefAdmin = doc(FIRESTORE_DB, 'Administradores', user.uid);
+                const docSnapAdministrador = await getDoc(docRefAdmin);
 
-            } else if (docSnapCuidador.exists()) {
-                setUserRole('cuidador');
+                if (docSnapPaciente.exists() && user.emailVerified) {
+                    setUserRole('paciente');
 
-            } else if (docSnapAdministrador.exists()) {
-                setUserRole('Admin');
+                } else if (docSnapCuidador.exists()) {
+                    setUserRole('cuidador');
 
-            } else if (docSnapPaciente.exists() && !user.emailVerified) {
+                } else if (docSnapAdministrador.exists()) {
+                    setUserRole('Admin');
+
+                } else if (docSnapPaciente.exists() && !user.emailVerified) {
+                    FIREBASE_AUTH.signOut();
+                    setUserRole(null);
+                    setUser(null);
+
+                }
+
+            } else {
                 FIREBASE_AUTH.signOut();
-                setUserRole(null);
                 setUser(null);
-
+                setUserRole(null);
             }
+            setLoading(false);
+        });
 
-        } else {
-            FIREBASE_AUTH.signOut();
-            setUser(null);
-            setUserRole(null);
-        }
-        setLoading(false);
-    });
+        return () => unsubscribe();
+
+    }, []);
+
+
+
 
 
 

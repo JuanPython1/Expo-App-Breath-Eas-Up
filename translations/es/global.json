@@ -263,7 +263,8 @@
     "LlenarCorreo": "Por favor, llena el correo electronico.",
     "LlenarContrasena": "Por favor, completa el ingreso de las contraseñas.",
     "UsuarioExiste": "El nombre del Cuidador ya existe, escribe otro.",
-    "UsuarioRegistrado": "El Cuidador se registro Exitosamente."
+    "UsuarioRegistrado": "El Cuidador se registro Exitosamente.",
+    "ContrasenaCorta": "La contraseña debe tener al menos 6 caracteres."
   },
   "ErrorRegistroCuidador": {
     "CorreoUsado": "El correo electrónico ya está en uso por otro cuidador.",

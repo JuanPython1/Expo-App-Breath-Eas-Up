@@ -63,6 +63,12 @@ const RegistroCuidadores = ({ navigation }) => {
             return;
         }
 
+        if (contraseña.length < 6) {
+            setModalVisible(false)
+            alert(t("ValidacionesRegistroCuidador.ContrasenaCorta"));
+            return;
+        }
+
         if (usuario && nombres && apellidos && correo && contraseña) {
             const usuarioExists = await checkUsernameExists(usuario);
             if (usuarioExists) {

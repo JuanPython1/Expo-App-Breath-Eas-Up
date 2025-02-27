@@ -262,7 +262,8 @@
     "LlenarCorreo": "Please enter your email address.",
     "LlenarContrasena": "Please complete the password entry.",
     "UsuarioExiste": "The Caregiver's Username already exists, write another.",
-    "UsuarioRegistrado": "Caregiver registered successfully."
+    "UsuarioRegistrado": "Caregiver registered successfully.",
+    "ContrasenaCorta": "The password must have at least 6 characters."
   },
   "ErrorRegistroCuidador": {
     "CorreoUsado": "The email is already in use, write another.",
