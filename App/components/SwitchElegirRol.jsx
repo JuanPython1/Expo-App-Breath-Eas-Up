@@ -85,9 +85,10 @@ const styles = StyleSheet.create({
     ContenedorFondoSwitch: {
         flexDirection: 'column',
         alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: '#F5F9FF',
         width: wp('78%'),
-        height: hp('17%'),
+        height: hp('19%'),
         gap: wp('5%'),
         borderRadius: 12,
         marginBottom: hp('1.33%'),
@@ -99,7 +100,6 @@ const styles = StyleSheet.create({
     },
 
     TextoElijeRol: {
-        marginTop: hp('2%'),
         color: 'rgba(0, 0, 0, 0.8)',
         fontFamily: 'Play-fair-Display',
         fontSize: wp('6%'),
@@ -112,14 +112,15 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: wp('1%'),
         backgroundColor: '#E1F0FF',
-        width: '85%',
+        width: '93%',
         borderRadius: 12,
         height: hp('5.67%'),
     },
 
     ContenedorSwitchPaciente: {
         height: hp('5.67%'),
-        width: wp('25%'),
+        width: wp('27%'),
+        left: wp('1%'),
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -128,8 +129,9 @@ const styles = StyleSheet.create({
 
     ContenedorSwitchCuidador: {
         height: hp('5.67%'),
-        width: wp('25%'),
+        width: wp('28%'),
         alignItems: 'center',
+        right: wp('1%'),
         justifyContent: 'center',
     },
 
