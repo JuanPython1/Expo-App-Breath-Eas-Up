@@ -8,7 +8,7 @@ import LoginAdmin from '../Screens/Admin/LoginAdmin';
 import DashboardAdmin from '../Screens/Admin/DashboardAdmin';
 import RegistroCuidadores from '../Screens/Admin/RegistroCuidadores';
 import BienvenidaAdmin from '../Screens/Admin/BienvenidaAdmin';
-import OlvidoContraseñaAdmin from '../Screens/Admin/OlvidoContraseñaAdmin'
+import OlvidoContraseñaAdmin from '../Screens/Admin/OlvidoContrasenaAdmin'
 import ListaCuidadores from '../Screens/Admin/ListaCuidadores';
 
 const StackAdmin = createNativeStackNavigator();
