@@ -128,8 +128,8 @@ const LoginCuidador = ({ navigation }) => {
           </View>
 
           <View style={styles.ContenedorNiños}>
-            <Image style={styles.niña} source={require('../../../../assets/Image/Niña.png')} />
-            <Image style={styles.niño} source={require('../../../../assets/Image/Niño.png')} />
+            <Image style={styles.niña} source={require('../../../../assets/Image/Nina.png')} />
+            <Image style={styles.niño} source={require('../../../../assets/Image/Nino.png')} />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

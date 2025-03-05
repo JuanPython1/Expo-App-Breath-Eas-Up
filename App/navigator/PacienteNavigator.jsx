@@ -7,7 +7,7 @@ const StackPaciente = createNativeStackNavigator();
 // Login y Registro Paciente
 import LoginPaciente from '../Screens/LoadingScreen';
 import RegistroPaciente from '../Screens/Paciente/LoginRegistro/RegistroPaciente';
-import OlvidoContraseñaPaciente from '../Screens/Paciente/LoginRegistro/OlvidoContraseña';
+import OlvidoContraseñaPaciente from '../Screens/Paciente/LoginRegistro/OlvidoContrasena';
 // Screens dashboard paciente
 import BienvenidaPaciente from '../Screens/Paciente/Dashboard/BienvenidaPaciente';
 import DashboardPaciente from '../Screens/Paciente/Dashboard/DashboardPaciente';

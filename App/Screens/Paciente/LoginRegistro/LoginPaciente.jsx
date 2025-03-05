@@ -141,8 +141,8 @@ const LoginPaciente = ({ navigation }) => {
         </View>
 
         <View style={styles.ContenedorNiños}>
-          <Image style={styles.niña} source={require('../../../../assets/Image/Niña.png')} resizeMode='contain' />
-          <Image style={styles.niño} source={require('../../../../assets/Image/Niño.png')} resizeMode='contain' />
+          <Image style={styles.niña} source={require('../../../../assets/Image/Nina.png')} resizeMode='contain' />
+          <Image style={styles.niño} source={require('../../../../assets/Image/Nino.png')} resizeMode='contain' />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>

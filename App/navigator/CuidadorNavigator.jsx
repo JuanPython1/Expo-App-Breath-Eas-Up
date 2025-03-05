@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Login Cuidador
 import LoginCuidador from '../Screens/Cuidador/Login/LoginCuidador';
-import OlvidoContraseñaCuidador from '../Screens/Cuidador/Login/OlvidoContraseña'
+import OlvidoContraseñaCuidador from '../Screens/Cuidador/Login/OlvidoContrasena'
 
 // Dashboard Cuidador
 import DashboardCuidador from '../Screens/Cuidador/DashBoard/DashboardCuidador'
