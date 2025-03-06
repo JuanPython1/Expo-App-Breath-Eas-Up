@@ -84,11 +84,6 @@ const AppNavigator = () => {
 
 
     useEffect(() => {
-        console.log('userActivo', user?.emailVerified);
-    }, [user])
-
-
-    useEffect(() => {
         const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
             if (user) {
                 setUser(user);
