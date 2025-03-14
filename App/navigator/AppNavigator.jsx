@@ -83,8 +83,7 @@ const AppNavigator = () => {
     }, [user]);
 
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+    onAuthStateChanged(FIREBASE_AUTH, async (user) => {
             if (user) {
                 setUser(user);
                 // Verificar si el UID del usuario pertenece a usuariosPacientes
@@ -121,15 +120,6 @@ const AppNavigator = () => {
             }
             setLoading(false);
         });
-
-        return () => unsubscribe();
-
-    }, []);
-
-
-
-
-
 
 
     if (!loaded || loading) {
