@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const OlvidoContraseñaAdmin = () => {
+const OlvidoContrasenaAdmin = () => {
     return (
         <View>
             <Text>OlvidoContraseñaAdmin</Text>
@@ -9,4 +9,4 @@ const OlvidoContraseñaAdmin = () => {
     )
 }
 
-export default OlvidoContraseñaAdmin
+export default OlvidoContrasenaAdmin

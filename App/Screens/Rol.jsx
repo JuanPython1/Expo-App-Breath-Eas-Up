@@ -28,7 +28,7 @@ const Rol = ({ navigation }) => {
   }, [i18n]);
 
   //botones banderas
-  const BanderaColombia = { bandera: require('../../assets/Image/español.png'), idioma: 'es-CO' }
+  const BanderaColombia = { bandera: require('../../assets/Image/espanol.png'), idioma: 'es-CO' }
   const BanderaIngles = { bandera: require('../../assets/Image/ingles.png'), idioma: 'en-US' }
 
 
@@ -77,7 +77,7 @@ const Rol = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <View style={styles.ContenedorHeader}>
-          <Image style={styles.niña} source={require('../../assets/Image/Niña.png')} resizeMode='contain' />
+          <Image style={styles.niña} source={require('../../assets/Image/Nina.png')} resizeMode='contain' />
           <View style={styles.ContenedorBandera}>
             <BotonDesplegableIdioma props={botondesplegable} />
           </View>
@@ -107,7 +107,7 @@ const Rol = ({ navigation }) => {
           </View> */}
 
 
-        <Image style={styles.niño} source={require('../../assets/Image/Niño.png')} resizeMode='contain' />
+        <Image style={styles.niño} source={require('../../assets/Image/Nino.png')} resizeMode='contain' />
 
         {/* <Text style={styles.textoAdmin}> ¿Eres administrador? presiona<Text onPress={() => { navigation.navigate('LoginAdmin') }}> aqui </Text> </Text> */}
         <Text style={styles.textoAdmin}> {t("Rol.Administrador")} <Text style={{ color: 'red' }} onPress={() => { navigation.navigate('LoginAdmin') }}> {t("Rol.aqui")} </Text>  </Text>

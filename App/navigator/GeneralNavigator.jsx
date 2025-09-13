@@ -7,7 +7,7 @@ import Rol from '../Screens/Rol';
 // Login y Registro Paciente
 import LoginPaciente from '../Screens/Paciente/LoginRegistro/LoginPaciente';
 import RegistroPaciente from '../Screens/Paciente/LoginRegistro/RegistroPaciente';
-import OlvidoContraseñaPaciente from '../Screens/Paciente/LoginRegistro/OlvidoContraseña';
+import OlvidoContraseñaPaciente from '../Screens/Paciente/LoginRegistro/OlvidoContrasena';
 
 
 
@@ -15,11 +15,11 @@ import OlvidoContraseñaPaciente from '../Screens/Paciente/LoginRegistro/OlvidoC
 
 // Login Cuidador
 import LoginCuidador from '../Screens/Cuidador/Login/LoginCuidador';
-import OlvidoContraseñaCuidador from '../Screens/Cuidador/Login/OlvidoContraseña'
+import OlvidoContraseñaCuidador from '../Screens/Cuidador/Login/OlvidoContrasena'
 
 //ADMINS
 import LoginAdmin from '../Screens/Admin/LoginAdmin';
-import OlvidoContraseñaAdmin from '../Screens/Admin/OlvidoContraseñaAdmin'
+import OlvidoContraseñaAdmin from '../Screens/Admin/OlvidoContrasenaAdmin'
 
 
 

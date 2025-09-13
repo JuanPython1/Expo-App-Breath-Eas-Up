@@ -5,7 +5,7 @@ import { Modal, Pressable, StyleSheet, Text, TextInput, View } from 'react-nativ
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FIREBASE_AUTH } from '../../../firebase/config';
 
-const OlvidoContraseñaCuidador = ({ navigation }) => {
+const OlvidoContrasenaCuidador = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [modalVisible, setModalVisible] = useState(false); // Estado para el modal de verificación
   const auth = FIREBASE_AUTH;
@@ -88,7 +88,7 @@ const OlvidoContraseñaCuidador = ({ navigation }) => {
   )
 }
 
-export default OlvidoContraseñaCuidador
+export default OlvidoContrasenaCuidador
 
 const styles = StyleSheet.create({
   container: {
