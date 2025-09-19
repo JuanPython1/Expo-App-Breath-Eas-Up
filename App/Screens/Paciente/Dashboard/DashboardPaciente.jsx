@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   ContenedorTitulo: {
     top: hp('1%'),
     height: hp('9%'),
-    width: wp('100%'),
+    width: wp('90%'),
     marginBottom: hp('3%'),
     backgroundColor: '#94E4FF',
     alignSelf: 'center',

@@ -206,6 +206,11 @@
       "ContextoLimite": "Llegaste a tu límite de medicación. ¿Quieres reiniciar o eliminar el recordatorio?",
       "Eliminar": "Eliminar",
       "Reiniciar": "Reiniciar"
+    },
+    "ModalErrorTotal" : {
+      "Titulo": "Dosis Excedida" ,
+      "Detalle": "La cantidad ingresada supera el total permitido. Vuelve y ajusta la dosis",
+      "buttonVolver": "Volver"
     }
   },
   "VideoTutorial": "El siguiente tutorial te enseñará el correcto uso del inhalador",

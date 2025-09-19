@@ -152,7 +152,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 30,
     alignItems: 'center', //horizontal
-    justifyContent: 'center' //vertical
+    justifyContent: 'center', //vertical
+    zIndex: -1
   },
 
   Titulo: {

@@ -1,6 +1,6 @@
 //Eliminar cambios de la rama si produce fallos el codigo
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Alert, Image } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { doc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
 import { FIRESTORE_DB } from '../firebase/config';
@@ -19,6 +19,10 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
     const [dosisRegistradaHoy, setDosisRegistradaHoy] = useState(false);
     const [puedeEditar, setPuedeEditar] = useState(false);
+
+    const [errorModalVisible, setErrorModalVisible] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
 
     const { t } = useTranslation();
 
@@ -134,7 +138,9 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
                             actualizarDosisInicial(nuevaDosisTotal);
                             setnuevacantidadTotalTabla(nuevaDosisTotal);
                         } else {
-                            Alert.alert('Error', `${t("Recordatorios.ErrorAgregarDosis.SumaTotal")} ${DOSE_LIMIT}`);
+                            // Alert.alert('Error', `${t("Recordatorios.ErrorAgregarDosis.SumaTotal")} ${DOSE_LIMIT}`);
+                            setErrorMessage(`${t("Recordatorios.ErrorAgregarDosis.SumaTotal")} ${DOSE_LIMIT} Puff`);
+                            setErrorModalVisible(true);
                         }
                     } else {
                         Alert.alert('Error', `${t("Recordatorios.ErrorAgregarDosis.NoCambiarDosis")}`);
@@ -253,6 +259,28 @@ const TablaRecordatorio = ({ recordatorio, actualizarDosisInicial, estadoReset, 
                     </View>
                 </View>
             </Modal>
+
+            <Modal
+                    visible={errorModalVisible}
+                    transparent={true}
+                    animationType="fade"
+                    onRequestClose={() => setErrorModalVisible(false)}
+                >
+                    <View style={styles.errorModalOverlay}>
+                        <View style={styles.errorModalContainer}>
+                            <Text style={styles.errorModalTitle}>{t("Recordatorios.ModalErrorTotal.Titulo")}</Text>
+                            <Text style={styles.errorModalMessage}>{errorMessage}</Text>
+                            <Image source={require('../../assets/Image/medicaWarning.png')} style={styles.imagenInhalador}  />
+                            <TouchableOpacity
+                                style={styles.errorModalButton}
+                                onPress={() => setErrorModalVisible(false)}
+                            >
+                                <Text style={styles.errorModalButtonText}>{t("Recordatorios.ModalErrorTotal.buttonVolver")}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+
 
             {filas.some(fila => fila.dosis > 1) && !puedeEditar && (
                 <Text style={styles.errorText}>{t("Recordatorios.TablaRecordatorios.MsjDosisRegistrada")}</Text>
@@ -380,6 +408,56 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
     },
+
+    //error modal
+    errorModalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    },
+    errorModalContainer: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+            gap: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    errorModalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: 'red',
+    },
+    imagenInhalador: {
+        width: 300, 
+        height: 300, 
+        resizeMode: 'contain',
+    },
+    errorModalMessage: {
+        fontSize: 16,
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    errorModalButton: {
+        backgroundColor: '#007BFF',
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 5,
+    },
+    errorModalButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
+
 });
 
 export default TablaRecordatorio;

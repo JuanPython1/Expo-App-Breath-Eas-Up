@@ -154,10 +154,12 @@ const styles = StyleSheet.create({
   body: {
     height: hp('90'),
     backgroundColor: '#3498DB',
+    alignItems: 'center'
   },
   fondoTitulo: {
     backgroundColor: '#94E4FF',
     height: hp('9%'),
+    width: wp('90%'),
     justifyContent: 'center',
     borderRadius: 20,
   },
@@ -179,6 +181,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     borderRadius: 5,
     marginVertical: '5%',
+    width: wp('100%')
   },
   noRecordatorios: {
     alignSelf: 'center',

@@ -11,39 +11,36 @@ const PrevisualizacionBienvenidaCuidador = ({ imagen, condicion }) => {
     const [userData, setUserData] = useState('');
 
     useEffect(() => {
+        const getUserData = onSnapshot(
+            doc(FIRESTORE_DB, 'UsuariosCuidadores', FIREBASE_AUTH.currentUser.uid), 
+            (doc) => setUserData(doc.data())
+        );
 
-        const getUserData = onSnapshot(doc(FIRESTORE_DB, 'UsuariosCuidadores', FIREBASE_AUTH.currentUser.uid), (doc) => {
-            setUserData(doc.data());
-        });
-
-        return () => {
-            getUserData();
-        };
-
-    }, [])
-
+        return () => getUserData();
+    }, []);
 
     return (
         <View style={styles.container}>
+            <Text style={styles.tituloNombre}>
+                {`${t("Personalizar.Bienvenid@")} \n ${userData.nombreUsuario}`}
+            </Text>
 
-            <Text style={styles.tituloNombre}>{`${t("Personalizar.Bienvenid@")} \n ${userData.nombreUsuario}`}</Text>
-
-            {condicion ? (<View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>) :
-                (
-
+            {condicion ? (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+            ) : (
+                <View style={styles.containerImg}>
                     <Image source={imagen} style={styles.imagenBienvenida} />
-                )
-            }
+                </View>
+            )}
         </View>
-    )
+    );
 }
 
-export default PrevisualizacionBienvenidaCuidador
+export default PrevisualizacionBienvenidaCuidador;
 
 const styles = StyleSheet.create({
-
     container: {
         borderWidth: 1,
         width: wp('72%'),
@@ -55,21 +52,28 @@ const styles = StyleSheet.create({
         marginTop: hp('7%'),
         textAlign: 'center',
         fontSize: wp('4.2%'),
-        fontFamily: 'noticia-text'
+        fontFamily: 'noticia-text',
+    },
+    containerImg: {
+        marginTop: hp('4%'),
+        width: wp('50%'),          // ancho
+        height: wp('50%'),         // alto igual al ancho para círculo perfecto
+        borderRadius: wp('50%'),   // borde completamente redondeado
+        overflow: 'hidden',        // asegura que la imagen se recorte
+        borderWidth: 10,
+        borderColor: '#94E4FF',
+        backgroundColor: '#94E4FF',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     imagenBienvenida: {
-        marginTop: hp('4%'),
-        width: '50%',
-        height: '48%',
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
     },
     loadingContainer: {
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: '30%',
     },
-    loadingText: {
-        marginTop: hp('2%'),
-        fontSize: hp('2.5%'),
-        color: '#000',
-    },
-})
+});

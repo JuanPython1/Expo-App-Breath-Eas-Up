@@ -8,11 +8,9 @@ import { FIREBASE_AUTH, FIRESTORE_DB } from '../firebase/config';
 const PrevisualizacionBienvenida = ({ imagen, condicion }) => {
     const { t } = useTranslation();
 
-
     const [userData, setUserData] = useState('');
 
     useEffect(() => {
-
         const getUserData = onSnapshot(doc(FIRESTORE_DB, 'UsuariosPacientes', FIREBASE_AUTH.currentUser.uid), (doc) => {
             setUserData(doc.data());
         });
@@ -20,23 +18,21 @@ const PrevisualizacionBienvenida = ({ imagen, condicion }) => {
         return () => {
             getUserData();
         };
-
     }, [])
-
 
     return (
         <View style={styles.container}>
-
             <Text style={styles.tituloNombre}>{`${t("Personalizar.Bienvenid@")} \n ${userData.nombreUsuario}`}</Text>
 
-            {condicion ? (<View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>) :
-                (
-
+            {condicion ? (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+            ) : (
+                <View style={styles.containerImg}>
                     <Image source={imagen} style={styles.imagenBienvenida} />
-                )
-            }
+                </View>
+            )}
         </View>
     )
 }
@@ -44,7 +40,6 @@ const PrevisualizacionBienvenida = ({ imagen, condicion }) => {
 export default PrevisualizacionBienvenida
 
 const styles = StyleSheet.create({
-
     container: {
         borderWidth: 1,
         width: wp('72%'),
@@ -58,10 +53,22 @@ const styles = StyleSheet.create({
         fontSize: wp('4.2%'),
         fontFamily: 'noticia-text'
     },
-    imagenBienvenida: {
+    containerImg: {
         marginTop: hp('4%'),
-        width: '50%',
-        height: '48%',
+        width: wp('50%'),      
+        height: wp('50%'),     
+        borderRadius: wp('50%'), 
+        overflow: 'hidden',    
+        borderWidth: 10,        
+        borderColor: '#94E4FF',
+        backgroundColor: '#94E4FF',   
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    imagenBienvenida: {
+        width: '100%',         
+        height: '100%',       
+        resizeMode: 'cover',   
     },
     loadingContainer: {
         justifyContent: 'center',

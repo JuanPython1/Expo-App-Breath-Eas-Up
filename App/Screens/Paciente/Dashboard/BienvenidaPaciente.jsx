@@ -80,8 +80,6 @@ const BienvenidaPaciente = ({ navigation }) => {
 
   }, [])
 
-  console.log(userData);
-
   return (
     <View style={styles.contenedor}>
       <View style={styles.ContenedorBienvenida}>
@@ -94,7 +92,12 @@ const BienvenidaPaciente = ({ navigation }) => {
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="large" color="#0000ff" />
           </View>
-        ) : <Image source={{ uri: imagenBienvenida }} style={styles.imagenPerro} />}
+        ) : (
+          <View style={styles.contenedorImg}>
+            <Image source={{ uri: imagenBienvenida }} style={styles.imagenPerro} />
+          </View>
+          )
+        }
 
 
       </View>
@@ -121,10 +124,21 @@ const styles = StyleSheet.create({
     fontSize: wp('7%'),
     fontFamily: 'noticia-text'
   },
+  contenedorImg: {
+      marginVertical: hp('3%'),
+      width: wp('50%'),      
+      height: wp('50%'),     
+      borderRadius: wp('50%'), 
+      overflow: 'hidden',    
+      borderWidth: 10,        
+      borderColor: '#94E4FF',
+      backgroundColor: '#94E4FF',   
+      justifyContent: 'center',
+      alignItems: 'center',
+  },
   imagenPerro: {
-    width: wp('58%'),
-    height: hp('42%'),
-    top: hp('6%'),
-    marginVertical: hp('3%')
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
   }
 });

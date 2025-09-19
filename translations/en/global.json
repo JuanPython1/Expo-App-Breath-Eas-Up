@@ -205,7 +205,13 @@
       "ContextoLimite": "You have reached your medication limit. Do you want to reset or delete the reminder?",
       "Eliminar": "Delete",
       "Reiniciar": "Reset"
+    },
+    "ModalErrorTotal": {
+      "Titulo": "Dose Exceeded",
+      "Detalle": "The entered amount exceeds the allowed total. Please adjust the dose.",
+      "buttonVolver" : "Go back"
     }
+
   },
   "VideoTutorial": "The following tutorial will teach you the correct use of the inhaler",
 

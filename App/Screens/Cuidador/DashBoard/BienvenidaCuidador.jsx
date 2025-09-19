@@ -3,12 +3,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Animated, Image, StyleSheet, View } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../../../firebase/config';
-
 import { t } from 'i18next';
 
 const BienvenidaCuidador = ({ navigation }) => {
   const [userData, setUserData] = useState('');
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Valor inicial de opacidad 0
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const getUserData = async () => {
@@ -23,27 +22,22 @@ const BienvenidaCuidador = ({ navigation }) => {
         console.error('Error fetching user data:', error);
       }
     };
-
     getUserData();
   }, [FIRESTORE_DB]);
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
-      toValue: 1, // Valor final de opacidad 1
-      duration: 3000, // Duración de la animación en milisegundos
+      toValue: 1,
+      duration: 3000,
       useNativeDriver: true,
     }).start();
   }, [fadeAnim]);
 
   useEffect(() => {
-    const delayTime = 4000; // Tiempo de retraso en milisegundos
-
+    const delayTime = 4000;
     const timeout = setTimeout(() => {
-      // Navega a la siguiente pantalla después del tiempo de retraso
       navigation.replace('DashboardCuidador');
     }, delayTime);
-
-    // Limpia el temporizador cuando el componente se desmonta
     return () => clearTimeout(timeout);
   }, [navigation]);
 
@@ -51,7 +45,6 @@ const BienvenidaCuidador = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-
     const unsubscribe = onSnapshot(doc(FIRESTORE_DB, 'UsuariosCuidadores', FIREBASE_AUTH.currentUser.uid), (doc) => {
       const imagen = doc.data().imagenBienvenida;
       setimagenBienvenida(imagen);
@@ -62,8 +55,7 @@ const BienvenidaCuidador = ({ navigation }) => {
       unsubscribe();
       setIsLoading(true);
     };
-
-  }, [])
+  }, []);
 
   return (
     <View style={styles.contenedor}>
@@ -77,9 +69,11 @@ const BienvenidaCuidador = ({ navigation }) => {
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator size="large" color="#0000ff" />
           </View>
-        ) : <Image source={{ uri: imagenBienvenida }} style={styles.imagenDino} />}
-
-
+        ) : (
+          <View style={styles.contenedorImg}>
+            <Image source={{ uri: imagenBienvenida }} style={styles.imagenDino} />
+          </View>
+        )}
       </View>
     </View>
   );
@@ -104,10 +98,21 @@ const styles = StyleSheet.create({
     fontSize: wp('7%'),
     fontFamily: 'noticia-text'
   },
+  contenedorImg: {
+    marginVertical: hp('3%'),
+    width: wp('50%'),
+    height: wp('50%'),        // igual ancho y alto para círculo
+    borderRadius: wp('50%'),
+    overflow: 'hidden',
+    borderWidth: 10,
+    borderColor: '#94E4FF',
+    backgroundColor: '#94E4FF',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
   imagenDino: {
-    width: wp('58%'),
-    height: hp('42%'),
-    top: hp('6%'),
-    marginVertical: hp('3%')
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
   }
 });

@@ -29,8 +29,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   Imagen: {
-    width: 160,
-    height: 140,
+    width: '70%',
+    height: '70%',
   },
   textTitulo: {
     textAlign: 'center',

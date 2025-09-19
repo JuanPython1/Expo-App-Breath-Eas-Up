@@ -32,7 +32,7 @@ const VideoTutoriales = ({ navigation }) => {
             source={Inhalife_tutoria}
             useNativeControls
             resizeMode={ResizeMode.CONTAIN}
-            isLooping
+            isLooping={false}
             onPlaybackStatusUpdate={status => setStatus(() => status)}
           />
 

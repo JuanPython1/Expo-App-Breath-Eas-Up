@@ -23,9 +23,12 @@ const Medicamento = ({ navigation }) => {
   };
 
   const handleOtroMedicamentoChange = (text) => {
-    setOtroMedicamento(text);
+
+    const onlyLetters = text.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
+
+    setOtroMedicamento(onlyLetters);
     // Habilitar el botón si se ha ingresado texto en "OTRO"
-    setIsNextEnabled(text !== '');
+    setIsNextEnabled(onlyLetters.trim() !== "");
   };
 
   const goToCantidadPuff = () => {

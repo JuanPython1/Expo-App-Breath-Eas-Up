@@ -16,8 +16,6 @@ const BotonPersonalizar = ({ setImageElegida }) => {
 
         })
 
-        console.log(res.assets[0].uri);
-
         if (!res.canceled) {
             setImageElegida(res.assets[0].uri);
         }
