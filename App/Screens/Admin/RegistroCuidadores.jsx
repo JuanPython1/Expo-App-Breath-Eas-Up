@@ -70,16 +70,17 @@ const RegistroCuidadores = ({ navigation }) => {
         }
 
         if (usuario && nombres && apellidos && correo && contraseña) {
-            const usuarioExists = await checkUsernameExists(usuario);
+           const usuarioExists = await checkUsernameExists(usuario);
             if (usuarioExists) {
                 setModalVisible(false)
                 alert(t("ValidacionesRegistroCuidador.UsuarioExiste"));
             } else {
                 setModalVisible(false)
-                await signUp();
-                alert(t("ValidacionesRegistroCuidador.UsuarioRegistrado"));
-
-                navigation.navigate('DashboardAdmin');
+                const result = await signUp();
+                if (result.success) {
+                    alert(t("ValidacionesRegistroCuidador.UsuarioRegistrado"));
+                    navigation.navigate('DashboardAdmin');
+                }
             }
         }
     }
@@ -127,63 +128,59 @@ const RegistroCuidadores = ({ navigation }) => {
 
 
 
-    const signUp = async () => {
-        setLoading(true);
-        try {
-            const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${APIKEY}`, {
+const signUp = async () => {
+    setLoading(true);
+    try {
+        const response = await fetch(
+            `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${APIKEY}`,
+            {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     email: correo,
                     password: contraseña,
-                    returnSecureToken: false // Esto evita que se devuelva un token de acceso
+                    returnSecureToken: false
                 }),
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error.message);
             }
+        );
 
-            console.log('Usuario registrado exitosamente');
-
-            //guardando el UID del usuario en Firestore
-            const userData = await response.json();
-            const uid = userData.localId;
-            console.log('uid:', uid);
-            // setUidActual(uid);
-            // console.log('uidActualDentroDelSignUp:', uidActual);
-
-            await subirDatos(uid);
-            await avatarNew(uid);
-
-            setLoading(false);
-            // No hay redirección o inicio de sesión automático después del registro
-        } catch (error) {
-            console.log(error.message);
-            switch (error.message) {
-                case 'EMAIL_EXISTS':
-                    alert(t("ErrorRegistroCuidador.CorreoUsado"));
-                    break;
-                case 'INVALID_EMAIL':
-                    alert(t("ErrorRegistroCuidador.CorreoInvalido"));
-                    break;
-                case 'OPERATION_NOT_ALLOWED':
-                    alert(t("ErrorRegistroCuidador.OperacionNoValida"));
-                    break;
-                case 'WEAK_PASSWORD':
-                    alert(t("ErrorRegistroCuidador.ContrasenaInsegura"));
-                    break;
-                // Otros errores que puedan surgir
-                default:
-                    alert(t("ErrorRegistroCuidador.RegistroFallido"));
-            }
-        } finally {
-            setLoading(false);
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error.message);
         }
-    };
+
+        console.log('Usuario registrado exitosamente');
+        const userData = await response.json();
+        const uid = userData.localId;
+
+        await subirDatos(uid);
+        await avatarNew(uid);
+
+        return { success: true }; 
+    } catch (error) {
+        console.log(error.message);
+        switch (error.message) {
+            case 'EMAIL_EXISTS':
+                alert(t("ErrorRegistroCuidador.CorreoUsado"));
+                break;
+            case 'INVALID_EMAIL':
+                alert(t("ErrorRegistroCuidador.CorreoInvalido"));
+                break;
+            case 'OPERATION_NOT_ALLOWED':
+                alert(t("ErrorRegistroCuidador.OperacionNoValida"));
+                break;
+            case 'WEAK_PASSWORD':
+                alert(t("ErrorRegistroCuidador.ContrasenaInsegura"));
+                break;
+            default:
+                alert(t("ErrorRegistroCuidador.RegistroFallido"));
+        }
+        return { success: false }; // ❌ devolvemos error
+    } finally {
+        setLoading(false);
+    }
+};
+
 
 
     const handleModal = () => {

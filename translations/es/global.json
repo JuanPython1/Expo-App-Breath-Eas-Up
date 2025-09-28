@@ -208,7 +208,7 @@
       "Reiniciar": "Reiniciar"
     },
     "ModalErrorTotal" : {
-      "Titulo": "Dosis Excedida" ,
+      "Titulo": "DOSIS EXCEDIDA",
       "Detalle": "La cantidad ingresada supera el total permitido. Vuelve y ajusta la dosis",
       "buttonVolver": "Volver"
     }
@@ -272,7 +272,7 @@
     "ContrasenaCorta": "La contraseña debe tener al menos 6 caracteres."
   },
   "ErrorRegistroCuidador": {
-    "CorreoUsado": "El correo electrónico ya está en uso por otro cuidador.",
+    "CorreoUsado": "El correo electrónico ya está en uso.",
     "CorreoInvalido": "El correo electrónico proporcionado no es válido.",
     "OperacionNoValida": "La operación no está permitida. Consulta la configuración de tu proyecto Firebase para asegurarte de que la autenticación con correo electrónico y contraseña esté habilitada.",
     "ContrasenaInsegura": "La contraseña proporcionada no es lo suficientemente segura.",

@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
     borderRadius: wp('50%'),
     overflow: 'hidden',
     borderWidth: 10,
-    borderColor: '#94E4FF',
-    backgroundColor: '#94E4FF',
+    borderColor: '#3498DB',
+    // backgroundColor: '#94E4FF',
     justifyContent: 'center',
     alignItems: 'center'
   },

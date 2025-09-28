@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
         borderRadius: wp('50%'),   // borde completamente redondeado
         overflow: 'hidden',        // asegura que la imagen se recorte
         borderWidth: 10,
-        borderColor: '#94E4FF',
-        backgroundColor: '#94E4FF',
+        borderColor: '#3498DB',
+        // backgroundColor: '#94E4FF',
         justifyContent: 'center',
         alignItems: 'center',
     },

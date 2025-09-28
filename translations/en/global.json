@@ -272,7 +272,7 @@
     "ContrasenaCorta": "The password must have at least 6 characters."
   },
   "ErrorRegistroCuidador": {
-    "CorreoUsado": "The email is already in use, write another.",
+    "CorreoUsado": "The email is already in use..",
     "CorreoInvalido": "The email is not valid.",
     "OperacionNoValida": "The operation is not allowed. Consult the Firebase project configuration to ensure that the authentication with email and password is enabled.",
     "ContrasenaInsegura": "The password is not strong enough.",
