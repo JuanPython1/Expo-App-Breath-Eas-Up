@@ -21,7 +21,6 @@ const firebaseConfig = {
   storageBucket: process.env.EXPO_PUBLIC_STORAGEBUCKET,
   messagingSenderId: process.env.EXPO_PUBLIC_MESSAGINGSENDERID,
   appId: process.env.EXPO_PUBLIC_APPID,
-  measurementId: process.env.EXPO_PUBLIC_MEASUREMENTID
 }
 
 export const app = initializeApp(firebaseConfig);
