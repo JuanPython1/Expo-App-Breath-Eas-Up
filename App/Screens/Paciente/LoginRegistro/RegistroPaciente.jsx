@@ -39,31 +39,36 @@ const RegistroPaciente = ({ navigation }) => {
   };
 
   const ValidacionesYRegistro = async () => {
-    // if (loading) return; // No permitir autenticaciones múltiples mientras loading es true
+    setLoading(true);
 
     if (!username || !nombre || !apellido) {
       alert(t("ErrorRegistroPacientes.CompletarCampos"));
+      setLoading(false);
       return;
     }
 
     if (!email) {
       alert(t("ErrorRegistroPacientes.LlenarCorreo"));
+      setLoading(false);
       return;
     }
 
     if (!contraseña || !confirmarContraseña) {
       alert(t("ErrorRegistroPacientes.CompletarContrasenas"));
+      setLoading(false);
       return;
     }
 
     if (contraseña !== confirmarContraseña) {
       alert(t("ErrorRegistroPacientes.ContrasenasNoCoinciden"));
+      setLoading(false);
       return;
     }
 
     const usernameExists = await checkUsernameExists(username);
     if (usernameExists) {
       setModalVisible(true);
+      setLoading(false);
     } else {
       await signUp();
     }
@@ -76,7 +81,6 @@ const RegistroPaciente = ({ navigation }) => {
   };
 
   const signUp = async () => {
-    setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, contraseña);
       console.log('Usuario registrado:', userCredential);
