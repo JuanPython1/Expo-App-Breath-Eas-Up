@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "BreathEaseUp",
-    "slug": "INHALIFE",
+    "slug": "breatheaseup",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,7 +20,10 @@
       "bundleIdentifier": "com.juanpython1.BreathEaseUp"
     },
     "android": {
-      "package": "com.juanpython1.BreathEaseUp"
+      "package": "com.juanpython1.BreathEaseUp",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -39,9 +42,9 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "47d61007-393e-46a7-a5fa-8f1e57af0493"
+        "projectId": "51113e44-bc58-4d80-873d-ef1737a403cd"
       }
     },
-    "owner": "juanpython1"
+    "owner": "breatheaseup"
   }
 }
