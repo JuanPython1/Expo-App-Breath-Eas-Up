@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   },
   TituloRecordatorios: {
     fontFamily: 'noticia-text',
-    fontSize: hp('4%'),
+    fontSize: wp('8.25%'),
     color: 'black',
     textShadowColor: 'black',
     textShadowRadius: 1,
